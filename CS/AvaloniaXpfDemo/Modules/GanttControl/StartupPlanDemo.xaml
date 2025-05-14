@@ -1,0 +1,223 @@
+﻿<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.GanttControlModules.StartupPlanDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.GanttControlModules"
+    xmlns:data="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoData"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxgnt="http://schemas.devexpress.com/winfx/2008/xaml/gantt/themekeys"
+    xmlns:dxgn="http://schemas.devexpress.com/winfx/2008/xaml/gantt"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    DataContext="{dxmvvm:ViewModelSource Type={x:Type local:StartupBusinessPlanViewModel}}">
+
+    <shell:DemoModuleView.Resources>
+        <Style x:Key="StripLineControlStyle" TargetType="{x:Type dxgn:StripLineControl}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value=".8" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="StripLineToolTipTemplate" DataType="{x:Type dxgn:StripLineToolTipData}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Background="{Binding StripLine.Background}"
+                    BorderBrush="{Binding StripLine.BorderBrush}"
+                    BorderThickness="1"
+                    Width="25"
+                    Height="25"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center" />
+                <TextBlock Grid.Column="2">
+                    <Run Text="{Binding ToolTip, Mode=OneTime}" FontWeight="Bold" />
+                    <LineBreak />
+                    <Run Text="Date: " FontWeight="Bold" />
+                    <Run Text="{Binding Start, Mode=OneWay, StringFormat=d}" />
+                    <LineBreak />
+                    <Run Text="Duration: " FontWeight="Bold" />
+                    <Run Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:%h} hours {0:%m} minutes'}" />
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="StripLineTemplate">
+            <dxgn:StripLine
+                StartDate="{Binding StartDate}"
+                Duration="{Binding Duration}"
+                Background="#87FC3262"
+                ToolTip="{Binding Caption}"
+                ControlStyle="{StaticResource StripLineControlStyle}" />
+        </DataTemplate>
+        <DataTemplate x:Key="WeeklyStripLineTemplate">
+            <dxgn:StripLineRule
+                StartOffset="{Binding StartTime}"
+                Duration="{Binding Duration}"
+                Background="#7329C6FF"
+                ToolTip="{Binding Caption}"
+                ToolTipTemplate="{StaticResource StripLineToolTipTemplate}"
+                ControlStyle="{StaticResource StripLineControlStyle}">
+                <dxgn:Weekly
+                    Start="{Binding StartDate}"
+                    Until="{Binding FinishDate}"
+                    DayOfWeek="{Binding DayOfWeek, Converter={local:DayOfWeekToDaysOfWeekConverter}}" />
+            </dxgn:StripLineRule>
+        </DataTemplate>
+        <local:StripLineTemplateSelector
+            x:Key="StripLineTemplateSelector"
+            StripLineTemplate="{StaticResource StripLineTemplate}"
+            WeeklyStripLineTemplate="{StaticResource WeeklyStripLineTemplate}" />
+        <FontWeight x:Key="{dxgnt:GanttItemsThemeKeys ResourceKey=SummaryTaskFontWeight, IsThemeIndependent=True}">Bold</FontWeight>
+    </shell:DemoModuleView.Resources>
+
+    <DockPanel>
+        <ScrollViewer
+            Name="PART_Options"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            DockPanel.Dock="Right"
+            dx:ScrollBarExtensions.ScrollBarMode="TouchOverlap"
+            Focusable="False">
+            <StackPanel Margin="12,0,12,12" MinWidth="210">
+                <StackPanel.Resources>
+                    <Style TargetType="GroupBox">
+                        <Setter Property="Margin" Value="0,5,0,0" />
+                    </Style>
+                </StackPanel.Resources>
+                <GroupBox Header="View">
+                    <StackPanel Orientation="Vertical">
+                        <dxe:CheckEdit
+                            x:Name="chbShowBaseline"
+                            IsChecked="False"
+                            Content="Show Baseline" />
+                        <dxe:CheckEdit
+                            x:Name="chbHighlightGroups"
+                            IsChecked="False"
+                            Content="Highlight Groups" />
+                        <dxe:CheckEdit
+                            x:Name="chbShowNonworkingTime"
+                            IsChecked="True"
+                            Content="Highlight Non-Working Time" />
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Show in Task Content">
+                    <dxe:ComboBoxEdit
+                        x:Name="cbContentDisplayData"
+                        IsTextEditable="False"
+                        SelectedIndex="0">
+                        <local:ContentDisplayMode>Resources</local:ContentDisplayMode>
+                        <local:ContentDisplayMode>Name</local:ContentDisplayMode>
+                    </dxe:ComboBoxEdit>
+                </GroupBox>
+                <GroupBox>
+                    <GroupBox.Header>
+                        <dxe:CheckEdit
+                            x:Name="cbAllowEditing"
+                            IsChecked="True"
+                            Content="Allow Editing" />
+                    </GroupBox.Header>
+                    <StackPanel IsEnabled="{Binding IsChecked, ElementName=cbAllowEditing}">
+                        <dxe:CheckEdit
+                            x:Name="cbAllowDragRows"
+                            IsChecked="True"
+                            Content="Allow Row Drag Operations" />
+                        <dxe:CheckEdit
+                            x:Name="cbAllowEditTaskConnectors"
+                            IsChecked="True"
+                            Content="Enable Edits to Task Connectors" />
+                        <dxe:CheckEdit
+                            x:Name="cbAllowEditTasks"
+                            IsChecked="True"
+                            Content="Enable Task Editing" />
+                        <dxe:CheckEdit
+                            x:Name="cbAllowRemoveTasks"
+                            IsChecked="True"
+                            Content="Allow Task Delete Operations" />
+                        <dxe:CheckEdit
+                            x:Name="cbAllowAddNewTasks"
+                            IsChecked="True"
+                            Content="Allow New Tasks" />
+                        <Label Margin="0,8,0,0" Content="Schedule Mode" />
+                        <dxe:ListBoxEdit
+                            x:Name="lbScheduleMode"
+                            ShowBorder="False"
+                            SelectedIndex="1"
+                            StyleSettings="{dxe:RadioListBoxEditStyleSettings}">
+                            <dxe:ListBoxEdit.ItemsSource>
+                                <x:Array Type="{x:Type sys:String}">
+                                    <sys:String>None</sys:String>
+                                    <sys:String>Forward</sys:String>
+                                    <sys:String>Backward</sys:String>
+                                </x:Array>
+                            </dxe:ListBoxEdit.ItemsSource>
+                        </dxe:ListBoxEdit>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+        <dxgn:GanttControl
+            x:Name="gantt"
+            ItemsSource="{Binding Items}"
+            ShowBorder="False">
+            <dxgn:GanttControl.Columns>
+                <dxgn:GanttColumn BindTo="Name" />
+                <dxgn:GanttColumn BindTo="StartDate" />
+                <dxgn:GanttColumn BindTo="FinishDate" />
+                <dxgn:GanttColumn BindTo="Progress" />
+                <dxgn:GanttColumn BindTo="ResourceLinks" />
+            </dxgn:GanttControl.Columns>
+            <dxgn:GanttControl.View>
+                <dxgn:GanttView
+                    AutoExpandAllNodes="True"
+                    TreeListWidth="230"
+                    Zoom="1:0:0"
+                    TaskContentIndent="15"
+                    EditorShowMode="MouseDownFocused"
+                    HighlightGroups="{Binding ElementName=chbHighlightGroups, Path=IsChecked}"
+                    ShowBaseline="{Binding ElementName=chbShowBaseline, Path=IsChecked}"
+                    NonworkingTimeDisplayMode="{DXBinding '@e(chbShowNonworkingTime).IsChecked ? $dxgn:TimeIntervalDisplayMode.Show : $dxgn:TimeIntervalDisplayMode.Hide'}"
+                    NonworkingDayDisplayMode="{DXBinding '@e(chbShowNonworkingTime).IsChecked ? $dxgn:TimeIntervalDisplayMode.Show : $dxgn:TimeIntervalDisplayMode.Hide'}"
+                    AllowEditing="{Binding IsChecked, ElementName=cbAllowEditing}"
+                    AllowDragDrop="{DXBinding '@e(cbAllowEditing).IsChecked and @e(cbAllowDragRows).IsChecked'}"
+                    AllowEditConnectors="{DXBinding '@e(cbAllowEditing).IsChecked ? @e(cbAllowEditTaskConnectors).IsChecked : null'}"
+                    AllowSchedulingOnEditing="{DXBinding '@e(cbAllowEditing).IsChecked ? @e(lbScheduleMode).SelectedIndex != 0 : false'}"
+                    AllowTaskFinishDateMove="{DXBinding '@e(cbAllowEditing).IsChecked ? @e(cbAllowEditTasks).IsChecked : null'}"
+                    AllowTaskMove="{DXBinding '@e(cbAllowEditing).IsChecked ? @e(cbAllowEditTasks).IsChecked : null'}"
+                    AllowTaskProgressMove="{DXBinding '@e(cbAllowEditing).IsChecked ? @e(cbAllowEditTasks).IsChecked : null'}"
+                    AllowTaskRemove="{DXBinding '@e(cbAllowEditing).IsChecked ? @e(cbAllowRemoveTasks).IsChecked : null'}"
+                    ResourcesSource="{Binding Resources}"
+                    UseResourcesAsTaskContent="{DXBinding '@e(cbContentDisplayData).SelectedItem == $local:ContentDisplayMode.Resources'}"
+                    NewItemRowPosition="{DXBinding '(@e(cbAllowEditing).IsChecked and @e(cbAllowAddNewTasks).IsChecked) ? $dxg:NewItemRowPosition.Bottom : $dxg:NewItemRowPosition.None'}"
+                    ScheduleMode="{DXBinding '@e(lbScheduleMode).SelectedIndex == 2 ? $dxgn:ScheduleMode.Backward : $dxgn:ScheduleMode.Forward'}"
+                    StripLinesSource="{Binding StripLines}"
+                    StripLineTemplateSelector="{StaticResource StripLineTemplateSelector}">
+                    <dxgn:GanttView.RowStyle>
+                        <Style TargetType="{x:Type dxg:RowControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Node.TaskKind}" Value="Summary">
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </dxgn:GanttView.RowStyle>
+                </dxgn:GanttView>
+            </dxgn:GanttControl.View>
+            <dxgn:GanttControl.Resources>
+                <Style TargetType="{x:Type dxgn:GanttGroupBorderControl}">
+                    <Style.Triggers>
+                        <DataTrigger Value="0" Binding="{Binding GroupNode.Level}">
+                            <Setter Property="Background" Value="{x:Null}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </dxgn:GanttControl.Resources>
+        </dxgn:GanttControl>
+    </DockPanel>
+</shell:DemoModuleView>

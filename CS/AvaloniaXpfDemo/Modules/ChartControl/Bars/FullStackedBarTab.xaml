@@ -1,0 +1,135 @@
+<local:TabItemModule
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.FullStackedBarTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
+    <!--#region Resources-->
+    <local:TabItemModule.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/CustomBarModel.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:Bar2DKindToTickmarksLengthConverter x:Key="Bar2DKindToTickmarksLengthConverter" />
+            <dxmvvm:BooleanNegationConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </local:TabItemModule.Resources>
+    <!--#endregion-->
+
+    <!--#region Options-->
+    <local:TabItemModule.Options>
+        <StackPanel Style="{StaticResource optionsRootStackPanelStyle}">
+            <dxe:CheckEdit
+                Name="cheShowLabels"
+                Content="Show Labels"
+                IsChecked="True" />
+            <dxe:CheckEdit
+                Name="cheValuesAsPercent"
+                Content="Values as Percent"
+                Margin="0,4,0,0"
+                IsChecked="True"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[0].IsChecked}" />
+            <dxe:CheckEdit
+                x:Name="cheShowTotalLabels"
+                Content="Show Total Labels"
+                Margin="0,4,0,0" />
+            <GroupBox Header="Model" Margin="0,5,0,0">
+                <dxe:ListBoxEdit
+                    Name="lbeModel"
+                    DisplayMember="ModelName"
+                    SelectedItem="{x:Reference borderlessSimpleBar2DModel}">
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                    <dxe:ListBoxEdit.Items>
+                        <dxc:SteelColumnBar2DModel />
+                        <dxc:TransparentBar2DModel />
+                        <dxc:GradientBar2DModel />
+                        <dxc:BorderlessGradientBar2DModel />
+                        <dxc:FlatBar2DModel />
+                        <dxc:FlatGlassBar2DModel />
+                        <dxc:OutsetBar2DModel />
+                        <dxc:SimpleBar2DModel />
+                        <dxc:BorderlessSimpleBar2DModel x:Name="borderlessSimpleBar2DModel" />
+                        <dxc:Quasi3DBar2DModel />
+                        <dxc:GlassCylinderBar2DModel />
+                        <dxc:CustomBar2DModel PointTemplate="{StaticResource customBarTemplate}" />
+                    </dxe:ListBoxEdit.Items>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+        </StackPanel>
+    </local:TabItemModule.Options>
+    <!--#endregion-->
+
+    <DockPanel>
+        <dxc:ChartControl
+            Name="chart"
+            CrosshairEnabled="{Binding ElementName=cheShowLabels, Path=IsChecked, Converter={StaticResource InvertedBoolConverter}}"
+            AnimationMode="OnLoad"
+            DataSource="{Binding Data}">
+            <dxc:ChartControl.DataContext>
+                <local:DevAVSalesMixByRegion />
+            </dxc:ChartControl.DataContext>
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D BarDistance="0.04" SeriesDataMember="ProductCategory">
+                    <!--#region DefaultPane-->
+                    <dxc:XYDiagram2D.DefaultPane>
+                        <dxc:Pane MirrorHeight="100.0">
+                            <dxc:BarStackedSeries2D.TotalLabel>
+                                <dxc:StackedBarTotalLabel Visible="{Binding ElementName=cheShowTotalLabels, Path=IsChecked}" TextPattern="{}Total&#xA;${TV}K" />
+                            </dxc:BarStackedSeries2D.TotalLabel>
+                        </dxc:Pane>
+                    </dxc:XYDiagram2D.DefaultPane>
+                    <!--#endregion-->
+                    <!--#region Axes-->
+                    <dxc:XYDiagram2D.AxisX>
+                        <dxc:AxisX2D TickmarksLength="{Binding ElementName=lbeModel, Path=SelectedItem, Converter={StaticResource Bar2DKindToTickmarksLengthConverter}}" />
+                    </dxc:XYDiagram2D.AxisX>
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D>
+                            <dxc:AxisY2D.WholeRange>
+                                <dxc:Range SideMarginsValue="0" />
+                            </dxc:AxisY2D.WholeRange>
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    <!--#endregion-->
+                    <dxc:XYDiagram2D.SeriesTemplate>
+                        <dxc:BarFullStackedSeries2D
+                            Model="{Binding ElementName=lbeModel, Path=SelectedItem}"
+                            AnimationAutoStartMode="PlayOnce"
+                            CrosshairLabelPattern="{}{S}: ${V}K"
+                            ArgumentDataMember="Region"
+                            ValueDataMember="Sales"
+                            LabelsVisibility="{Binding ElementName=cheShowLabels, Path=IsChecked}">
+                            <dxc:BarFullStackedSeries2D.PointAnimation>
+                                <dxc:Bar2DSlideFromLeftAnimation PointOrder="Inverted" />
+                            </dxc:BarFullStackedSeries2D.PointAnimation>
+                            <dxc:BarFullStackedSeries2D.Label>
+                                <dxc:SeriesLabel
+                                    Indent="20"
+                                    ConnectorThickness="1"
+                                    ResolveOverlappingMode="Default"
+                                    TextPattern="{DXBinding @e(cheValuesAsPercent).IsChecked ? `{VP:P0}` : `${V}K`}" />
+                            </dxc:BarFullStackedSeries2D.Label>
+                        </dxc:BarFullStackedSeries2D>
+                    </dxc:XYDiagram2D.SeriesTemplate>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+            <!--#region Legend-->
+            <dxc:ChartControl.Legend>
+                <dxc:Legend ReverseItems="True" />
+            </dxc:ChartControl.Legend>
+            <!--#endregion-->
+            <!--#region Titles-->
+            <dxc:ChartControl.Titles>
+                <dxc:Title Dock="Top" HorizontalAlignment="Center">DevAV Sales Mix by Region</dxc:Title>
+            </dxc:ChartControl.Titles>
+            <!--#endregion-->
+        </dxc:ChartControl>
+
+    </DockPanel>
+</local:TabItemModule>

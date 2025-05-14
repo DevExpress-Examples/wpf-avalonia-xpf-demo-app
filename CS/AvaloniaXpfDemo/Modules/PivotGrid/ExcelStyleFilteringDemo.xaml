@@ -1,0 +1,167 @@
+﻿<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.PivotGridModules.ExcelStyleFilteringDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxfui="http://schemas.devexpress.com/winfx/2008/xaml/core/filteringui"
+    xmlns:dxpg="http://schemas.devexpress.com/winfx/2008/xaml/pivotgrid"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.PivotGridModules">
+
+    <shell:DemoModuleView.Resources>
+        <dxa:AccordionItemStyle x:Key="{x:Type dxa:AccordionItem}">
+            <dxa:AccordionItemStyle.ItemContainerStyle>
+                <dxa:AccordionItemStyle ItemDisplayMode="Header" Margin="8" />
+            </dxa:AccordionItemStyle.ItemContainerStyle>
+        </dxa:AccordionItemStyle>
+    </shell:DemoModuleView.Resources>
+
+    <DockPanel dxfui:FilterElement.Context="{Binding FilteringContext, ElementName=pivot}">
+        <!--#region Options-->
+        <ScrollViewer
+            Name="PART_Options"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            DockPanel.Dock="Right"
+            dx:ScrollBarExtensions.ScrollBarMode="TouchOverlap"
+            Focusable="False">
+            <dxa:AccordionControl SelectionMode="None" Width="235">
+                <dxa:AccordionItem Header="Model Price" IsExpanded="True">
+                    <dxfui:RangeFilterElement FieldName="fieldModelPrice1" FontSize="12" />
+                </dxa:AccordionItem>
+                <dxa:AccordionItem Header="Body Style" IsExpanded="True">
+                    <dxfui:CheckedListFilterElement FieldName="fieldBodyStyle" FontSize="12" />
+                </dxa:AccordionItem>
+                <dxa:AccordionItem Header="Sales Date" IsExpanded="True">
+                    <dxfui:CheckedTreeListFilterElement
+                        FieldName="fieldSalesDate"
+                        MaxHeight="20000"
+                        FontSize="12" />
+                </dxa:AccordionItem>
+            </dxa:AccordionControl>
+        </ScrollViewer>
+        <!--#endregion-->
+        <dxpg:PivotGridControl
+            x:Name="pivot"
+            DataProcessingEngine="Optimized"
+            ShowDateTimeGroupIntervalItems="None"
+            RowTreeWidth="200"
+            RowTotalsLocation="Far"
+            ShowBorder="False"
+            FilterString="[fieldBodyStyle] In ('Sedan', 'Sport Utility Vehicle')"
+            AllowDrag="False"
+            AllowHideFields="Never">
+            <dxpg:PivotGridControl.Fields>
+                <dxpg:PivotGridField
+                    x:Name="fieldTrademark"
+                    DataBinding="{dxpg:DataSourceColumnBinding Trademark}"
+                    Area="RowArea"
+                    Caption="Trademark" />
+                <dxpg:PivotGridField
+                    x:Name="fieldName"
+                    DataBinding="{dxpg:DataSourceColumnBinding Name}"
+                    Area="RowArea"
+                    Caption="Name" />
+                <dxpg:PivotGridField
+                    x:Name="fieldYear"
+                    DataBinding="{dxpg:DataSourceColumnBinding SalesDate, GroupInterval=DateYear}"
+                    Area="ColumnArea"
+                    Caption="Year"
+                    ExpandedInFieldsGroup="True"
+                    Group="{Binding ElementName=PivotGridGroup1}" />
+                <dxpg:PivotGridField
+                    x:Name="fieldMonth"
+                    DataBinding="{dxpg:DataSourceColumnBinding SalesDate, GroupInterval=DateMonth}"
+                    Area="ColumnArea"
+                    Caption="Month"
+                    ExpandedInFieldsGroup="True"
+                    Group="{Binding ElementName=PivotGridGroup1}" />
+                <dxpg:PivotGridField
+                    x:Name="fieldDay"
+                    DataBinding="{dxpg:DataSourceColumnBinding SalesDate, GroupInterval=DateDay}"
+                    Area="ColumnArea"
+                    Caption="Day"
+                    Group="{Binding ElementName=PivotGridGroup1}" />
+
+                <dxpg:PivotGridField
+                    x:Name="fieldModelPrice"
+                    DataBinding="{dxpg:DataSourceColumnBinding ModelPrice}"
+                    Area="DataArea"
+                    Caption="Extended Price" />
+
+                <dxpg:PivotGridField
+                    x:Name="fieldModification"
+                    DataBinding="{dxpg:DataSourceColumnBinding Modification}"
+                    Area="FilterArea"
+                    Caption="Modification" />
+                <dxpg:PivotGridField
+                    x:Name="fieldBodyStyle"
+                    DataBinding="{dxpg:DataSourceColumnBinding BodyStyle}"
+                    Area="FilterArea"
+                    Caption="Body Style" />
+                <dxpg:PivotGridField
+                    x:Name="fieldSalesDate"
+                    DataBinding="{dxpg:DataSourceColumnBinding SalesDate, GroupInterval=Date}"
+                    Area="FilterArea"
+                    Caption="Sales Date" />
+                <dxpg:PivotGridField
+                    x:Name="fieldModelPrice1"
+                    DataBinding="{dxpg:DataSourceColumnBinding ModelPrice}"
+                    Area="FilterArea"
+                    Caption="Model Price" />
+                <dxpg:PivotGridField
+                    x:Name="fieldMPGCity"
+                    DataBinding="{dxpg:DataSourceColumnBinding MPGCity}"
+                    Area="FilterArea"
+                    Caption="MPG City" />
+                <dxpg:PivotGridField
+                    x:Name="fieldMPGHighway"
+                    DataBinding="{dxpg:DataSourceColumnBinding MPGHighway}"
+                    Area="FilterArea"
+                    Caption="MPG Highway" />
+            </dxpg:PivotGridControl.Fields>
+            <dxpg:PivotGridControl.Groups>
+                <dxpg:PivotGridGroup x:Name="PivotGridGroup1" />
+            </dxpg:PivotGridControl.Groups>
+            <dxpg:PivotGridControl.FormatConditions>
+                <dxpg:DataBarFormatCondition
+                    MeasureName="fieldModelPrice"
+                    ColumnName="fieldYear"
+                    RowName="fieldName"
+                    PredefinedFormatName="BlueGradientDataBar"
+                    ApplyToSpecificLevel="True" />
+                <dxpg:DataBarFormatCondition
+                    MeasureName="fieldModelPrice"
+                    ColumnName="fieldMonth"
+                    RowName="fieldName"
+                    PredefinedFormatName="BlueGradientDataBar"
+                    ApplyToSpecificLevel="True" />
+                <dxpg:DataBarFormatCondition
+                    MeasureName="fieldModelPrice"
+                    ColumnName="fieldDay"
+                    RowName="fieldName"
+                    PredefinedFormatName="BlueGradientDataBar"
+                    ApplyToSpecificLevel="True" />
+                <dxpg:DataBarFormatCondition
+                    MeasureName="fieldModelPrice"
+                    ColumnName="fieldYear"
+                    RowName="fieldTrademark"
+                    PredefinedFormatName="OrangeGradientDataBar"
+                    ApplyToSpecificLevel="True" />
+                <dxpg:DataBarFormatCondition
+                    MeasureName="fieldModelPrice"
+                    ColumnName="fieldMonth"
+                    RowName="fieldTrademark"
+                    PredefinedFormatName="OrangeGradientDataBar"
+                    ApplyToSpecificLevel="True" />
+                <dxpg:DataBarFormatCondition
+                    MeasureName="fieldModelPrice"
+                    ColumnName="fieldDay"
+                    RowName="fieldTrademark"
+                    PredefinedFormatName="OrangeGradientDataBar"
+                    ApplyToSpecificLevel="True" />
+            </dxpg:PivotGridControl.FormatConditions>
+        </dxpg:PivotGridControl>
+    </DockPanel>
+</shell:DemoModuleView>

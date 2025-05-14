@@ -1,0 +1,38 @@
+﻿<dx:ThemedWindow 
+    x:Class="DevExpress.AvaloniaXpfDemo.SchedulerControlModules.OutlookExchangeOptionsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxschcore="http://schemas.devexpress.com/winfx/2008/xaml/scheduling/core"
+    MinWidth="400" MinHeight="350" Width="400" Height="350" Title="{Binding Title}">
+    <dxlc:LayoutControl Orientation="Vertical" VerticalAlignment="Top">
+        <GroupBox Header="Choose Calendar">
+            <dxlc:LayoutControl Orientation="Vertical" Margin="0" Padding="0">
+                <dxlc:LayoutItem>
+                    <dxe:ComboBoxEdit Name="calendarFolderPaths" ItemsSource="{Binding OutlookCalendarPaths}" EditValue="{Binding OutlookCalendarPath}"/>
+                </dxlc:LayoutItem>
+            </dxlc:LayoutControl>
+        </GroupBox>
+        <GroupBox Header="Actions">
+            <dxlc:LayoutControl Orientation="Vertical" Margin="0" Padding="0">
+                <dxlc:LayoutItem>
+                    <TextBlock Text="{Binding ActionCaption}" />
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem>
+                    <dxe:ComboBoxEdit x:Name="cbCancel" Margin="0,6,0,0" ItemsSource="{dxe:EnumItemsSource EnumType=dxschcore:UsedAppointmentType}" EditValue="{Binding UsedAppointmentType}"/>
+                </dxlc:LayoutItem>
+            </dxlc:LayoutControl>
+        </GroupBox>
+        <dxlc:LayoutItem>
+            <dxe:ProgressBarEdit x:Name="progressBar" Maximum="{Binding MaxProgressBarValue}" Value="{Binding ProgressBarValue}"/>
+        </dxlc:LayoutItem>
+    </dxlc:LayoutControl>
+    <dx:ThemedWindow.DialogButtons>
+        <dx:ThemedWindowDialogButton DialogResult="OK" IsDefault="True" MinWidth="65" Content="OK" Command="{Binding ExchangeCommand}"/>
+        <dx:ThemedWindowDialogButton DialogResult="Cancel" IsCancel="True" Content="Cancel" MinWidth="65"/>
+    </dx:ThemedWindow.DialogButtons>
+</dx:ThemedWindow>

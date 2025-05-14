@@ -1,0 +1,384 @@
+﻿<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.ToolbarsModules.SimplePadDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ToolbarsModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    DataContext="{dxmvvm:ViewModelSource Type=local:SimplePadViewModel}">
+
+    <shell:DemoModuleView.Resources>
+        <ControlTemplate x:Key="DemoRichControlTemplate" TargetType="{x:Type TextBoxBase}">
+            <Border
+                x:Name="border"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Background="{TemplateBinding Background}"
+                SnapsToDevicePixels="True">
+                <ScrollViewer
+                    x:Name="PART_ContentHost"
+                    Focusable="False"
+                    HorizontalScrollBarVisibility="Hidden"
+                    VerticalScrollBarVisibility="Hidden" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" TargetName="border" Value="0.56" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </shell:DemoModuleView.Resources>
+
+    <DockPanel LastChildFill="True" dxb:BarManager.ToolbarGlyphSize="Small">
+        <dxb:BarContainerControl DockPanel.Dock="Top" ContainerType="Top">
+            <dxb:MainMenuControl Caption="Main Menu">
+                <dxb:BarSubItem
+                    Name="bsFile"
+                    CategoryName="BuiltInMenus"
+                    Content="_File">
+                    <dxb:BarButtonItemLink BarItemName="bNew" />
+                    <dxb:BarButtonItemLink BarItemName="bOpen" />
+                    <dxb:BarButtonItemLink BarItemName="bSave" />
+                    <dxb:BarItemLinkSeparator />
+                    <dxb:BarButtonItemLink BarItemName="bPrint" />
+                    <dxb:BarItemLinkSeparator />
+                    <dxb:BarButtonItem
+                        Name="bExit"
+                        CategoryName="File"
+                        Content="_Exit"
+                        KeyGesture="Ctrl+X"
+                        Description="" />
+                </dxb:BarSubItem>
+                <dxb:BarSubItem
+                    Name="bsEdit"
+                    CategoryName="BuiltInMenus"
+                    Content="_Edit">
+                    <dxb:BarButtonItemLink BarItemName="bUndo" />
+                    <dxb:BarButtonItemLink BarItemName="bRedo" />
+                    <dxb:BarItemLinkSeparator />
+                    <dxb:BarButtonItemLink BarItemName="bCut" />
+                    <dxb:BarButtonItemLink BarItemName="bCopy" />
+                    <dxb:BarButtonItemLink BarItemName="bPaste" />
+                    <dxb:BarItemLinkSeparator />
+                    <dxb:BarButtonItem
+                        Name="bClear"
+                        CategoryName="Edit"
+                        Content="C_lear"
+                        Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Clear.svg}"
+                        LargeGlyph="{dx:DXImage SvgImages/Icon Builder/Actions_Clear.svg}"
+                        Command="{Binding ElementName=richControl, Path=ClearCommand}"
+                        Description="Deletes all text without putting it on the Clipboard." />
+                    <dxb:BarButtonItem
+                        Name="bSelectAll"
+                        CategoryName="Edit"
+                        Content="Select _All"
+                        Glyph="{dx:DXImage SvgImages/PDF Viewer/SelectAll.svg}"
+                        LargeGlyph="{dx:DXImage SvgImages/PDF Viewer/SelectAll.svg}"
+                        KeyGesture="Ctrl+A"
+                        Command="{Binding ElementName=richControl, Path=SelectAllCommand}"
+                        Description="Selects all text in the active document." />
+                    <dxb:BarItemLinkSeparator />
+                    <dxb:BarButtonItem
+                        Name="bFind"
+                        CategoryName="Edit"
+                        Content="_Find"
+                        Glyph="{dx:DXImage SvgImages/Outlook Inspired/Find.svg}"
+                        LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Find.svg}"
+                        KeyGesture="Ctrl+F"
+                        Description="Searches for the specified text."
+                        IsEnabled="False" />
+                    <dxb:BarButtonItem
+                        Name="bReplace"
+                        CategoryName="Edit"
+                        Content="_Replace"
+                        Glyph="{dx:DXImage SvgImages/Outlook Inspired/Replace.svg}"
+                        LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Replace.svg}"
+                        KeyGesture="Ctrl+H"
+                        Description="Searches for and replaces the specified text."
+                        IsEnabled="False" />
+                </dxb:BarSubItem>
+                <dxb:BarSubItem
+                    Name="bsFormat"
+                    CategoryName="BuiltInMenus"
+                    Content="F_ormat">
+                    <dxb:BarEditItemLink BarItemName="eFontFamily" />
+                    <dxb:BarSplitButtonItemLink BarItemName="bFontColor" />
+                    <dxb:BarItemLinkSeparator />
+                    <dxb:BarCheckItemLink BarItemName="bBullets" />
+                </dxb:BarSubItem>
+                <dxb:BarSubItem
+                    Name="bsToolBars"
+                    CategoryName="BuiltInMenus"
+                    Content="_Toolbars">
+                    <dxb:ToolbarListItem
+                        Name="toolbarListItemCore"
+                        CategoryName="Toolbars"
+                        Content="_Toolbars" />
+                </dxb:BarSubItem>
+                <dxb:BarSubItem x:Name="themeSelectorSubItem">
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxb:BarSubItemThemeSelectorBehavior ShowMode="GroupedList" />
+                    </dxmvvm:Interaction.Behaviors>
+                </dxb:BarSubItem>
+            </dxb:MainMenuControl>
+            <dxb:ToolBarControl Caption="Standard" ShowDragWidget="True">
+                <dxb:BarButtonItem
+                    Name="bNew"
+                    CategoryName="File"
+                    Content="_New"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/New.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/New.svg}"
+                    KeyGesture="Ctrl+N"
+                    Command="{Binding ElementName=richControl, Path=ClearCommand}"
+                    Hint="New Blank Document"
+                    Description="Creates a new, blank document." />
+                <dxb:BarButtonItem
+                    Name="bOpen"
+                    CategoryName="File"
+                    Content="_Open"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Open.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Open.svg}"
+                    KeyGesture="Ctrl+O"
+                    Hint="Open"
+                    Description="Opens a file."
+                    IsEnabled="False" />
+                <dxb:BarButtonItem
+                    Name="bSave"
+                    CategoryName="File"
+                    Content="_Save"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Save.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Save.svg}"
+                    KeyGesture="Ctrl+S"
+                    Hint="Save Document"
+                    Description="Saves the active document with its current file name."
+                    IsEnabled="False" />
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarButtonItem
+                    Name="bPrint"
+                    CategoryName="File"
+                    Content="_Print"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Print.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Print.svg}"
+                    KeyGesture="Ctrl+P"
+                    Command="{Binding ElementName=richControl, Path=PrintCommand}"
+                    Description="Prints the active document." />
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarButtonItem
+                    Name="bCut"
+                    CategoryName="Edit"
+                    Content="_Cut"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cut.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Cut.svg}"
+                    KeyGesture="Ctrl+X"
+                    Command="{Binding ElementName=richControl, Path=CutCommand}"
+                    Description="Removes the selection from the active document and places it on the Clipboard." />
+                <dxb:BarButtonItem
+                    Name="bCopy"
+                    CategoryName="Edit"
+                    Content="C_opy"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Copy.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Copy.svg}"
+                    KeyGesture="Ctrl+C"
+                    Command="{Binding ElementName=richControl, Path=CopyCommand}"
+                    Description="Copies the selection to the Clipboard." />
+                <dxb:BarButtonItem
+                    Name="bPaste"
+                    CategoryName="Edit"
+                    Content="_Paste"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Paste.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Paste.svg}"
+                    KeyGesture="Ctrl+V"
+                    Command="{Binding ElementName=richControl, Path=PasteCommand}"
+                    Description="Inserts the contents of the Clipboard at the insertion point, and replaces any selection. This command is available only if you have cut or copied a text." />
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarButtonItem
+                    Name="bUndo"
+                    CategoryName="Edit"
+                    Content="_Undo"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Undo.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Undo.svg}"
+                    KeyGesture="Ctrl+Z"
+                    Command="{x:Static ApplicationCommands.Undo}"
+                    Description="Reverses the last command or deletes the last entry you typed." />
+                <dxb:BarButtonItem
+                    Name="bRedo"
+                    CategoryName="Edit"
+                    Content="R_edo"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Redo.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Redo.svg}"
+                    KeyGesture="Ctrl+Y"
+                    Command="{x:Static ApplicationCommands.Redo}"
+                    Description="" />
+            </dxb:ToolBarControl>
+            <dxb:ToolBarControl Caption="Format" ShowDragWidget="True">
+                <dxb:BarCheckItem
+                    Name="bBold"
+                    CategoryName="Format"
+                    Content="_Bold"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Bold.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Bold.svg}"
+                    KeyGesture="Ctrl+B"
+                    IsChecked="{Binding ElementName=richControl, Path=IsBold, Mode=TwoWay}"
+                    Description="Makes selected text and numbers bold. If the selection is already bold, clicking button removes bold formating." />
+                <dxb:BarCheckItem
+                    Name="bItalic"
+                    CategoryName="Format"
+                    Content="_Italic"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Italic.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Italic.svg}"
+                    KeyGesture="Ctrl+I"
+                    IsChecked="{Binding ElementName=richControl, Path=IsItalic, Mode=TwoWay}"
+                    Description="Makes selected text and numbers italic. Is the selection is already italic, clicking button removes italic formating." />
+                <dxb:BarCheckItem
+                    Name="bUnderline"
+                    CategoryName="Format"
+                    Content="_Underline"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Underline.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/Underline.svg}"
+                    KeyGesture="Ctrl+U"
+                    IsChecked="{Binding ElementName=richControl, Path=IsUnderline, Mode=TwoWay}"
+                    Description="Underlines selected text and numbers. If the selection is already underlined, clicking button removes underlining." />
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarCheckItem
+                    Name="bLeft"
+                    CategoryName="Format"
+                    Content="_Left"
+                    GroupIndex="1"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/AlignLeft.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/AlignLeft.svg}"
+                    IsChecked="{Binding ElementName=richControl, Path=IsLeftAlignment, Mode=TwoWay}"
+                    Description="Aligns the selected text to the left." />
+                <dxb:BarCheckItem
+                    Name="bCenter"
+                    CategoryName="Format"
+                    Content="_Center"
+                    GroupIndex="1"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/AlignCenter.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/AlignCenter.svg}"
+                    IsChecked="{Binding ElementName=richControl, Path=IsCenterAlignment, Mode=TwoWay}"
+                    Description="Centers the selected text." />
+                <dxb:BarCheckItem
+                    Name="bRight"
+                    CategoryName="Format"
+                    Content="_Right"
+                    GroupIndex="1"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/AlignRight.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/AlignRight.svg}"
+                    IsChecked="{Binding ElementName=richControl, Path=IsRightAlignment, Mode=TwoWay}"
+                    Description="Aligns the selected text to the right." />
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarCheckItem
+                    Name="bBullets"
+                    CategoryName="Format"
+                    Content="B_ullets"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/ListBullets.svg}"
+                    LargeGlyph="{dx:DXImage SvgImages/Outlook Inspired/ListBullets.svg}"
+                    Description="Adds bullets to or removes bullets from selected paragraphs."
+                    IsChecked="{Binding ElementName=richControl, Path=IsList, Mode=TwoWay}" />
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarSplitButtonItem
+                    Name="bFontColor"
+                    CategoryName="Format"
+                    Content="Font _Color"
+                    Hint="Font Color Dialog"
+                    Description="Formats the selected text with the color you click."
+                    ActAsDropDown="True">
+                    <dxb:BarSplitButtonItem.GlyphTemplate>
+                        <DataTemplate>
+                            <Canvas Width="16" Height="16">
+                                <dx:DXImage
+                                    Source="{dx:DXImage 'SvgImages/RichEdit/FontColor.svg'}"
+                                    Width="16"
+                                    Height="16" />
+                                <Border
+                                    Canvas.Left="1"
+                                    Canvas.Top="13"
+                                    Width="14"
+                                    Height="2">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="{Binding Source={x:Reference richControl}, Path=SelectionTextColor}" />
+                                    </Border.Background>
+                                </Border>
+                            </Canvas>
+                        </DataTemplate>
+                    </dxb:BarSplitButtonItem.GlyphTemplate>
+
+                    <dxb:BarSplitButtonItem.PopupControl>
+                        <dxb:PopupControlContainer>
+                            <dxe:ColorEdit
+                                DefaultColor="Transparent"
+                                EditValue="{Binding ElementName=richControl, Path=SelectionTextColor}"
+                                DefaultColorButtonContent="No color"
+                                ShowBorder="False"
+                                CloseOwnerPopupOnClick="True" />
+                        </dxb:PopupControlContainer>
+                    </dxb:BarSplitButtonItem.PopupControl>
+                </dxb:BarSplitButtonItem>
+                <dxb:BarEditItem
+                    Name="eFontFamily"
+                    CategoryName="Format"
+                    Content="_Font:"
+                    EditWidth="150"
+                    ClosePopupOnChangingEditValue="True"
+                    Description="Changes the font family of the selected text."
+                    EditValue="{Binding ElementName=richControl, Path=SelectionFontFamily, Mode=TwoWay}">
+                    <dxb:BarEditItem.EditSettings>
+                        <dxe:FontEditSettings AutoComplete="True" ValidateOnTextInput="False" />
+                    </dxb:BarEditItem.EditSettings>
+                </dxb:BarEditItem>
+                <dxb:BarEditItem
+                    Name="eFontSize"
+                    CategoryName="Format"
+                    Content="Font _Size:"
+                    EditWidth="80"
+                    Description="Changes the font size of the selected text."
+                    EditValue="{Binding ElementName=richControl, Path=SelectionFontSize, Mode=TwoWay}">
+                    <dxb:BarEditItem.EditSettings>
+                        <dxe:ComboBoxEditSettings
+                            x:Name="fontSizeSettings"
+                            PopupMaxHeight="250"
+                            IsTextEditable="False"
+                            ItemsSource="{Binding FontSizes}" />
+                    </dxb:BarEditItem.EditSettings>
+                </dxb:BarEditItem>
+            </dxb:ToolBarControl>
+        </dxb:BarContainerControl>
+        <dxb:StatusBarControl DockPanel.Dock="Bottom" Caption="Status Bar">
+            <dxb:BarStaticItem CustomizationContent="Caret Position" ShowBorder="False">
+                <dxb:BarStaticItem.ContentTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}Column = {0} : Row = {1}">
+                                    <Binding ElementName="richControl" Path="Column" />
+                                    <Binding ElementName="richControl" Path="Row" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </dxb:BarStaticItem.ContentTemplate>
+            </dxb:BarStaticItem>
+
+        </dxb:StatusBarControl>
+
+        <DockPanel LastChildFill="True">
+            <dxb:BarContainerControl
+                DockPanel.Dock="Left"
+                Orientation="Vertical"
+                ContainerType="Left" />
+            <dxb:BarContainerControl
+                DockPanel.Dock="Right"
+                Orientation="Vertical"
+                ContainerType="Right" />
+
+            <demo:DemoRichControl
+                x:Name="richControl"
+                BorderThickness="0,1,0,1"
+                Template="{StaticResource DemoRichControlTemplate}" />
+        </DockPanel>
+    </DockPanel>
+</shell:DemoModuleView>

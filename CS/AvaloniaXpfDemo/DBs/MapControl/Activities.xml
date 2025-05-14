@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<Activities>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Activities">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="Activity" maxOccurs="unbounded">
+			<xs:complexType>
+			<xs:sequence>
+			<xs:element name="Type" type="xs:string"></xs:element>
+			<xs:element name="Date" type="xs:dateTime"></xs:element>
+			<xs:element name="Title" type="xs:string"></xs:element>
+			<xs:element name="Distance" type="xs:double"></xs:element>
+			<xs:element name="Elevation" type="xs:double"></xs:element>
+			<xs:element name="Data" type="xs:string"></xs:element>
+			</xs:sequence>
+			</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	</xs:element>
+</xs:schema>
+  <Activity>
+    <Type>Run</Type>
+	<Date>2019-11-09T06:01:54Z</Date>
+    <Title>parkrun Westpark</Title>
+    <Distance>4.8</Distance>
+    <Elevation>7.80</Elevation>
+	<Data>parkrun_Westpark</Data>
+  </Activity>
+  <Activity>
+    <Type>Run</Type>
+	<Date>2020-01-02T12:25:12.000Z</Date>
+    <Title>midday Run</Title>
+    <Distance>10.00</Distance>
+    <Elevation>29</Elevation>
+	<Data>track3</Data>
+  </Activity>
+  <Activity>
+    <Type>Run</Type>
+	<Date>2020-01-04T06:02:05Z</Date>
+    <Title>parkrun Alstervorland</Title>
+    <Distance>4.9</Distance>
+    <Elevation>8.20</Elevation>
+	<Data>parkrun_Alstervorland</Data>
+  </Activity>
+    <Activity>
+    <Type>Run</Type>
+	<Date>2020-02-22T07:04:12Z</Date>
+    <Title>morning Run</Title>
+    <Distance>5.03</Distance>
+    <Elevation>7.8</Elevation>
+	<Data>3145917691</Data>
+	</Activity>
+</Activities>

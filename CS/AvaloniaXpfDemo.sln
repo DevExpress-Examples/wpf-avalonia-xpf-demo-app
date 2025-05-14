@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaXpfDemo.Wpf", "AvaloniaXpfDemo\AvaloniaXpfDemo.Wpf.csproj", "{BC521E83-495D-F6D4-0153-A74B88CBB0F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		Build.props = Build.props
+		Build.References.props = Build.References.props
+		global.json = global.json
+		nuget.config = nuget.config
+		Settings.XamlStyler = Settings.XamlStyler
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaXpfDemo.Xpf", "AvaloniaXpfDemo\AvaloniaXpfDemo.Xpf.csproj", "{280170EC-7A6D-2CF7-BEF6-682D872725D4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BC521E83-495D-F6D4-0153-A74B88CBB0F0} = {BC521E83-495D-F6D4-0153-A74B88CBB0F0}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC521E83-495D-F6D4-0153-A74B88CBB0F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC521E83-495D-F6D4-0153-A74B88CBB0F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC521E83-495D-F6D4-0153-A74B88CBB0F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC521E83-495D-F6D4-0153-A74B88CBB0F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{280170EC-7A6D-2CF7-BEF6-682D872725D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{280170EC-7A6D-2CF7-BEF6-682D872725D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{280170EC-7A6D-2CF7-BEF6-682D872725D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{280170EC-7A6D-2CF7-BEF6-682D872725D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94E24636-6319-43B2-AB66-B0B5C5A84A0A}
+	EndGlobalSection
+EndGlobal

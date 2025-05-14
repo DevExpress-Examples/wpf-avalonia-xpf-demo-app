@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=AvaloniaXpfDemo
+Comment=DevExpress Avalonia Xpf Demo
+Icon=AvaloniaXpfDemo
+Exec=AvaloniaXpfDemo
+StartupWMClass=AvaloniaXpfDemo
+Terminal=false
+Type=Application
+Categories=Development
+GenericName=AvaloniaXpfDemo

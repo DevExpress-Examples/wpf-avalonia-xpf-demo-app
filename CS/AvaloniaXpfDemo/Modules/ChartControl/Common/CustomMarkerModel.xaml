@@ -1,0 +1,87 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts">
+
+    <dxc:BrushOverlayConverter
+        x:Key="brushOverlayConverter" />
+
+    <ControlTemplate
+        x:Key="customMarkerPointTemplate">
+        <Grid
+            x:Name="model"
+            Background="Transparent"
+            RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <ScaleTransform />
+            </Grid.RenderTransform>
+            <Ellipse
+                Stroke="{Binding Path=PointColor, ConverterParameter=Gray, Converter={StaticResource brushOverlayConverter}}"
+                StrokeThickness="2" />
+            <Ellipse
+                Stroke="{Binding Path=PointColor, ConverterParameter=Gray, Converter={StaticResource brushOverlayConverter}}"
+                StrokeThickness="2"
+                Margin="4" />
+            <Ellipse
+                Margin="8"
+                Opacity="{Binding Opacity}"
+                Fill="{Binding Path=PointColor, ConverterParameter=Gray, Converter={StaticResource brushOverlayConverter}}" />
+            <Grid.Triggers>
+                <EventTrigger
+                    RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard
+                            TargetName="model">
+                            <DoubleAnimation
+                                Duration="0:0:0.25"
+                                To="1.5"
+                                Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)">
+                                <DoubleAnimation.EasingFunction>
+                                    <BackEase
+                                        Amplitude="2"
+                                        EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation
+                                Duration="0:0:0.25"
+                                To="1.5"
+                                Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
+                                <DoubleAnimation.EasingFunction>
+                                    <BackEase
+                                        Amplitude="2"
+                                        EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger
+                    RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard
+                            TargetName="model">
+                            <DoubleAnimation
+                                Duration="0:0:0.5"
+                                To="1"
+                                Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase
+                                        EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation
+                                Duration="0:0:0.5"
+                                To="1"
+                                Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase
+                                        EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Grid.Triggers>
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>

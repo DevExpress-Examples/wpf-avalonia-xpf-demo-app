@@ -1,0 +1,66 @@
+﻿<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.AreasDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    x:Name="demoModule"
+    ShowBorder="False"
+    DataContext="{dxmvvm:ViewModelSource Type=local:TabbedModuleViewModel}">
+
+    <shell:DemoModuleView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:OptionsConverter x:Key="optionsConverter" />
+        </ResourceDictionary>
+    </shell:DemoModuleView.Resources>
+
+    <DockPanel>
+        <ScrollViewer
+            Name="PART_Options"
+            Style="{StaticResource optionsScrollViewerStyle}"
+            Content="{Binding SelectedTab, Converter={StaticResource optionsConverter}}" />
+
+        <dx:DXTabControl SelectedContainer="{Binding SelectedTab, Mode=TwoWay}" Style="{StaticResource moduleTabControlStyle}">
+            <dx:DXTabControl.View>
+                <dx:TabControlScrollView ShowHeaderMenu="True" />
+            </dx:DXTabControl.View>
+            <dx:DXTabItem Header="Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_Area.svg', Size='16,16'}">
+                <local:AreaTab x:Name="areaTab" IsModuleLoaded="{Binding ElementName=demoModule, Path=IsModuleCompletelyLoaded}" />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Step Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_StepArea.svg', Size='16,16'}">
+                <local:StepAreaTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Spline Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_SplineArea.svg', Size='16,16'}">
+                <local:SplineAreaTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Stacked Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_AreaStacked.svg', Size='16,16'}">
+                <local:StackedAreaTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Stacked Step Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_AreaStepStacked.svg', Size='16,16'}">
+                <local:StackedStepAreaTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Stacked Spline Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_SplineAreaStacked.svg', Size='16,16'}">
+                <local:StackedSplineAreaTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Full-Stacked Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_AreaStacked100.svg', Size='16,16'}">
+                <local:FullStackedAreaTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Full-Stacked Step Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_AreaStepStacked100.svg', Size='16,16'}">
+                <local:FullStackedStepAreaTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Full-Stacked Spline Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_SplineAreaStacked100.svg', Size='16,16'}">
+                <local:FullStackedSplineAreaTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Range Area" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_RangeArea.svg', Size='16,16'}">
+                <local:RangeAreaTab />
+            </dx:DXTabItem>
+        </dx:DXTabControl>
+    </DockPanel>
+</shell:DemoModuleView>

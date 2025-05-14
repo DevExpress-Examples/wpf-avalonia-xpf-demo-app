@@ -1,0 +1,225 @@
+<local:TabItemModule
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.NestedDonutTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    DataContext="{dxmvvm:ViewModelSource Type=local:NestedDonutTabViewModel}">
+
+    <!--#region Resources-->
+    <local:TabItemModule.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </local:TabItemModule.Resources>
+    <!--#endregion-->
+
+    <!--#region Options-->
+    <local:TabItemModule.Options>
+        <StackPanel Style="{StaticResource optionsRootStackPanelStyle}">
+            <GroupBox Header="Group Series by" Margin="0,5,0,0">
+                <dxe:ListBoxEdit
+                    Name="lbeGroupBy"
+                    SelectedIndex="0"
+                    SelectedItem="{Binding ArgumentDataMember, Mode=TwoWay}">
+                    <dxe:ListBoxEdit.Items>
+                        <system:String>Age</system:String>
+                        <system:String>Sex</system:String>
+                    </dxe:ListBoxEdit.Items>
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+            <GroupBox Header="Hole Radius Percent" Margin="0,5,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="30"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="50"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="70"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeHoleRadiusPercent"
+                        Value="50"
+                        Minimum="30"
+                        Maximum="70"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Inner Indent" Margin="0,5,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="0"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="5"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="10"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeInnerIndent"
+                        Value="5"
+                        Minimum="0"
+                        Maximum="10"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </local:TabItemModule.Options>
+    <!--#endregion-->
+
+    <DockPanel Loaded="{DXEvent '@e(chart).Animate()'}">
+        <dxc:ChartControl
+            Name="chart"
+            AutoLayout="False"
+            DataSource="{Binding DataSource}"
+            BoundDataChanged="ChartControlBoundDataChanged"
+            AnimationMode="OnLoad">
+            <!--#region ToolTipController-->
+            <dxc:ChartControl.ToolTipController>
+                <dxc:ChartToolTipController InitialDelay="0" />
+            </dxc:ChartControl.ToolTipController>
+            <!--#endregion-->
+            <!--#region Legends-->
+            <dxc:ChartControl.Legend>
+                <dxc:Legend
+                    VerticalPosition="BottomOutside"
+                    HorizontalPosition="Center"
+                    Orientation="Horizontal" />
+            </dxc:ChartControl.Legend>
+            <dxc:ChartControl.Legends>
+                <dxc:Legend
+                    HorizontalPosition="Center"
+                    VerticalPosition="BottomOutside"
+                    Orientation="Horizontal"
+                    Visible="{Binding GenderLegendVisible}"
+                    Margin="0,0,0,2">
+                    <dxc:Legend.CustomItems>
+                        <dxc:CustomLegendItem Text="Male">
+                            <dxc:CustomLegendItem.MarkerTemplate>
+                                <DataTemplate>
+                                    <Image Source="{demo:DemoImage 'Images/ChartControl/NestedDonut2-2.png'}" />
+                                </DataTemplate>
+                            </dxc:CustomLegendItem.MarkerTemplate>
+                        </dxc:CustomLegendItem>
+                        <dxc:CustomLegendItem Text="Female">
+                            <dxc:CustomLegendItem.MarkerTemplate>
+                                <DataTemplate>
+                                    <Image Source="{demo:DemoImage 'Images/ChartControl/NestedDonut1-2.png'}" />
+                                </DataTemplate>
+                            </dxc:CustomLegendItem.MarkerTemplate>
+                        </dxc:CustomLegendItem>
+                    </dxc:Legend.CustomItems>
+                </dxc:Legend>
+                <dxc:Legend
+                    HorizontalPosition="Center"
+                    VerticalPosition="BottomOutside"
+                    Orientation="Horizontal"
+                    Visible="{Binding AgeLegendVisible}"
+                    Margin="0,0,0,2">
+                    <dxc:Legend.CustomItems>
+                        <dxc:CustomLegendItem Text="0-14 years">
+                            <dxc:CustomLegendItem.MarkerTemplate>
+                                <DataTemplate>
+                                    <Image Source="{demo:DemoImage 'Images/ChartControl/NestedDonut3-3.png'}" />
+                                </DataTemplate>
+                            </dxc:CustomLegendItem.MarkerTemplate>
+                        </dxc:CustomLegendItem>
+                        <dxc:CustomLegendItem Text="15-64 years">
+                            <dxc:CustomLegendItem.MarkerTemplate>
+                                <DataTemplate>
+                                    <Image Source="{demo:DemoImage 'Images/ChartControl/NestedDonut2-3.png'}" />
+                                </DataTemplate>
+                            </dxc:CustomLegendItem.MarkerTemplate>
+                        </dxc:CustomLegendItem>
+                        <dxc:CustomLegendItem Text="65 years and older">
+                            <dxc:CustomLegendItem.MarkerTemplate>
+                                <DataTemplate>
+                                    <Image Source="{demo:DemoImage 'Images/ChartControl/NestedDonut1-3.png'}" />
+                                </DataTemplate>
+                            </dxc:CustomLegendItem.MarkerTemplate>
+                        </dxc:CustomLegendItem>
+                    </dxc:Legend.CustomItems>
+                </dxc:Legend>
+            </dxc:ChartControl.Legends>
+            <!--#endregion-->
+            <dxc:ChartControl.Diagram>
+                <dxc:SimpleDiagram2D SeriesDataMember="{Binding SeriesDataMember}">
+                    <dxc:SimpleDiagram2D.SeriesTemplate>
+                        <dxc:NestedDonutSeries2D
+                            ArgumentDataMember="{Binding ArgumentDataMember}"
+                            ValueDataMember="Population"
+                            InnerIndent="{Binding ElementName=tbeInnerIndent, Path=Value}"
+                            FilterString="[Name] = 'United States' Or [Name] = 'Brazil' Or [Name] = 'Russia'"
+                            HoleRadiusPercent="{Binding ElementName=tbeHoleRadiusPercent, Path=Value}"
+                            ToolTipHintDataMember="{Binding Path=HintDataMember}"
+                            ToolTipEnabled="True"
+                            ToolTipPointPattern="{} ({A}) : {VP:##.##%}"
+                            LegendTextPattern="{}{A}">
+                            <dxc:NestedDonutSeries2D.Titles>
+                                <dxc:Title
+                                    dxc:PieSeries.SeriesTitleTextPattern="{}{G}"
+                                    HorizontalAlignment="Center"
+                                    Visible="True" />
+                            </dxc:NestedDonutSeries2D.Titles>
+                        </dxc:NestedDonutSeries2D>
+                    </dxc:SimpleDiagram2D.SeriesTemplate>
+                </dxc:SimpleDiagram2D>
+            </dxc:ChartControl.Diagram>
+            <!--#region Titles-->
+            <dxc:ChartControl.Titles>
+                <dxc:Title
+                    Dock="Top"
+                    HorizontalAlignment="Center"
+                    Content="{Binding DemoTitle}" />
+                <dxc:Title
+                    Dock="Top"
+                    HorizontalAlignment="Center"
+                    FontSize="16">
+                    Data estimate for 2020
+                </dxc:Title>
+                <dxc:Title
+                    Dock="Bottom"
+                    HorizontalAlignment="Right"
+                    FontSize="12"
+                    Foreground="Silver"
+                    Margin="0,10,0,0">
+                    From www.geohive.com
+                </dxc:Title>
+            </dxc:ChartControl.Titles>
+            <!--#endregion-->
+        </dxc:ChartControl>
+
+    </DockPanel>
+</local:TabItemModule>

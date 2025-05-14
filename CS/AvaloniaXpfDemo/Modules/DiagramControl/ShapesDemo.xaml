@@ -1,0 +1,17 @@
+﻿<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.DiagramControlModules.ShapesDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dxdiag="http://schemas.devexpress.com/winfx/2008/xaml/diagram"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    ShowRibbonApplicationButton="True">
+
+    <dxdiag:DiagramDesignerControl
+        x:Name="diagramControl"
+        DockPanel.Dock="Right"
+        CommandBarStyle="Empty"
+        PropertiesPanelVisibility="Collapsed"
+        ToolboxVisibility="Compact"
+        Loaded="{DXEvent Handler='@s.AlignPage($HorizontalAlignment.Center, $VerticalAlignment.Top); @s.FitToWidth();'}" />
+</shell:DemoModuleView>

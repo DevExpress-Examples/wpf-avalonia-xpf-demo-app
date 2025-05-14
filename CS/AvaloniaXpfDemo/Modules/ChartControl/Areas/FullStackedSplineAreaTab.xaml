@@ -1,0 +1,167 @@
+<local:TabItemModule
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.FullStackedSplineAreaTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
+
+    <!--#region Resources-->
+    <local:TabItemModule.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+            <dxmvvm:BooleanNegationConverter x:Key="InvertedBoolConverter" />
+            <dxmvvm:ObjectToObjectConverter x:Key="SplineAlgorithmNameConverter">
+                <dxmvvm:MapItem Source="StrictMinMax" Target="Strict Min-Max" />
+                <dxmvvm:MapItem Source="Cardinal" Target="Cardinal" />
+            </dxmvvm:ObjectToObjectConverter>
+        </ResourceDictionary>
+    </local:TabItemModule.Resources>
+    <!--#endregion-->
+
+    <!--#region Options-->
+    <local:TabItemModule.Options>
+        <StackPanel Style="{StaticResource optionsRootStackPanelStyle}">
+            <dxe:CheckEdit
+                Name="cheShowLabels"
+                Content="Show Labels"
+                IsChecked="True" />
+            <dxe:CheckEdit
+                Name="cheValuesAsPercent"
+                Margin="0,4,0,0"
+                Content="Values as Percent"
+                IsChecked="True"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[0].IsChecked}" />
+            <GroupBox Header="Transparency" Margin="0,5,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="0"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="0.5"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="1"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeTransparency"
+                        Value="0.3"
+                        Minimum="0"
+                        Maximum="1"
+                        SmallStep="0.01"
+                        LargeStep="0.1"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Spline Algorithm" Margin="0,5,0,0">
+                <dxe:ListBoxEdit
+                    Name="tbeSplineAlgorithm"
+                    ItemsSource="{dxe:EnumItemsSource EnumType=dxc:SplineAlgorithm, NameConverter={StaticResource SplineAlgorithmNameConverter}}"
+                    SelectedIndex="0">
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+            <GroupBox Header="Line Tension" Margin="0,5,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="0"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="0.5"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="1.0"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeLineTension"
+                        Value="0.8"
+                        Minimum="0"
+                        Maximum="1.0"
+                        SmallStep="0.1"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </local:TabItemModule.Options>
+    <!--#endregion-->
+
+    <DockPanel Loaded="{DXEvent '@e(chart).Animate()'}">
+        <dxc:ChartControl
+            Name="chart"
+            AnimationMode="OnLoad"
+            CrosshairEnabled="{Binding ElementName=cheShowLabels, Path=IsChecked, Converter={StaticResource InvertedBoolConverter}}"
+            DataSource="{DXBinding 'new $local:DevAVBranchesSales().GetList()'}">
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D SeriesDataMember="Company">
+                    <!--#region AxisY-->
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D>
+                            <dxc:AxisY2D.WholeRange>
+                                <dxc:Range AutoSideMargins="False" SideMarginsValue="0" />
+                            </dxc:AxisY2D.WholeRange>
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    <!--#endregion-->
+                    <dxc:XYDiagram2D.SeriesTemplate>
+                        <dxc:SplineAreaFullStackedSeries2D
+                            ArgumentDataMember="Year"
+                            ValueDataMember="Sales"
+                            SplineAlgorithm="{Binding ElementName=tbeSplineAlgorithm, Path=EditValue}"
+                            LineTension="{Binding ElementName=tbeLineTension, Path=Value}"
+                            Transparency="{Binding ElementName=tbeTransparency, Path=Value}"
+                            AnimationAutoStartMode="SetStartState"
+                            LabelsVisibility="{Binding ElementName=cheShowLabels, Path=IsChecked}"
+                            CrosshairLabelPattern="Architecture: {S}&#10;Amount: {V:0.00}">
+                            <dxc:SplineAreaFullStackedSeries2D.Label>
+                                <dxc:SeriesLabel ResolveOverlappingMode="Default" TextPattern="{DXBinding '@e(cheValuesAsPercent).IsChecked ? `{VP:P2}` : `${V}M`'}" />
+                            </dxc:SplineAreaFullStackedSeries2D.Label>
+                        </dxc:SplineAreaFullStackedSeries2D>
+                    </dxc:XYDiagram2D.SeriesTemplate>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+            <!--#region Legend-->
+            <dxc:ChartControl.Legend>
+                <dxc:Legend
+                    HorizontalPosition="Center"
+                    VerticalPosition="BottomOutside"
+                    Orientation="Horizontal" />
+            </dxc:ChartControl.Legend>
+            <!--#endregion-->
+            <!--#region Titles-->
+            <dxc:ChartControl.Titles>
+                <dxc:Title
+                    Dock="Top"
+                    HorizontalAlignment="Center"
+                    Content="Market Share Over Time" />
+            </dxc:ChartControl.Titles>
+            <!--#endregion-->
+        </dxc:ChartControl>
+
+    </DockPanel>
+</local:TabItemModule>

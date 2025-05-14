@@ -1,0 +1,57 @@
+﻿<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.BarsDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    x:Name="demoModule"
+    ShowBorder="False"
+    DataContext="{dxmvvm:ViewModelSource Type=local:TabbedModuleViewModel}">
+
+    <shell:DemoModuleView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:OptionsConverter x:Key="optionsConverter" />
+        </ResourceDictionary>
+    </shell:DemoModuleView.Resources>
+
+    <DockPanel>
+        <ScrollViewer
+            Name="PART_Options"
+            Style="{StaticResource optionsScrollViewerStyle}"
+            Content="{Binding SelectedTab, Converter={StaticResource optionsConverter}}" />
+
+        <dx:DXTabControl SelectedContainer="{Binding SelectedTab, Mode=TwoWay}" Style="{StaticResource moduleTabControlStyle}">
+            <dx:DXTabControl.View>
+                <dx:TabControlScrollView ShowHeaderMenu="True" />
+            </dx:DXTabControl.View>
+            <dx:DXTabItem Header="Side-by-Side Bar" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_Bar.svg', Size='16,16'}">
+                <local:SideBySideBarTab x:Name="sideBySideBarTab" IsModuleLoaded="{Binding ElementName=demoModule, Path=IsModuleCompletelyLoaded}" />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Stacked Bar" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_BarStacked.svg', Size='16,16'}">
+                <local:StackedBarTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Full-Stacked Bar" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_BarStacked100.svg', Size='16,16'}">
+                <local:FullStackedBarTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Side-by-Side Stacked Bar" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_SideBySideBarStacked.svg', Size='16,16'}">
+                <local:SideBySideStackedBarTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Side-by-Side Full-Stacked Bar" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_SideBySideBarStacked100.svg', Size='16,16'}">
+                <local:SideBySideFullStackedBarTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Side-by-Side Range Bar" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_SideBySideRangeBar.svg', Size='16,16'}">
+                <local:SideBySideRangeBarTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Overlapped Range Bar" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_RangeBar.svg', Size='16,16'}">
+                <local:OverlappedRangeBarTab />
+            </dx:DXTabItem>
+        </dx:DXTabControl>
+    </DockPanel>
+</shell:DemoModuleView>

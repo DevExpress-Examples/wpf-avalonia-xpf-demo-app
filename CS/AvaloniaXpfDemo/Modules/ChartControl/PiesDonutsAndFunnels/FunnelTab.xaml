@@ -1,0 +1,171 @@
+<local:TabItemModule
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.FunnelTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts">
+
+    <!--#region Resources-->
+    <local:TabItemModule.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+            <dxmvvm:BooleanNegationConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </local:TabItemModule.Resources>
+    <!--#endregion-->
+
+    <!--#region Options-->
+    <local:TabItemModule.Options>
+        <StackPanel Style="{StaticResource optionsRootStackPanelStyle}">
+            <dxe:CheckEdit
+                Name="cheShowLabels"
+                Content="Show Labels"
+                Margin="0,0,0,2"
+                IsChecked="True" />
+            <dxe:CheckEdit
+                Name="cheValueAsPercent"
+                Content="Value as Percent"
+                IsChecked="True"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[0].IsChecked}" />
+            <GroupBox Margin="0,5,0,0" Header="Label Position">
+                <dxe:ListBoxEdit
+                    Name="lbePosition"
+                    SelectedIndex="0"
+                    ItemsSource="{dxe:EnumItemsSource EnumType=dxc:Funnel2DLabelPosition}"
+                    IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[0].IsChecked}">
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+            <dxe:CheckEdit
+                Name="cheAlignToCenter"
+                Content="Align to Center"
+                Margin="0,8,0,0"
+                IsChecked="False"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[0].IsChecked}" />
+            <dxe:CheckEdit
+                Name="cheRatioAuto"
+                Content="Height to width ratio auto"
+                Margin="0,4,0,0"
+                IsChecked="True" />
+            <GroupBox
+                Header="Height to width ratio"
+                Margin="0,5,0,0"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[4].IsChecked, Converter={dxmvvm:BooleanNegationConverter}}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="0.1"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="1"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="1.9"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeRatio"
+                        Value="1"
+                        Minimum="0.1"
+                        Maximum="1.9"
+                        SmallStep="0.1"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Points Distance" Margin="0,5,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="0"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="10"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="20"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbePointsDistance"
+                        Value="0"
+                        Minimum="0"
+                        Maximum="20">
+                        <dxe:TrackBarEdit.TickPlacement>None</dxe:TrackBarEdit.TickPlacement>
+                    </dxe:TrackBarEdit>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </local:TabItemModule.Options>
+    <!--#endregion-->
+
+    <DockPanel Loaded="{DXEvent '@e(chart).Animate()'}">
+        <dxc:ChartControl x:Name="chart" AnimationMode="OnLoad">
+            <!--#region Legend-->
+            <dxc:ChartControl.Legend>
+                <dxc:Legend HorizontalPosition="Right" VerticalPosition="Bottom" />
+            </dxc:ChartControl.Legend>
+            <!--#endregion-->
+            <dxc:ChartControl.Diagram>
+                <dxc:SimpleDiagram2D>
+                    <dxc:SimpleDiagram2D.Series>
+                        <dxc:FunnelSeries2D
+                            ArgumentScaleType="Qualitative"
+                            PointDistance="{Binding ElementName=tbePointsDistance, Path=Value}"
+                            HeightToWidthRatio="{Binding ElementName=tbeRatio, Path=Value}"
+                            HeightToWidthRatioAuto="{Binding ElementName=cheRatioAuto, Path=IsChecked}"
+                            AlignToCenter="{Binding ElementName=cheAlignToCenter, Path=IsChecked}"
+                            LegendTextPattern="{DXBinding Expr='@e(cheValueAsPercent).IsChecked ? `{A}: {VP:P0}` : `{A}: {V:G}`'}">
+                            <dxc:FunnelSeries2D.Titles>
+                                <dxc:Title
+                                    Dock="Top"
+                                    HorizontalAlignment="Center"
+                                    FontSize="24">
+                                    Website Visitor Trend
+                                </dxc:Title>
+                            </dxc:FunnelSeries2D.Titles>
+                            <dxc:FunnelSeries2D.Label>
+                                <dxc:SeriesLabel
+                                    ResolveOverlappingMode="Default"
+                                    ConnectorThickness="1"
+                                    Visible="{Binding ElementName=cheShowLabels, Path=IsChecked}"
+                                    dxc:FunnelSeries2D.LabelPosition="{Binding ElementName=lbePosition, Path=EditValue}"
+                                    TextPattern="{DXBinding Expr='@e(cheValueAsPercent).IsChecked ? `{A}: {VP:P0}` : `{A}: {V:G}`'}" />
+                            </dxc:FunnelSeries2D.Label>
+                            <dxc:FunnelSeries2D.Points>
+                                <dxc:SeriesPoint Argument="Visited a Website" Value="9152" />
+                                <dxc:SeriesPoint Argument="Downloaded a Trial" Value="6870" />
+                                <dxc:SeriesPoint Argument="Contacted to Support" Value="5121" />
+                                <dxc:SeriesPoint Argument="Subscribed" Value="2224" />
+                                <dxc:SeriesPoint Argument="Renewed" Value="1670" />
+                            </dxc:FunnelSeries2D.Points>
+                        </dxc:FunnelSeries2D>
+                    </dxc:SimpleDiagram2D.Series>
+                </dxc:SimpleDiagram2D>
+            </dxc:ChartControl.Diagram>
+        </dxc:ChartControl>
+
+    </DockPanel>
+</local:TabItemModule>

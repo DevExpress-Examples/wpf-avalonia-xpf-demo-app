@@ -1,0 +1,534 @@
+﻿<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.RibbonControlModules.RibbonSimplePadDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.RibbonControlModules"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    x:Name="root"
+    ShowRibbonApplicationButton="True"
+    DataContext="{dxmvvm:ViewModelSource Type=local:RibbonSimplePadViewModel}">
+
+    <shell:DemoModuleView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/RibbonControl/BackstageViewPanes.xaml'}" />
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/RibbonControl/TemplateSelectors.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+            <dxmvvm:ObjectToBooleanConverter x:Key="ObjectToBooleanConverter" />
+            <local:ImageScaleValueConverter x:Key="ImageScaleValueConverter" />
+        </ResourceDictionary>
+    </shell:DemoModuleView.Resources>
+
+    <shell:DemoModuleView.RibbonStyle>
+        <Style TargetType="dxr:RibbonControl">
+            <Setter Property="RibbonStyle" Value="Office2019" />
+            <Setter Property="PageCategoryAlignment" Value="Left" />
+            <Setter Property="RibbonTitleBarVisibility" Value="Auto" />
+            <Setter Property="IsSimplified" Value="True" />
+        </Style>
+    </shell:DemoModuleView.RibbonStyle>
+
+    <DockPanel>
+        <dxr:RibbonControl x:Name="RibbonControl" DockPanel.Dock="Top">
+            <dxmvvm:Interaction.Behaviors>
+                <local:BackstageViewService />
+                <dxmvvm:EventToCommand EventName="BackstageOpened" Command="{Binding BackstageOpenedCommand}" />
+            </dxmvvm:Interaction.Behaviors>
+            <dxr:RibbonControl.ApplicationMenu>
+                <dxr:BackstageViewControl KeyboardNavigation.TabNavigation="Local">
+                    <dxr:BackstageTabItem Content="Home" Glyph="{demo:DemoImage 'Images/RibbonControl/Icons/Home_16x16.svg'}">
+                        <dxr:BackstageTabItem.ControlPane>
+                            <ContentControl
+                                Template="{StaticResource HomeControlPaneTemplate}"
+                                SnapsToDevicePixels="True"
+                                IsTabStop="False"
+                                Focusable="False" />
+                        </dxr:BackstageTabItem.ControlPane>
+                    </dxr:BackstageTabItem>
+                    <dxr:BackstageTabItem Content="New" Glyph="{demo:DemoImage 'Images/RibbonControl/Icons/New_16x16.svg'}">
+                        <dxr:BackstageTabItem.ControlPane>
+                            <ContentControl
+                                Template="{StaticResource NewControlPaneTemplate}"
+                                SnapsToDevicePixels="True"
+                                IsTabStop="False"
+                                Focusable="False" />
+                        </dxr:BackstageTabItem.ControlPane>
+                    </dxr:BackstageTabItem>
+                    <dxr:BackstageSeparatorItem />
+                    <dxr:BackstageTabItem Content="Info">
+                        <dxr:BackstageTabItem.ControlPane>
+                            <ContentControl
+                                Template="{StaticResource InfoControlPaneTemplate}"
+                                IsTabStop="False"
+                                Focusable="False" />
+                        </dxr:BackstageTabItem.ControlPane>
+                    </dxr:BackstageTabItem>
+                    <dxr:BackstageSeparatorItem Placement="Bottom" />
+                    <dxr:BackstageButtonItem Content="Close" Placement="Bottom" />
+                </dxr:BackstageViewControl>
+            </dxr:RibbonControl.ApplicationMenu>
+            <dxr:RibbonControl.PageHeaderItems>
+                <dxb:BarButtonItem
+                    Name="eDescription"
+                    Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Info.svg}"
+                    Command="{Binding NavigateToHomeSiteCommand}" />
+                <dxb:BarItemLink BarItemName="ribbonStyleItem" RibbonStyle="SmallWithText" />
+            </dxr:RibbonControl.PageHeaderItems>
+            <dxr:RibbonControl.ToolbarItems>
+                <dxr:RibbonSpacingSelectorItemLink BarItemName="spacingSelector" />
+                <dxb:BarItemLink BarItemName="bPaste" />
+                <dxb:BarItemLink BarItemName="bCut" />
+                <dxb:BarItemLink BarItemName="bCopy" />
+            </dxr:RibbonControl.ToolbarItems>
+            <dxr:RibbonPage Caption="Format Text">
+                <dxr:RibbonPageGroup
+                    Caption="Clipboard"
+                    ShowCaptionButton="False"
+                    SmallGlyph="{dx:DXImage SvgImages/Outlook Inspired/Paste.svg}">
+                    <dxb:BarButtonItem
+                        Name="bPaste"
+                        Content="Paste"
+                        Glyph="{dx:DXImage SvgImages/Outlook Inspired/Paste.svg}"
+                        Hint="Inserts the contents of the Clipboard at the insertion point."
+                        KeyGesture="Ctrl+V"
+                        Command="{Binding ElementName=richControl, Path=PasteCommand}"
+                        RibbonStyle="Large" />
+                    <dxb:BarButtonItem
+                        Name="bCut"
+                        Content="Cut"
+                        Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cut.svg}"
+                        KeyGesture="Ctrl+X"
+                        Command="{Binding ElementName=richControl, Path=CutCommand}"
+                        RibbonStyle="SmallWithText" />
+                    <dxb:BarButtonItem
+                        Name="bCopy"
+                        Content="Copy"
+                        Glyph="{dx:DXImage SvgImages/Outlook Inspired/Copy.svg}"
+                        KeyGesture="Ctrl+C"
+                        Command="{Binding ElementName=richControl, Path=CopyCommand}"
+                        RibbonStyle="SmallWithText" />
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup
+                    Caption="Font"
+                    ShowCaptionButton="False"
+                    SmallGlyph="{dx:DXImage SvgImages/RichEdit/ChangeFontStyle.svg}">
+                    <dxr:BarButtonGroup Name="bgFont">
+                        <dxb:BarEditItem
+                            EditWidth="120"
+                            Content="Font Family"
+                            Hint="Change the font family"
+                            EditValue="{Binding ElementName=richControl, Path=SelectionFontFamily, Mode=TwoWay}">
+                            <dxb:BarEditItem.EditSettings>
+                                <dxe:ComboBoxEditSettings IsTextEditable="False" ItemsSource="{Binding FontFamilies}" />
+                            </dxb:BarEditItem.EditSettings>
+                        </dxb:BarEditItem>
+                        <dxb:BarEditItem
+                            EditWidth="70"
+                            Content="Font Size"
+                            Hint="Change the font size"
+                            EditValue="{Binding FontSize, Mode=TwoWay}">
+                            <dxb:BarEditItem.EditSettings>
+                                <dxe:ComboBoxEditSettings
+                                    PopupMaxHeight="250"
+                                    IsTextEditable="False"
+                                    ItemsSource="{Binding FontSizes}" />
+                            </dxb:BarEditItem.EditSettings>
+                        </dxb:BarEditItem>
+                    </dxr:BarButtonGroup>
+                    <dxr:BarButtonGroup Name="bgFontSizeChange">
+                        <dxb:BarButtonItem
+                            Content="Grow Font"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/FontSizeIncrease.svg}"
+                            Command="{Binding GrowFontCommand}" />
+                        <dxb:BarButtonItem
+                            Content="Shrink Font"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/FontSizeDecrease.svg}"
+                            Command="{Binding ShrinkFontCommand}" />
+                    </dxr:BarButtonGroup>
+                    <dxr:BarButtonGroup RibbonStyle="SmallWithoutText">
+                        <dxb:BarCheckItem
+                            Content="Bold"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/Bold.svg}"
+                            KeyGesture="Ctrl+B"
+                            IsChecked="{Binding ElementName=richControl, Path=IsBold, Mode=TwoWay}" />
+                        <dxb:BarCheckItem
+                            Content="Italic"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/Italic.svg}"
+                            KeyGesture="Ctrl+I"
+                            IsChecked="{Binding ElementName=richControl, Path=IsItalic, Mode=TwoWay}" />
+                        <dxb:BarCheckItem
+                            Content="Underline"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/Underline.svg}"
+                            KeyGesture="Ctrl+U"
+                            IsChecked="{Binding ElementName=richControl, Path=IsUnderline, Mode=TwoWay}" />
+                    </dxr:BarButtonGroup>
+                    <dxr:BarButtonGroup Name="bgFontColors" RibbonStyle="SmallWithoutText">
+                        <dxb:BarSplitButtonItem
+                            Content="Text Highlight Color"
+                            Hint="Make text look like it was marked with a highlighter pen"
+                            ActAsDropDown="True">
+                            <dxb:BarSplitButtonItem.GlyphTemplate>
+                                <DataTemplate>
+                                    <Canvas Width="16" Height="16">
+                                        <dx:DXImage
+                                            Source="{dx:DXImage 'SvgImages/RichEdit/Highlight.svg'}"
+                                            Width="16"
+                                            Height="16" />
+                                        <Border
+                                            Canvas.Left="1"
+                                            Canvas.Top="13"
+                                            Width="14"
+                                            Height="2">
+                                            <Border.Background>
+                                                <SolidColorBrush Color="{Binding Source={x:Reference richControl}, Path=SelectionTextBackgroundColor}" />
+                                            </Border.Background>
+                                        </Border>
+                                    </Canvas>
+                                </DataTemplate>
+                            </dxb:BarSplitButtonItem.GlyphTemplate>
+                            <dxb:BarSplitButtonItem.PopupControl>
+                                <dxb:PopupControlContainer>
+                                    <dxe:ColorEdit
+                                        DefaultColor="Transparent"
+                                        DefaultColorButtonContent="No color"
+                                        ShowBorder="False"
+                                        EditValue="{Binding ElementName=richControl, Path=SelectionTextBackgroundColor, Mode=TwoWay}"
+                                        CloseOwnerPopupOnClick="True" />
+                                </dxb:PopupControlContainer>
+                            </dxb:BarSplitButtonItem.PopupControl>
+                        </dxb:BarSplitButtonItem>
+                        <dxb:BarSplitButtonItem
+                            Content="Font Color"
+                            Hint="Change the font color"
+                            ActAsDropDown="True">
+                            <dxb:BarSplitButtonItem.GlyphTemplate>
+                                <DataTemplate>
+                                    <Canvas Width="16" Height="16">
+                                        <dx:DXImage
+                                            Source="{dx:DXImage 'SvgImages/RichEdit/FontColor.svg'}"
+                                            Width="16"
+                                            Height="16" />
+                                        <Border
+                                            Canvas.Left="1"
+                                            Canvas.Top="13"
+                                            Width="14"
+                                            Height="2">
+                                            <Border.Background>
+                                                <SolidColorBrush Color="{Binding Source={x:Reference richControl}, Path=SelectionTextColor}" />
+                                            </Border.Background>
+                                        </Border>
+                                    </Canvas>
+                                </DataTemplate>
+                            </dxb:BarSplitButtonItem.GlyphTemplate>
+                            <dxb:BarSplitButtonItem.PopupControl>
+                                <dxb:PopupControlContainer>
+                                    <dxe:ColorEdit
+                                        DefaultColor="Black"
+                                        EditValue="{Binding ElementName=richControl, Path=SelectionTextColor, Mode=TwoWay}"
+                                        CloseOwnerPopupOnClick="True"
+                                        ShowBorder="False" />
+                                </dxb:PopupControlContainer>
+                            </dxb:BarSplitButtonItem.PopupControl>
+                        </dxb:BarSplitButtonItem>
+                    </dxr:BarButtonGroup>
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup Caption="Paragraph">
+                    <dxr:BarButtonGroup>
+                        <dxb:BarCheckItem
+                            Name="bLeft"
+                            Content="Left"
+                            GroupIndex="1"
+                            KeyGesture="Ctrl+L"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/AlignLeft.svg}"
+                            IsChecked="{Binding ElementName=richControl, Path=IsLeftAlignment, Mode=TwoWay}" />
+                        <dxb:BarCheckItem
+                            Name="bCenter"
+                            Content="Center"
+                            GroupIndex="1"
+                            KeyGesture="Ctrl+E"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/AlignCenter.svg}"
+                            IsChecked="{Binding ElementName=richControl, Path=IsCenterAlignment, Mode=TwoWay}" />
+                        <dxb:BarCheckItem
+                            Name="bRight"
+                            Content="Right"
+                            GroupIndex="1"
+                            KeyGesture="Ctrl+R"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/AlignRight.svg}"
+                            IsChecked="{Binding ElementName=richControl, Path=IsRightAlignment, Mode=TwoWay}" />
+                    </dxr:BarButtonGroup>
+                    <dxr:BarButtonGroup>
+                        <dxb:BarSplitCheckItem
+                            Content="Start a list"
+                            KeyGesture="Ctrl+Shift+L"
+                            Hint="Click the arrow to choose different list styles"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/ListBullets.svg}"
+                            IsChecked="{Binding ElementName=richControl, Path=IsList, Mode=TwoWay}">
+                            <dxb:BarSplitCheckItem.PopupControl>
+                                <dxr:GalleryDropDownPopupMenu x:Name="pmMarkerType" InitialVisibleColCount="5">
+                                    <dxr:GalleryDropDownPopupMenu.Gallery>
+                                        <dxb:Gallery
+                                            x:Name="gMarkerType"
+                                            ColCount="5"
+                                            MinColCount="2"
+                                            RowCount="2"
+                                            IsGroupCaptionVisible="False"
+                                            AllowFilter="False"
+                                            IsItemCaptionVisible="False"
+                                            IsItemDescriptionVisible="False"
+                                            ItemCheckMode="Single"
+                                            FirstCheckedItem="{Binding ElementName=richControl, Path=ListMarkerStyle, Mode=TwoWay}">
+                                            <dxb:Gallery.Groups>
+                                                <dxb:GalleryItemGroup ItemsSource="{Binding ListMarkerStyles}" ItemTemplate="{StaticResource textMarkerStyleItemTemplate}" />
+                                            </dxb:Gallery.Groups>
+                                        </dxb:Gallery>
+                                    </dxr:GalleryDropDownPopupMenu.Gallery>
+                                </dxr:GalleryDropDownPopupMenu>
+                            </dxb:BarSplitCheckItem.PopupControl>
+                        </dxb:BarSplitCheckItem>
+                    </dxr:BarButtonGroup>
+                    <dxr:BarButtonGroup>
+                        <dxb:BarButtonItem
+                            Content="Increase Indent"
+                            KeyGesture="Ctrl+Shift+Right"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/IndentIncrease.svg}"
+                            IsEnabled="False" />
+                        <dxb:BarButtonItem
+                            Content="Decrease Indent"
+                            KeyGesture="Ctrl+Shift+Left"
+                            Glyph="{dx:DXImage SvgImages/Outlook Inspired/IndentDecrease.svg}"
+                            IsEnabled="False" />
+                    </dxr:BarButtonGroup>
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup
+                    Caption="Insert"
+                    ShowCaptionButton="False"
+                    SmallGlyph="{dx:DXImage SvgImages/RichEdit/InsertImage.svg}">
+                    <dxr:RibbonGalleryBarItem Content="Insert Image" Glyph="{dx:DXImage SvgImages/RichEdit/InsertImage.svg}">
+                        <dxr:RibbonGalleryBarItem.DropDownGallery>
+                            <dxb:Gallery
+                                IsItemCaptionVisible="False"
+                                IsGroupCaptionVisible="False"
+                                IsItemDescriptionVisible="False"
+                                ColCount="0"
+                                ItemGlyphStretch="None"
+                                ItemGlyphHorizontalAlignment="Center"
+                                ItemGlyphVerticalAlignment="Center"
+                                RowCount="3"
+                                MinColCount="3"
+                                AllowFilter="False"
+                                ItemClickCommand="{Binding InsertImageCommand}">
+                                <dxb:GalleryItemGroup ItemsSource="{Binding ClipartImages}">
+                                    <dxb:GalleryItemGroup.ItemTemplate>
+                                        <DataTemplate>
+                                            <ContentControl>
+                                                <dxb:GalleryItem Glyph="{Binding}" />
+                                            </ContentControl>
+                                        </DataTemplate>
+                                    </dxb:GalleryItemGroup.ItemTemplate>
+                                </dxb:GalleryItemGroup>
+                            </dxb:Gallery>
+                        </dxr:RibbonGalleryBarItem.DropDownGallery>
+                        <dxr:RibbonGalleryBarItem.Gallery>
+                            <dxb:Gallery
+                                IsItemCaptionVisible="False"
+                                ColCount="10"
+                                ItemGlyphSize="100,56"
+                                IsItemDescriptionVisible="False"
+                                AllowFilter="False"
+                                IsGroupCaptionVisible="False"
+                                MinColCount="2"
+                                ItemGlyphHorizontalAlignment="Center"
+                                ItemGlyphVerticalAlignment="Center"
+                                ItemClickCommand="{Binding InsertImageCommand}"
+                                ItemCheckMode="None">
+                                <dxb:GalleryItemGroup ItemsSource="{Binding ClipartImages}">
+                                    <dxb:GalleryItemGroup.ItemTemplate>
+                                        <DataTemplate>
+                                            <ContentControl>
+                                                <dxb:GalleryItem Glyph="{Binding}" />
+                                            </ContentControl>
+                                        </DataTemplate>
+                                    </dxb:GalleryItemGroup.ItemTemplate>
+                                </dxb:GalleryItemGroup>
+                            </dxb:Gallery>
+                        </dxr:RibbonGalleryBarItem.Gallery>
+                    </dxr:RibbonGalleryBarItem>
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup
+                    Caption="Editing"
+                    ShowCaptionButton="False"
+                    Glyph="{dx:DXImage SvgImages/Outlook Inspired/Find.svg}">
+                    <dxb:BarButtonItem
+                        Content="Clear Text"
+                        Glyph="{dx:DXImage SvgImages/Spreadsheet/ClearAll.svg}"
+                        Command="{Binding ElementName=richControl, Path=ClearCommand}"
+                        RibbonStyle="All" />
+                    <dxb:BarButtonItem
+                        Content="Select All"
+                        KeyGesture="Ctrl+A"
+                        Hint="Selects all text in the document."
+                        Command="{Binding ElementName=richControl, Path=SelectAllCommand}"
+                        Glyph="{dx:DXImage SvgImages/PDF Viewer/SelectAll.svg}"
+                        RibbonStyle="All" />
+                </dxr:RibbonPageGroup>
+            </dxr:RibbonPage>
+            <dxr:RibbonPageCategory
+                x:Name="selectionPageCategory"
+                Caption="Image tools"
+                IsVisible="{Binding SelectedImage, Converter={StaticResource ObjectToBooleanConverter}}">
+                <dxr:RibbonPage x:Name="pSelection" Caption="Format">
+                    <dxr:RibbonPageGroup Caption="Clipboard">
+                        <dxb:BarItemLink BarItemName="bPaste" RibbonStyle="Large" />
+                        <dxb:BarItemLink BarItemName="bCut" RibbonStyle="Large" />
+                        <dxb:BarItemLink BarItemName="bCopy" RibbonStyle="Large" />
+                    </dxr:RibbonPageGroup>
+                    <dxr:RibbonPageGroup Caption="Border Format">
+                        <dxb:BarEditItem
+                            Name="eImageScale"
+                            EditWidth="80"
+                            Content="Scale:"
+                            Hint="Image scale"
+                            EditValue="{Binding SelectedImage.Scale, Converter={StaticResource ImageScaleValueConverter}, Mode=TwoWay}">
+                            <dxb:BarEditItem.EditSettings>
+                                <dxe:ComboBoxEditSettings
+                                    PopupMaxHeight="250"
+                                    IsTextEditable="False"
+                                    ItemsSource="{Binding ImageScaleValueArray}" />
+                            </dxb:BarEditItem.EditSettings>
+                        </dxb:BarEditItem>
+                        <dxb:BarEditItem
+                            Name="eImageBorderThickness"
+                            EditWidth="80"
+                            Content="Thickness:"
+                            Hint="Image border thickness"
+                            EditValue="{Binding SelectedImage.BorderWeight, Mode=TwoWay}"
+                            IsEnabled="{Binding SelectedImage.HasBorder}">
+                            <dxb:BarEditItem.EditSettings>
+                                <dxe:ComboBoxEditSettings
+                                    PopupMaxHeight="250"
+                                    IsTextEditable="False"
+                                    ItemsSource="{Binding BorderWeightArray}" />
+                            </dxb:BarEditItem.EditSettings>
+                        </dxb:BarEditItem>
+                        <dxb:BarSplitButtonItem
+                            Name="sbImageBorderColor"
+                            Content="Border Color"
+                            Hint="Image border color"
+                            IsEnabled="{Binding SelectedImage.HasBorder}"
+                            ActAsDropDown="True"
+                            RibbonStyle="Large">
+                            <dxb:BarSplitButtonItem.GlyphTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Name="glyph"
+                                        Width="16"
+                                        Height="16"
+                                        BorderBrush="{Binding (TextElement.Foreground), RelativeSource={RelativeSource Self}}"
+                                        BorderThickness="1">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding SelectedImage.Color}" />
+                                        </Border.Background>
+                                    </Border>
+                                </DataTemplate>
+                            </dxb:BarSplitButtonItem.GlyphTemplate>
+                            <dxb:BarSplitButtonItem.LargeGlyphTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Name="glyph"
+                                        Width="32"
+                                        Height="32"
+                                        BorderBrush="{Binding (TextElement.Foreground), RelativeSource={RelativeSource Self}}"
+                                        BorderThickness="1">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding SelectedImage.Color}" />
+                                        </Border.Background>
+                                    </Border>
+                                </DataTemplate>
+                            </dxb:BarSplitButtonItem.LargeGlyphTemplate>
+                            <dxb:BarSplitButtonItem.MediumGlyphTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Name="glyph"
+                                        Width="18"
+                                        Height="18"
+                                        Margin="1"
+                                        BorderBrush="{Binding (TextElement.Foreground), RelativeSource={RelativeSource Self}}"
+                                        BorderThickness="1">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{Binding SelectedImage.Color}" />
+                                        </Border.Background>
+                                    </Border>
+                                </DataTemplate>
+                            </dxb:BarSplitButtonItem.MediumGlyphTemplate>
+                            <dxb:BarSplitButtonItem.PopupControl>
+                                <dxb:PopupControlContainer>
+                                    <dxe:ColorEdit
+                                        EditValue="{Binding SelectedImage.Color, Mode=TwoWay}"
+                                        DefaultColor="Black"
+                                        CloseOwnerPopupOnClick="True"
+                                        ShowBorder="False" />
+                                </dxb:PopupControlContainer>
+                            </dxb:BarSplitButtonItem.PopupControl>
+                        </dxb:BarSplitButtonItem>
+                        <dxr:RibbonGalleryBarItem Content="Border Style">
+                            <dxr:RibbonGalleryBarItem.DropDownGallery>
+                                <dxb:Gallery
+                                    IsGroupCaptionVisible="False"
+                                    AllowFilter="False"
+                                    ColCount="3"
+                                    IsItemDescriptionVisible="True"
+                                    ItemDescriptionHorizontalAlignment="Center"
+                                    ItemCaptionHorizontalAlignment="Center"
+                                    ItemCheckMode="Single"
+                                    FirstCheckedItem="{Binding SelectedImage.ShapeType, Mode=TwoWay}">
+                                    <dxb:Gallery.Groups>
+                                        <dxb:GalleryItemGroup ItemsSource="{Binding ShapeTypes}" ItemTemplate="{StaticResource ImageBorderTypeItemTemplate}" />
+                                    </dxb:Gallery.Groups>
+                                </dxb:Gallery>
+                            </dxr:RibbonGalleryBarItem.DropDownGallery>
+                            <dxr:RibbonGalleryBarItem.Gallery>
+                                <dxb:Gallery
+                                    x:Name="gShapes"
+                                    ItemGlyphRegionSize="54,54"
+                                    ItemCheckMode="Single"
+                                    ItemGlyphStretch="None"
+                                    ItemCaptionMargin="0"
+                                    ItemDescriptionMargin="0"
+                                    IsItemDescriptionVisible="False"
+                                    IsItemCaptionVisible="False"
+                                    ColCount="8"
+                                    MinColCount="1"
+                                    RowCount="2"
+                                    FirstCheckedItem="{Binding SelectedImage.ShapeType, Mode=TwoWay}">
+                                    <dxb:Gallery.Groups>
+                                        <dxb:GalleryItemGroup ItemsSource="{Binding ShapeTypes}" ItemTemplate="{StaticResource ImageBorderTypeItemTemplate}" />
+                                    </dxb:Gallery.Groups>
+                                </dxb:Gallery>
+                            </dxr:RibbonGalleryBarItem.Gallery>
+                        </dxr:RibbonGalleryBarItem>
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonPageCategory>
+        </dxr:RibbonControl>
+
+        <demo:DemoRichControl
+            x:Name="richControl"
+            SelectionFontSize="{Binding FontSize, Mode=TwoWay}"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto"
+            BorderThickness="0"
+            Padding="12">
+            <dxmvvm:Interaction.Behaviors>
+                <local:DemoRichControlService />
+                <dxmvvm:EventToCommand EventName="ContainerChanged" Command="{Binding ContainerChangedCommand}" />
+            </dxmvvm:Interaction.Behaviors>
+        </demo:DemoRichControl>
+    </DockPanel>
+
+</shell:DemoModuleView>

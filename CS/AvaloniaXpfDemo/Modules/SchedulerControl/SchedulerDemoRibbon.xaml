@@ -1,0 +1,148 @@
+﻿<UserControl
+    x:Class="DevExpress.AvaloniaXpfDemo.SchedulerControlModules.SchedulerDemoRibbon"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+    xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"
+    xmlns:dxscht="http://schemas.devexpress.com/winfx/2008/xaml/scheduling/themekeys"
+    xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo">
+
+    <UserControl.Resources>
+        <Style x:Key="BarItem.Style" TargetType="dxb:BarItem" x:Shared="False">
+            <Setter Property="Tag" Value="{Binding Path=(dxsch:SchedulerControl.Scheduler), RelativeSource={RelativeSource Mode=Self}}" />
+        </Style>
+
+        <DataTemplate x:Key="BarButtonItem.Print.Template">
+            <ContentControl>
+                <dxb:BarButtonItem
+                    Style="{StaticResource BarItem.Style}"
+                    Content="{Binding Name}"
+                    Command="{DXBinding '@s.Tag.Commands.ShowRibbonPrintPreviewCommand'}"
+                    CommandParameter="{Binding Id}" />
+            </ContentControl>
+        </DataTemplate>
+        <Style x:Key="BarSubItem.Print" TargetType="dxb:BarSubItem" x:Shared="False" BasedOn="{StaticResource BarItem.Style}">
+            <Setter Property="Content" Value="Print" />
+            <Setter Property="Glyph" Value="{demo:DXImage 'SvgImages/Print/Print.svg'}" />
+            <Setter Property="LargeGlyph" Value="{demo:DXImage 'SvgImages/Print/Print.svg'}" />
+            <Setter Property="ItemLinksSource" Value="{dxe:EnumItemsSource EnumType=dxsch:ReportTemplate}" />
+            <Setter Property="ItemTemplate" Value="{StaticResource BarButtonItem.Print.Template}" />
+        </Style>
+
+        <Style x:Key="BarButtonItem.Import.Outlook" TargetType="dxb:BarButtonItem" x:Shared="False" BasedOn="{StaticResource BarItem.Style}">
+            <Setter Property="Content" Value="Outlook" />
+            <Setter Property="Command" Value="{Binding OutlookImportCommand}" />
+            <Setter Property="CommandParameter" Value="{DXBinding '@s.Tag'}" />
+            <Setter Property="Glyph" Value="{demo:DXImage 'SvgImages/Scheduling/OutlookImport.svg'}" />
+            <Setter Property="LargeGlyph" Value="{demo:DXImage 'SvgImages/Scheduling/OutlookImport.svg'}" />
+        </Style>
+        <Style x:Key="BarButtonItem.Import.iCalendar" TargetType="dxb:BarButtonItem" x:Shared="False" BasedOn="{StaticResource BarItem.Style}">
+            <Setter Property="Content" Value="iCalendar" />
+            <Setter Property="Command" Value="{Binding iCalendarImportCommand}" />
+            <Setter Property="CommandParameter" Value="{DXBinding '@s.Tag'}" />
+            <Setter Property="Glyph" Value="{demo:DXImage 'SvgImages/Scheduling/iCalendarImport.svg'}" />
+            <Setter Property="LargeGlyph" Value="{demo:DXImage 'SvgImages/Scheduling/iCalendarImport.svg'}" />
+        </Style>
+        <Style x:Key="BarSubItem.Import" TargetType="dxb:BarSubItem" x:Shared="False" BasedOn="{StaticResource BarItem.Style}">
+            <Setter Property="Content" Value="Import" />
+            <Setter Property="Glyph" Value="{demo:DXImage 'SvgImages/Scheduling/Import.svg'}" />
+            <Setter Property="LargeGlyph" Value="{demo:DXImage 'SvgImages/Scheduling/Import.svg'}" />
+            <Setter Property="ItemLinksSource">
+                <Setter.Value>
+                    <col:ArrayList>
+                        <dxb:BarButtonItem Style="{StaticResource BarButtonItem.Import.Outlook}" />
+                        <dxb:BarCheckItem Style="{StaticResource BarButtonItem.Import.iCalendar}" />
+                    </col:ArrayList>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BarButtonItem.Export.Outlook" TargetType="dxb:BarButtonItem" x:Shared="False" BasedOn="{StaticResource BarItem.Style}">
+            <Setter Property="Content" Value="Outlook" />
+            <Setter Property="Command" Value="{Binding OutlookExportCommand}" />
+            <Setter Property="CommandParameter" Value="{DXBinding '@s.Tag'}" />
+            <Setter Property="Glyph" Value="{demo:DXImage 'SvgImages/Scheduling/OutlookExport.svg'}" />
+            <Setter Property="LargeGlyph" Value="{demo:DXImage 'SvgImages/Scheduling/OutlookExport.svg'}" />
+        </Style>
+        <Style x:Key="BarButtonItem.Export.iCalendar" TargetType="dxb:BarButtonItem" x:Shared="False" BasedOn="{StaticResource BarItem.Style}">
+            <Setter Property="Content" Value="iCalendar" />
+            <Setter Property="Command" Value="{Binding iCalendarExportCommand}" />
+            <Setter Property="CommandParameter" Value="{DXBinding '@s.Tag'}" />
+            <Setter Property="Glyph" Value="{demo:DXImage 'SvgImages/Scheduling/iCalendarExport.svg'}" />
+            <Setter Property="LargeGlyph" Value="{demo:DXImage 'SvgImages/Scheduling/iCalendarExport.svg'}" />
+        </Style>
+        <Style x:Key="BarSubItem.Export" TargetType="dxb:BarSubItem" x:Shared="False" BasedOn="{StaticResource BarItem.Style}">
+            <Setter Property="Content" Value="Export" />
+            <Setter Property="Glyph" Value="{demo:DXImage 'SvgImages/Export/Export.svg'}" />
+            <Setter Property="LargeGlyph" Value="{demo:DXImage 'SvgImages/Export/Export.svg'}" />
+            <Setter Property="ItemLinksSource">
+                <Setter.Value>
+                    <col:ArrayList>
+                        <dxb:BarButtonItem Style="{StaticResource BarButtonItem.Export.Outlook}" />
+                        <dxb:BarCheckItem Style="{StaticResource BarButtonItem.Export.iCalendar}" />
+                    </col:ArrayList>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <dxr:RibbonControl x:Name="ribbon" RibbonStyle="Office2019">
+        <dxr:RibbonDefaultPageCategory Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Categories_Default}}">
+            <dxr:RibbonPage x:Name="pageHome" Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Pages_Home}}">
+                <dxr:RibbonPageGroup Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Groups_Home_Appointment}}">
+                    <dxb:BarButtonItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_Appointment_NewAppointment}}" />
+                    <dxb:BarButtonItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_Appointment_NewRecurringAppointment}}" />
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Groups_Home_Arrange}}">
+                    <dxb:BarLinkContainerItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_Arrange_Views}}" />
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup
+                    Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Groups_Home_GroupBy}}"
+                    Tag="{Binding Path=(dxsch:SchedulerControl.Scheduler), RelativeSource={RelativeSource Mode=Self}}"
+                    IsVisible="{DXBinding '@s.Tag.ActiveViewType != $dxsch:ViewType.AgendaView and @s.Tag.ActiveViewType != $dxsch:ViewType.ListView'}">
+                    <dxb:BarCheckItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_GroupBy_GroupByNone}}" />
+                    <dxb:BarCheckItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_GroupBy_GroupByDate}}" />
+                    <dxb:BarCheckItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_GroupBy_GroupByResource}}" />
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup
+                    Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Groups_Home_Layout}}"
+                    Tag="{Binding Path=(dxsch:SchedulerControl.Scheduler), RelativeSource={RelativeSource Mode=Self}}"
+                    IsVisible="{DXBinding '@s.Tag.ActiveViewType != $dxsch:ViewType.AgendaView and @s.Tag.ActiveViewType != $dxsch:ViewType.ListView'}">
+                    <dxb:BarSubItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_TimeScale_SwitchTimeScale}}" IsVisible="{DXBinding '@s.Tag.ActiveViewType != $dxsch:ViewType.MonthView and @s.Tag.ActiveViewType != $dxsch:ViewType.TimelineView'}" />
+                    <dxb:BarCheckItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_Layout_ShowWorkTimeOnly}}" IsVisible="{DXBinding '@s.Tag.ActiveViewType != $dxsch:ViewType.MonthView and @s.Tag.ActiveViewType != $dxsch:ViewType.TimelineView'}" />
+                    <dxb:BarCheckItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_Layout_ShowWorkDaysOnly}}" />
+                    <dxb:BarSubItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_Layout_SwitchSnapToCells}}" IsVisible="{DXBinding '@s.Tag.ActiveViewType != $dxsch:ViewType.MonthView'}" />
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup x:Name="pageGroupShare" Caption="Share">
+                    <dxb:BarSubItem x:Name="print" Style="{StaticResource BarSubItem.Print}" />
+                    <dxb:BarSubItem Style="{StaticResource BarSubItem.Import}" />
+                    <dxb:BarSubItem Style="{StaticResource BarSubItem.Export}" />
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup
+                    Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Groups_Home_Window}}"
+                    Tag="{Binding Path=(dxsch:SchedulerControl.Scheduler), RelativeSource={RelativeSource Mode=Self}}"
+                    IsVisible="{DXBinding '@s.Tag.TriggeredReminders.Count > 0'}">
+                    <dxb:BarButtonItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Home_Window_ShowRemindersWindow}}" />
+                </dxr:RibbonPageGroup>
+            </dxr:RibbonPage>
+        </dxr:RibbonDefaultPageCategory>
+        <dxr:RibbonPageCategory Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Categories_Appointment}}">
+            <dxr:RibbonPage Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Pages_Appointment}}">
+                <dxr:RibbonPageGroup Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Groups_Appointment_Actions}}">
+                    <dxb:BarButtonItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Appointment_Actions_Open}}" />
+                    <dxb:BarButtonItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Appointment_Actions_Delete}}" />
+                </dxr:RibbonPageGroup>
+                <dxr:RibbonPageGroup Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Groups_Appointment_Options}}">
+                    <dxb:BarSubItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Appointment_Options_ShowTimeAs}}" />
+                    <dxb:BarSubItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Appointment_Options_LabelAs}}" />
+                    <dxb:BarSubItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Appointment_Options_Reminder}}" />
+                    <dxb:BarCheckItem Style="{DynamicResource {dxscht:LWKey SchedulerCommandBar.Items_Appointment_Options_Recurrence}}" />
+                </dxr:RibbonPageGroup>
+            </dxr:RibbonPage>
+        </dxr:RibbonPageCategory>
+    </dxr:RibbonControl>
+
+</UserControl>

@@ -1,0 +1,172 @@
+<local:TabItemModule
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.StackedStepAreaTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts">
+
+    <!--#region Resources-->
+    <local:TabItemModule.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+            <dxmvvm:BooleanNegationConverter x:Key="InvertedBoolConverter" />
+            <sys:String x:Key="crosshairLabelPattern" xml:space="preserve">{S}
+{V:0.00}</sys:String>
+        </ResourceDictionary>
+    </local:TabItemModule.Resources>
+    <!--#endregion-->
+
+    <!--#region Options-->
+    <local:TabItemModule.Options>
+        <StackPanel Style="{StaticResource optionsRootStackPanelStyle}">
+            <dxe:CheckEdit
+                Name="cheInvertedStep"
+                Content="Inverted Step"
+                IsChecked="False" />
+            <dxe:CheckEdit
+                Name="cheShowLabels"
+                Content="Show Labels"
+                IsChecked="True"
+                Margin="0,4,0,0" />
+            <GroupBox
+                Header="Angle"
+                Margin="0,5,0,0"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[1].IsChecked}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="0"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="180"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="360"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeAngle"
+                        Value="45"
+                        Minimum="0"
+                        Maximum="360"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Transparency" Margin="0,5,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="0"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="0.5"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="1"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeTransparency"
+                        Value="0.3"
+                        Minimum="0"
+                        Maximum="1"
+                        SmallStep="0.01"
+                        LargeStep="0.1"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </local:TabItemModule.Options>
+    <!--#endregion-->
+
+    <DockPanel Loaded="{DXEvent '@e(chart).Animate()'}">
+        <dxc:ChartControl
+            Name="chart"
+            ToolTipEnabled="False"
+            CrosshairEnabled="{Binding ElementName=cheShowLabels, Path=IsChecked, Converter={StaticResource InvertedBoolConverter}}"
+            AnimationMode="OnLoad">
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D SeriesItemsSource="{DXBinding '$local:CommentsData.Load()'}" InvertedStep="{Binding ElementName=cheInvertedStep, Path=IsChecked}">
+                    <!--#region Axes-->
+                    <dxc:XYDiagram2D.AxisX>
+                        <dxc:AxisX2D>
+                            <dxc:AxisX2D.WholeRange>
+                                <dxc:Range AutoSideMargins="True" />
+                            </dxc:AxisX2D.WholeRange>
+                            <dxc:AxisX2D.DateTimeScaleOptions>
+                                <dxc:ManualDateTimeScaleOptions MeasureUnit="Month" />
+                            </dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:AxisX2D.Label>
+                                <dxc:AxisLabel TextPattern="{}{A:MMMM}" />
+                            </dxc:AxisX2D.Label>
+                        </dxc:AxisX2D>
+                    </dxc:XYDiagram2D.AxisX>
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D>
+                            <dxc:AxisY2D.Title>
+                                <dxc:AxisTitle Content="Count" />
+                            </dxc:AxisY2D.Title>
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    <!--#endregion-->
+                    <dxc:XYDiagram2D.SeriesItemTemplate>
+                        <DataTemplate DataType="{x:Type local:CommentsInfo}">
+                            <dxc:AreaStepStackedSeries2D
+                                DisplayName="{Binding Category}"
+                                DataSource="{Binding Items}"
+                                ArgumentDataMember="Date"
+                                ValueDataMember="CommentCount"
+                                Transparency="{Binding Path=Value, Source={x:Reference tbeTransparency}}"
+                                CrosshairLabelPattern="{StaticResource crosshairLabelPattern}"
+                                AnimationAutoStartMode="SetStartState"
+                                LabelsVisibility="{Binding Path=IsChecked, Source={x:Reference cheShowLabels}}">
+                                <dxc:AreaStepStackedSeries2D.SeriesAnimation>
+                                    <dxc:Area2DGrowUpAnimation />
+                                </dxc:AreaStepStackedSeries2D.SeriesAnimation>
+                                <dxc:AreaStepStackedSeries2D.PointAnimation>
+                                    <dxc:AreaStacked2DFadeInAnimation />
+                                </dxc:AreaStepStackedSeries2D.PointAnimation>
+                                <dxc:AreaStepStackedSeries2D.Label>
+                                    <dxc:SeriesLabel ResolveOverlappingMode="Default" dxc:MarkerSeries2D.Angle="{Binding Source={x:Reference tbeAngle}, Path=Value}" />
+                                </dxc:AreaStepStackedSeries2D.Label>
+                            </dxc:AreaStepStackedSeries2D>
+                        </DataTemplate>
+                    </dxc:XYDiagram2D.SeriesItemTemplate>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+            <!--#region Legend-->
+            <dxc:ChartControl.Legend>
+                <dxc:Legend HorizontalPosition="Right" ReverseItems="True" />
+            </dxc:ChartControl.Legend>
+            <!--#endregion-->
+            <!--#region Titles-->
+            <dxc:ChartControl.Titles>
+                <dxc:Title Dock="Top" HorizontalAlignment="Center">Statistics comments in the past month</dxc:Title>
+            </dxc:ChartControl.Titles>
+            <!--#endregion-->
+        </dxc:ChartControl>
+
+    </DockPanel>
+</local:TabItemModule>

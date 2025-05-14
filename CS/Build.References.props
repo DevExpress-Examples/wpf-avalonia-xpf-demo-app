@@ -1,0 +1,57 @@
+<Project>
+
+    <PropertyGroup>
+        <DXVer>25.1.1-alpha</DXVer>
+        <DXSkiaVer>3.116.1</DXSkiaVer>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="SkiaSharp" Version="$(DXSkiaVer)" />
+        <PackageReference Include="SkiaSharp.HarfBuzz" Version="$(DXSkiaVer)" />
+        <!--https://github.com/AvaloniaUI/Avalonia/issues/15503-->
+        <PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="$(DXSkiaVer)" />
+        <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="$(DXSkiaVer)" />
+        <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="$(DXSkiaVer)" />
+      
+        <PackageReference Include="System.Windows.Extensions" Version="9.0.2" />
+        <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.2" />
+        <PackageReference Include="System.IO.Packaging" Version="9.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="DevExpress.Data.Desktop" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Data" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Images" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Drawing" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Drawing.Skia" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Mvvm" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Win.SchedulerReporting" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Accordion" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Controls" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Diagram" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.PdfViewer" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.PivotGrid" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.PropertyGrid" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Reporting" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Ribbon" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Scheduling" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Core" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Gantt" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Grid.Core" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Grid" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Charts" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Printing" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Docking" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.LayoutControl" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.RichEdit" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.Spreadsheet" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.TypedStyles" Version="$(DXVer)" />
+        <PackageReference Include="DevExpress.Wpf.ThemesLW" Version="$(DXVer)" />
+    </ItemGroup>
+
+</Project>

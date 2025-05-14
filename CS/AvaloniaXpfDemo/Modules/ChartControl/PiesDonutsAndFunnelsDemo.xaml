@@ -1,0 +1,45 @@
+﻿<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.PiesDonutsAndFunnelsDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    x:Name="demoModule"
+    ShowBorder="False"
+    DataContext="{dxmvvm:ViewModelSource Type=local:TabbedModuleViewModel}">
+
+    <shell:DemoModuleView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:OptionsConverter x:Key="optionsConverter" />
+        </ResourceDictionary>
+    </shell:DemoModuleView.Resources>
+
+    <DockPanel>
+        <ScrollViewer
+            Name="PART_Options"
+            Style="{StaticResource optionsScrollViewerStyle}"
+            Content="{Binding SelectedTab, Converter={StaticResource optionsConverter}}" />
+
+        <dx:DXTabControl SelectedContainer="{Binding SelectedTab, Mode=TwoWay}" Style="{StaticResource moduleTabControlStyle}">
+            <dx:DXTabControl.View>
+                <dx:TabControlScrollView ShowHeaderMenu="True" />
+            </dx:DXTabControl.View>
+            <dx:DXTabItem Header="Pie" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_Pie.svg', Size='16,16'}">
+                <local:PieTab x:Name="pieTab" IsModuleLoaded="{Binding ElementName=demoModule, Path=IsModuleCompletelyLoaded}" />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Nested Donut" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_NestedDoughnut.svg', Size='16,16'}">
+                <local:NestedDonutTab />
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Funnel" Glyph="{demo:DXImage 'SvgImages/Chart/ChartType_Funnel.svg', Size='16,16'}">
+                <local:FunnelTab />
+            </dx:DXTabItem>
+        </dx:DXTabControl>
+    </DockPanel>
+</shell:DemoModuleView>

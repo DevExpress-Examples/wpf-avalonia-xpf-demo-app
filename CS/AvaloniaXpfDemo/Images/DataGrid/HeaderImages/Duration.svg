@@ -1,0 +1,13 @@
+<svg id="Duration"
+	 xmlns="http://www.w3.org/2000/svg"
+	 xmlns:xlink="http://www.w3.org/1999/xlink"
+	 xml:space="preserve"
+	 version="1.1"
+	 viewBox="0 0 16 16">
+	<style type="text/css">
+		.Black{fill:#727272;}
+	</style>	
+	<path class="Black" d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM8,14a6,6,0,1,1,6-6A6,6,0,0,1,8,14Z"/>
+	<polygon class="Black" points="7 3 7 7 3 7 3 9 7 9 9 9 9 7 9 3 7 3"/>
+	<path class="Black" d="M8,3V8H3A5,5,0,1,0,8,3Z" opacity="0.62" />	
+</svg>

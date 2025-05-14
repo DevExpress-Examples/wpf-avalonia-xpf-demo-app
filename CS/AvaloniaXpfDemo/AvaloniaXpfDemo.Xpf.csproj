@@ -1,0 +1,19 @@
+﻿<Project>
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+        <BaseIntermediateOutputPath>../obj/Xpf</BaseIntermediateOutputPath>
+        <IntermediateOutputPath>../obj/Xpf</IntermediateOutputPath>
+        <BaseOutputPath>../bin/Xpf</BaseOutputPath>
+        <OutputPath>../bin/Xpf</OutputPath>
+        <DefineConstants>$(DefineConstants);XPF</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <RuntimeHostConfigurationOption Include="AvaloniaUI.Xpf.LicenseKey" Value="<YOUR_LICENSE_KEY>" />
+    </ItemGroup>
+
+    <Import Sdk="Xpf.Sdk" Project="Sdk.props" />
+    <Import Project="../Build.props" />
+    <Import Project="../Build.References.props" />
+    <Import Sdk="Xpf.Sdk" Project="Sdk.targets" />
+</Project>

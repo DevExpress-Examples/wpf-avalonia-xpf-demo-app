@@ -1,0 +1,273 @@
+<local:TabItemModule
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.PieTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
+    xmlns:dxct="http://schemas.devexpress.com/winfx/2008/xaml/charts/themekeys"
+    x:Name="tabItemModule">
+
+    <!--#region Resources-->
+    <local:TabItemModule.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/CustomPieModel.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+            <dxmvvm:BooleanNegationConverter x:Key="InvertedBoolConverter" />
+            <DoubleAnimation x:Key="ExplodeAnimation" To="0.3" Duration="0:0:0.3" />
+            <DoubleAnimation x:Key="CollapseAnimation" To="0.0" Duration="0:0:0.3" />
+            <local:ShowTotalInToTitleVisibleConverter x:Key="showTotalInToTitleVisibleConverter" />
+            <local:ShowTotalInToPieTotalLabelVisibilityConverter x:Key="showTotalInToPieTotalLabelVisibilityConverter" />
+        </ResourceDictionary>
+    </local:TabItemModule.Resources>
+    <!--#endregion-->
+
+    <!--#region Options-->
+    <local:TabItemModule.Options>
+        <StackPanel Style="{StaticResource optionsRootStackPanelStyle}">
+            <dxe:CheckEdit
+                Name="cheShowLabels"
+                Content="Show Labels"
+                IsChecked="True" />
+            <GroupBox
+                Header="Position"
+                Margin="0,5,0,0"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[0].IsChecked}">
+                <dxe:ListBoxEdit Name="lbPosition" SelectedIndex="0">
+                    <dxc:PieLabelPosition>Outside</dxc:PieLabelPosition>
+                    <dxc:PieLabelPosition>Inside</dxc:PieLabelPosition>
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+            <GroupBox Header="Hole Radius Percent" Margin="0,5,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="0"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="50"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="100"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeHoleRadiusPercent"
+                        Value="60"
+                        Minimum="0"
+                        Maximum="100"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Sweep Direction" Margin="0,5,0,0">
+                <dxe:ListBoxEdit Name="lbeSreepDirection" SelectedIndex="0">
+                    <dxc:PieSweepDirection>Counterclockwise</dxc:PieSweepDirection>
+                    <dxc:PieSweepDirection>Clockwise</dxc:PieSweepDirection>
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+            <GroupBox Header="Rotation" Margin="0,5,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="-360"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="0"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="360"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeRotation"
+                        Minimum="-360"
+                        Maximum="360"
+                        Value="0"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Model" Margin="0,5,0,0">
+                <dxe:ListBoxEdit
+                    Name="lbeModel"
+                    DisplayMember="ModelName"
+                    SelectedItem="{x:Reference borderlessFlatPie2DModel}">
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                    <dxe:ListBoxEdit.Items>
+                        <dxc:CupidPie2DModel />
+                        <dxc:GlarePie2DModel />
+                        <dxc:GlassPie2DModel />
+                        <dxc:GlossyPie2DModel />
+                        <dxc:SimplePie2DModel />
+                        <dxc:FlatPie2DModel />
+                        <dxc:BorderlessFlatPie2DModel x:Name="borderlessFlatPie2DModel" />
+                        <dxc:CustomPie2DModel PointTemplate="{StaticResource customPiePointTemplate}" />
+                    </dxe:ListBoxEdit.Items>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+            <GroupBox Header="Show Total Value in" Margin="0,5,0,0">
+                <dxe:ListBoxEdit Name="lbeShowTotalValueIn" SelectedIndex="0">
+                    <system:String>Label</system:String>
+                    <system:String>Title</system:String>
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+        </StackPanel>
+    </local:TabItemModule.Options>
+    <!--#endregion-->
+
+    <DockPanel Loaded="{DXEvent '@e(tabItemModule).IsModuleLoaded ? @e(chart).Animate() : null'}">
+        <!--#region Animation trigger-->
+        <DockPanel.Triggers>
+            <EventTrigger RoutedEvent="DockPanel.Loaded">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard Completed="Storyboard_Completed">
+                            <DoubleAnimation Storyboard.TargetName="pieTotalLabel" Storyboard.TargetProperty="(dxc:PieTotalLabel.Opacity)" From="0" To="1" Duration="0:0:2">
+                                <DoubleAnimation.EasingFunction>
+                                    <BackEase EasingMode="EaseIn" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </DockPanel.Triggers>
+        <!--#endregion-->
+
+        <dxc:ChartControl
+            Name="chart"
+            QueryChartCursor="chart_QueryChartCursor"
+            AnimationMode="OnLoad"
+            ToolTipEnabled="{Binding ElementName=cheShowLabels, Path=IsChecked, Converter={StaticResource InvertedBoolConverter}}">
+            <dxmvvm:Interaction.Behaviors>
+                <local:PieChartSelectionBehavior ExpandAnimation="{StaticResource ExplodeAnimation}" CollapseAnimation="{StaticResource CollapseAnimation}" />
+                <local:PieChartRotationBehavior />
+            </dxmvvm:Interaction.Behaviors>
+            <dxc:ChartControl.Diagram>
+                <dxc:SimpleDiagram2D>
+                    <dxc:SimpleDiagram2D.Series>
+                        <dxc:PieSeries2D
+                            x:Name="Series"
+                            ArgumentScaleType="Qualitative"
+                            AnimationAutoStartMode="SetStartState"
+                            HoleRadiusPercent="{Binding ElementName=tbeHoleRadiusPercent, Path=Value}"
+                            SweepDirection="{Binding ElementName=lbeSreepDirection, Path=SelectedItem}"
+                            Model="{Binding ElementName=lbeModel, Path=SelectedItem}"
+                            ToolTipPointPattern="{}{A}: {V:0.0}M km²"
+                            Rotation="{Binding ElementName=tbeRotation, Path=Value, Mode=TwoWay}">
+                            <dxc:PieSeries2D.PointAnimation>
+                                <dxc:Pie2DFlyInAnimation Duration="0:0:1.5" PointOrder="Random" />
+                            </dxc:PieSeries2D.PointAnimation>
+                            <dxc:PieSeries2D.Label>
+                                <dxc:SeriesLabel
+                                    Visible="{Binding ElementName=cheShowLabels, Path=IsChecked}"
+                                    dxc:PieSeries.LabelPosition="{Binding ElementName=lbPosition, Path=SelectedItem}"
+                                    RenderMode="RectangleConnectedToCenter"
+                                    TextPattern="{}{A}, {VP:P0}" />
+                            </dxc:PieSeries2D.Label>
+                            <dxc:PieSeries2D.TotalLabel>
+                                <dxc:PieTotalLabel
+                                    x:Name="pieTotalLabel"
+                                    TextPattern="{}{TV:0.00}M"
+                                    Opacity="0"
+                                    Visibility="{Binding ElementName=lbeShowTotalValueIn, Path=SelectedItem, Converter={StaticResource showTotalInToPieTotalLabelVisibilityConverter}}">
+                                    <dxc:PieTotalLabel.ContentTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Ellipse Fill="{dxi:ThemeResource {dxct:ChartBrushesThemeKey ResourceKey=ChartBackgroundBrush}}" />
+                                                <Viewbox
+                                                    Width="{Binding Path=DonutHoleDiameter, ElementName=pieTotalLabel}"
+                                                    Height="{Binding Path=DonutHoleDiameter, ElementName=pieTotalLabel}"
+                                                    MinHeight="100"
+                                                    MinWidth="100">
+                                                    <Border Padding="25">
+                                                        <StackPanel>
+                                                            <TextBlock HorizontalAlignment="Left" Text="TOTAL" />
+                                                            <TextBlock
+                                                                HorizontalAlignment="Center"
+                                                                Text="{Binding}"
+                                                                FontSize="50"
+                                                                FontWeight="Bold" />
+                                                            <TextBlock HorizontalAlignment="Right" Text="km²" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Viewbox>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </dxc:PieTotalLabel.ContentTemplate>
+                                </dxc:PieTotalLabel>
+                            </dxc:PieSeries2D.TotalLabel>
+                            <dxc:PieSeries2D.Titles>
+                                <dxc:Title
+                                    dxc:PieSeries.SeriesTitleTextPattern="Total: {TV:0.00}km²"
+                                    HorizontalAlignment="Center"
+                                    Visible="{Binding ElementName=lbeShowTotalValueIn, Path=SelectedItem, Converter={StaticResource showTotalInToTitleVisibleConverter}}" />
+                            </dxc:PieSeries2D.Titles>
+                            <dxc:PieSeries2D.Points>
+                                <dxc:SeriesPoint Argument="USA" Value="9.63142" />
+                                <dxc:SeriesPoint Argument="Canada" Value="9.98467" />
+                                <dxc:SeriesPoint Argument="Russia" Value="17.0752" />
+                                <dxc:SeriesPoint Argument="Others" Value="81.2" />
+                                <dxc:SeriesPoint Argument="India" Value="3.28759" />
+                                <dxc:SeriesPoint Argument="Australia" Value="7.68685" />
+                                <dxc:SeriesPoint Argument="Brazil" Value="8.511965" />
+                                <dxc:SeriesPoint Argument="China" Value="9.59696" />
+                            </dxc:PieSeries2D.Points>
+                        </dxc:PieSeries2D>
+                    </dxc:SimpleDiagram2D.Series>
+                </dxc:SimpleDiagram2D>
+            </dxc:ChartControl.Diagram>
+            <!--#region Titles-->
+            <dxc:ChartControl.Titles>
+                <dxc:Title
+                    Dock="Top"
+                    HorizontalAlignment="Center"
+                    FontSize="24">
+                    Land Area by Country
+                </dxc:Title>
+                <dxc:Title
+                    Dock="Bottom"
+                    HorizontalAlignment="Right"
+                    FontSize="12"
+                    Foreground="Silver"
+                    Margin="0,10,0,0">
+                    From www.nationmaster.com
+                </dxc:Title>
+            </dxc:ChartControl.Titles>
+            <!--#endregion-->
+        </dxc:ChartControl>
+
+    </DockPanel>
+</local:TabItemModule>

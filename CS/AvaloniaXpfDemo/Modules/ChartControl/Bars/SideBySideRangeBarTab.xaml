@@ -1,0 +1,127 @@
+<local:TabItemModule
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.SideBySideRangeBarTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts">
+    
+    <!--#region Resources-->
+    <local:TabItemModule.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+            <sys:String x:Key="toolTipPointPattern" xml:space="preserve">Month: {A:MMMM}
+Min Price: ${V1:0.00}
+Max Price: ${V2:0.00}</sys:String>
+        </ResourceDictionary>
+    </local:TabItemModule.Resources>
+    <!--#endregion-->
+
+    <!--#region Options-->
+    <local:TabItemModule.Options>
+        <StackPanel Style="{StaticResource optionsRootStackPanelStyle}">
+            <dxe:CheckEdit Name="cheShowLabels" Content="Show Labels" />
+            <GroupBox Header="Model" Margin="0,5,0,0">
+                <dxe:ListBoxEdit
+                    Name="lbeModel"
+                    DisplayMember="ModelName"
+                    SelectedItem="{x:Reference borderlessSimpleRangeBar2DModel}">
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                    <dxe:ListBoxEdit.Items>
+                        <dxc:FlatRangeBar2DModel />
+                        <dxc:FlatGlassRangeBar2DModel />
+                        <dxc:OutsetRangeBar2DModel />
+                        <dxc:TransparentRangeBar2DModel />
+                        <dxc:GradientRangeBar2DModel />
+                        <dxc:BorderlessGradientRangeBar2DModel />
+                        <dxc:SimpleRangeBar2DModel />
+                        <dxc:BorderlessSimpleRangeBar2DModel x:Name="borderlessSimpleRangeBar2DModel" />
+                    </dxe:ListBoxEdit.Items>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+        </StackPanel>
+    </local:TabItemModule.Options>
+    <!--#endregion-->
+
+    <DockPanel Loaded="{DXEvent '@e(chart).Animate()'}">
+        <dxc:ChartControl
+            Name="chart"
+            AnimationMode="OnLoad"
+            ToolTipEnabled="True"
+            CrosshairEnabled="False">
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D SeriesItemsSource="{DXBinding '$local:OilPrices.Load()'}">
+                    <!--#region Axes-->
+                    <dxc:XYDiagram2D.AxisX>
+                        <dxc:AxisX2D GridLinesVisible="True">
+                            <dxc:AxisX2D.DateTimeScaleOptions>
+                                <dxc:ManualDateTimeScaleOptions MeasureUnit="Month" />
+                            </dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:AxisX2D.Label>
+                                <dxc:AxisLabel TextPattern="{}{A:MMMM}" />
+                            </dxc:AxisX2D.Label>
+                        </dxc:AxisX2D>
+                    </dxc:XYDiagram2D.AxisX>
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D>
+                            <dxc:AxisY2D.WholeRange>
+                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False" />
+                            </dxc:AxisY2D.WholeRange>
+                            <dxc:AxisY2D.Title>
+                                <dxc:AxisTitle Content="$ per barrel" />
+                            </dxc:AxisY2D.Title>
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    <!--#endregion-->
+                    <dxc:XYDiagram2D.SeriesItemTemplate>
+                        <DataTemplate DataType="{x:Type local:OilPricesByCompany}">
+                            <dxc:RangeBarSideBySideSeries2D
+                                DisplayName="{Binding CompanyName}"
+                                ArgumentScaleType="DateTime"
+                                Model="{Binding Path=SelectedItem, Source={x:Reference Name=lbeModel}}"
+                                ToolTipPointPattern="{StaticResource toolTipPointPattern}"
+                                DataSource="{Binding Prices}"
+                                ArgumentDataMember="Timestamp"
+                                ValueDataMember="MinValue"
+                                Value2DataMember="MaxValue"
+                                AnimationAutoStartMode="SetStartState"
+                                LabelsVisibility="{Binding Path=IsChecked, Source={x:Reference Name=cheShowLabels}}">
+                                <dxc:RangeBarSideBySideSeries2D.Label>
+                                    <dxc:SeriesLabel ResolveOverlappingMode="Default" TextPattern="{}{V:F2}" />
+                                </dxc:RangeBarSideBySideSeries2D.Label>
+                            </dxc:RangeBarSideBySideSeries2D>
+                        </DataTemplate>
+                    </dxc:XYDiagram2D.SeriesItemTemplate>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+            <!--#region Legend-->
+            <dxc:ChartControl.Legend>
+                <dxc:Legend
+                    HorizontalPosition="Right"
+                    VerticalPosition="Top"
+                    Orientation="Horizontal" />
+            </dxc:ChartControl.Legend>
+            <!--#endregion-->
+            <!--#region Titles-->
+            <dxc:ChartControl.Titles>
+                <dxc:Title Dock="Top" HorizontalAlignment="Center">Crude Oil Prices in 2015</dxc:Title>
+                <dxc:Title
+                    Dock="Bottom"
+                    HorizontalAlignment="Right"
+                    FontSize="12"
+                    Foreground="Silver"
+                    Margin="0,10,0,0">
+                    From www.eia.gov
+                </dxc:Title>
+            </dxc:ChartControl.Titles>
+            <!--#endregion-->
+        </dxc:ChartControl>
+
+    </DockPanel>
+</local:TabItemModule>

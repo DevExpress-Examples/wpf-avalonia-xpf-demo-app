@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+<style>
+.Red {fill: #D11C1C;}
+.Yellow {fill: #FFB115;}
+.Green {fill: #039C23;}
+.Blue {fill: #1177D7; }
+.Black {fill: #727272;}
+.White {fill: #FFFFFF;}
+</style>
+<title>Navigation_20x20</title>
+<path d="M10,1a9,9,0,1,0,9,9A9,9,0,0,0,10,1Zm0,17a8,8,0,1,1,8-8A8,8,0,0,1,10,18Z" class="Black"/>
+<path d="M15,5,10.27,7,10,7a3,3,0,0,0-3,3,2.48,2.48,0,0,0,0,.27L5,15l4.73-2L10,13a3,3,0,0,0,3-3,2.48,2.48,0,0,0,0-.27Zm-5,7a2,2,0,1,1,2-2A2,2,0,0,1,10,12Z" style="fill:Red"/>
+</svg>

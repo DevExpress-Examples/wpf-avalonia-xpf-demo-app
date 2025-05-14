@@ -1,0 +1,40 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.RibbonControlModules"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core">
+
+    <local:EnumValueToImageSourceConverter
+        x:Key="inlineImageBorderTypeValueToImageSourceConverter"
+        Folder="Shapes"
+        Prefix="Shape"
+        EnumType="{x:Type local:InlineImageBorderType}" />
+    <local:EnumValueToImageSourceConverter
+        x:Key="bulletsEnumValueToImageSourceConverter"
+        Folder="Icons"
+        Prefix="Bullets-"
+        Suffix="-76x76"
+        EnumType="{x:Type TextMarkerStyle}" />
+    <local:EnumValueToDisplayValueConverter x:Key="enumValueToDisplayConverter" />
+    <DataTemplate x:Key="ImageBorderTypeItemTemplate">
+        <ContentControl>
+            <dxb:GalleryItem
+                Name="item"
+                Glyph="{Binding Converter={StaticResource inlineImageBorderTypeValueToImageSourceConverter}}"
+                Description="{Binding Converter={StaticResource enumValueToDisplayConverter}}"
+                Hint="{Binding Converter={StaticResource enumValueToDisplayConverter}}">
+                <dxb:GalleryItem.SuperTip>
+                    <dx:SuperTip>
+                        <dx:SuperTipHeaderItem Content="{Binding}" />
+                    </dx:SuperTip>
+                </dxb:GalleryItem.SuperTip>
+            </dxb:GalleryItem>
+        </ContentControl>
+    </DataTemplate>
+    <DataTemplate x:Key="textMarkerStyleItemTemplate">
+        <ContentControl>
+            <dxb:GalleryItem Glyph="{Binding Converter={StaticResource bulletsEnumValueToImageSourceConverter}}" Caption="{Binding}" />
+        </ContentControl>
+    </DataTemplate>
+</ResourceDictionary>

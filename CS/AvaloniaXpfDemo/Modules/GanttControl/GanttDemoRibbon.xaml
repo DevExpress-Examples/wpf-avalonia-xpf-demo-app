@@ -1,0 +1,59 @@
+﻿<Grid
+    x:Class="DevExpress.AvaloniaXpfDemo.GanttControlModules.GanttDemoRibbon"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
+
+    <dxr:RibbonControl>
+        <dxr:RibbonPage Caption="Demo">
+            <dxr:RibbonPageGroup x:Name="printAndExportGroup" Caption="Print and Export" IsVisible="{Binding ExportGantt, Converter={dxmvvm:ObjectToBooleanConverter}}">
+                <dxb:BarButtonItem
+                    x:Name="printPreview"
+                    Content="Print Preview"
+                    Glyph="{dx:DXImage 'SvgImages/Print/Preview.svg'}"
+                    Command="{DXBinding '@c.ExportGantt.View.Commands.ShowRibbonPrintPreview'}" />
+                <dxb:BarSubItem
+                    x:Name="dataAwareExport"
+                    Content="Data Aware Export"
+                    Glyph="{dx:DXImage 'SvgImages/Export/ExportToXLSX.svg'}"
+                    Hint="An advanced data export engine that supports a lot of MS Excel data analysis capabilites.">
+                    <dxb:BarButtonItem
+                        x:Name="dataAwareExportToXlsx"
+                        Content="Export to XLSX"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToXLSX.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleExportHelper.ExportToXlsx(@c.ExportGantt.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="dataAwareExportToXls"
+                        Content="Export to XLS"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToXLS.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleExportHelper.ExportToXls(@c.ExportGantt.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="dataAwareExportToCsv"
+                        Content="Export to CSV"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToCSV.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleExportHelper.ExportToCsv(@c.ExportGantt.View)'}" />
+                </dxb:BarSubItem>
+                <dxb:BarSubItem
+                    x:Name="WYSIWYGExport"
+                    Content="WYSIWYG Export"
+                    Glyph="{dx:DXImage 'SvgImages/Export/ExportToPDF.svg'}"
+                    Hint="Allows you to export data in various formats and provides numerous customization options.">
+                    <dxb:BarButtonItem
+                        x:Name="exportToPDF"
+                        Content="Export to PDF"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToPDF.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToPdf(@c.ExportGantt.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="exportToImage"
+                        Content="Export to Image"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToIMG.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToImage(@c.ExportGantt.View)'}" />
+                </dxb:BarSubItem>
+            </dxr:RibbonPageGroup>
+        </dxr:RibbonPage>
+    </dxr:RibbonControl>
+</Grid>

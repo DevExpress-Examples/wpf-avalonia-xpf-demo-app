@@ -1,0 +1,74 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid">
+
+    <Style TargetType="Hyperlink">
+        <Setter Property="Foreground" Value="#094092" />
+        <Setter Property="ToolTip" Value="{Binding Path=NavigateUri, RelativeSource={RelativeSource Self}}" />
+    </Style>
+
+    <Style TargetType="dxe:ComboBoxEdit">
+        <Setter Property="IsTextEditable" Value="False" />
+    </Style>
+
+    <Style TargetType="dxe:ListBoxEdit">
+        <Setter Property="ShowBorder" Value="False" />
+        <Setter Property="Background" Value="{x:Null}" />
+    </Style>
+
+    <Style x:Key="baseChartStyle" TargetType="dxc:ChartControl">
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style TargetType="dxc:ChartControl" BasedOn="{StaticResource baseChartStyle}" />
+
+    <Style TargetType="dxc:Chart3DControl">
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style TargetType="dxg:GridControl">
+        <Setter Property="ShowBorder" Value="False" />
+    </Style>
+
+    <Style TargetType="dxg:TableView">
+        <Setter Property="AllowEditing" Value="False" />
+        <Setter Property="HeaderHorizontalAlignment" Value="Center" />
+        <Setter Property="AutoWidth" Value="True" />
+    </Style>
+
+    <Style x:Key="optionsScrollViewerStyle" TargetType="ScrollViewer">
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="DockPanel.Dock" Value="Right" />
+        <Setter Property="dx:ScrollBarExtensions.ScrollBarMode" Value="TouchOverlap" />
+        <Setter Property="Focusable" Value="False" />
+    </Style>
+
+    <Style x:Key="optionsRootStackPanelStyle" TargetType="StackPanel">
+        <Setter Property="Margin" Value="12,8,12,12" />
+        <Setter Property="MinWidth" Value="210" />
+    </Style>
+
+    <Style x:Key="dataSourceTitle" TargetType="dxc:Title">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Dock" Value="Bottom" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="Margin" Value="0,10,0,0" />
+    </Style>
+
+    <Style x:Key="moduleTabControlStyle" TargetType="dx:DXTabControl">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="AllowMerging" Value="True" />
+        <Setter Property="Margin" Value="-1,0,-1,-1"/>
+        <Setter Property="Margin" Value="{LWThemeValue '-1,0,-1,-1', Win11='0,0,6,0'}"/>
+    </Style>
+
+    <Thickness x:Key="optionsGroupTopMargin" Top="7" />
+
+    <Thickness x:Key="textUnderControlMargin" Top="1" />
+</ResourceDictionary>

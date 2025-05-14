@@ -1,0 +1,165 @@
+<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.SchedulerControlModules.EmployeeWorkScheduleDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxsch="http://schemas.devexpress.com/winfx/2008/xaml/scheduling"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.SchedulerControlModules"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:DevExpress.AvaloniaXpfDemo.SchedulerControlModules"
+    DataContext="{dxmvvm:ViewModelSource vm:EmployeeWorkScheduleDemoViewModel}">
+
+    <!--#region Resources-->
+    <shell:DemoModuleView.Resources>
+        <sys:String x:Key="dinnerId">dinnerRegion</sys:String>
+        <local:TimeRegionTemplateSelector x:Key="dinnerTemplateSelector" DinnerId="{StaticResource dinnerId}">
+            <local:TimeRegionTemplateSelector.DinnerTemplate>
+                <DataTemplate>
+                    <Image MaxHeight="28" Source="{demo:DemoImage '/Images/SchedulerControl/EmployeeWorkSchedule/Dinner.svg'}" />
+                </DataTemplate>
+            </local:TimeRegionTemplateSelector.DinnerTemplate>
+        </local:TimeRegionTemplateSelector>
+    </shell:DemoModuleView.Resources>
+    <!--#endregion-->
+
+    <DockPanel>
+        <dxlc:LayoutControl
+            Name="PART_Options"
+            Padding="0"
+            dx:ScrollBarExtensions.ScrollBarMode="TouchOverlap"
+            DockPanel.Dock="Right"
+            Orientation="Vertical">
+            <dxe:DateNavigator
+                VerticalAlignment="Top"
+                dxlc:LayoutControl.AllowVerticalSizing="True"
+                IsMultiSelect="True"
+                ShowTodayButton="False"
+                ShowWeekNumbers="False">
+                <dxe:DateNavigator.StyleSettings>
+                    <dxsch:SchedulerDateNavigatorStyleSettings Scheduler="{Binding ElementName=scheduler}" />
+                </dxe:DateNavigator.StyleSettings>
+            </dxe:DateNavigator>
+            <dxsch:ResourceTreeControl Margin="-1,0,-1,-1" Scheduler="{Binding ElementName=scheduler}" />
+        </dxlc:LayoutControl>
+
+        <dxsch:SchedulerControl
+            x:Name="scheduler"
+            dx:ScrollBarExtensions.ScrollBarMode="TouchOverlap"
+            AllowAppointmentConflicts="True"
+            CommandBarStyle="Empty"
+            GroupType="Resource"
+            ShowBorder="False"
+            ShowDateNavigationPanel="True"
+            Start="{Binding Start, Mode=TwoWay}">
+            <dxsch:DayView
+                x:Name="dayView"
+                DayCount="2"
+                ResourcesPerPage="3"
+                ShowResourceNavigator="True"
+                ShowWorkTimeOnly="False"
+                SnapToCellsMode="Never"
+                TimeIndicatorVisibility="TodayView"
+                TimeMarkerVisibility="Always"
+                TimeRegionContentTemplateSelector="{StaticResource dinnerTemplateSelector}"
+                TimeRegionSnapToCellsMode="Never"
+                TimeScale="00:30:00" />
+            <dxsch:WorkWeekView
+                x:Name="workWeekView"
+                ResourcesPerPage="2"
+                SyncSettingsWithDayView="True" />
+            <dxsch:WeekView
+                x:Name="weekView"
+                ResourcesPerPage="2"
+                SyncSettingsWithDayView="True" />
+            <dxsch:MonthView
+                x:Name="monthView"
+                ResourcesPerPage="1"
+                ShowResourceNavigator="True"
+                TimeRegionVisibility="Never"
+                ViewMode="Standard" />
+            <dxsch:TimelineView
+                x:Name="timelineView"
+                AppointmentMinHeight="36"
+                AppointmentMinWidth="40"
+                NavigationButtonsVisibility="Never"
+                ResourceMaxHeight="116"
+                ResourceMinHeight="44"
+                SnapToCellsMode="Never"
+                StretchAppointments="False"
+                TimeRegionVisibility="Never"
+                ViewMode="Standard" />
+            <dxsch:AgendaView x:Name="agendaView" />
+            <dxsch:ListView x:Name="listView" />
+            <dxsch:SchedulerControl.DataSource>
+                <dxsch:DataSource
+                    AppointmentsSource="{Binding Appointments}"
+                    ResourceSharing="True"
+                    ResourcesSource="{Binding Calendars}">
+                    <dxsch:DataSource.AppointmentMappings>
+                        <dxsch:AppointmentMappings
+                            AllDay="AllDay"
+                            Description="Description"
+                            End="End"
+                            Id="Id"
+                            LabelId="Label"
+                            Location="Location"
+                            RecurrenceInfo="RecurrenceInfo"
+                            ResourceId="CalendarIds"
+                            Start="Start"
+                            StatusId="Status"
+                            Subject="Subject"
+                            TimeZoneId="TimeZoneId"
+                            Type="AppointmentType" />
+                    </dxsch:DataSource.AppointmentMappings>
+                    <dxsch:DataSource.ResourceMappings>
+                        <dxsch:ResourceMappings
+                            Caption="Name"
+                            Group="Group"
+                            Id="Id"
+                            Visible="IsVisible" />
+                    </dxsch:DataSource.ResourceMappings>
+                </dxsch:DataSource>
+            </dxsch:SchedulerControl.DataSource>
+            <dxsch:SchedulerControl.TimeRegionItems>
+                <dxsch:TimeRegionItem
+                    BrushName="{x:Static dxsch:DefaultBrushNames.TimeRegion3Hatch}"
+                    End="1/1/2019 14:00:00"
+                    Id="{StaticResource dinnerId}"
+                    RecurrenceInfo="{dxsch:RecurrenceDaily Start='1/1/2019 13:00:00',
+                                                           ByDay=WorkDays}"
+                    Start="1/1/2019 13:00:00"
+                    Type="Pattern" />
+                <dxsch:TimeRegionItem
+                    BrushName="{x:Static dxsch:DefaultBrushNames.TimeRegion8Dotted}"
+                    End="1/2/2019 00:00:00"
+                    RecurrenceInfo="{dxsch:RecurrenceDaily Start='1/1/2019 00:00:00',
+                                                           ByDay=WeekendDays}"
+                    Start="1/1/2019 00:00:00"
+                    Type="Pattern" />
+                <dxsch:TimeRegionItem
+                    BrushName="{x:Static dxsch:DefaultBrushNames.TimeRegion1Dotted}"
+                    End="1/1/2019 19:00:00"
+                    RecurrenceInfo="{dxsch:RecurrenceDaily Start='1/1/2019 18:00:00',
+                                                           ByDay=WorkDays}"
+                    ResourceId="{x:Static local:WorkData.CalendarConferenceRoomId}"
+                    Start="1/1/2019 18:00:00"
+                    Type="Pattern" />
+                <dxsch:TimeRegionItem
+                    BrushName="{x:Static dxsch:DefaultBrushNames.TimeRegion1Dotted}"
+                    End="1/1/2019 19:00:00"
+                    RecurrenceInfo="{dxsch:RecurrenceDaily Start='1/1/2019 18:00:00',
+                                                           ByDay=WorkDays}"
+                    ResourceId="{x:Static local:WorkData.CalendarTrainingRoomId}"
+                    Start="1/1/2019 18:00:00"
+                    Type="Pattern" />
+            </dxsch:SchedulerControl.TimeRegionItems>
+        </dxsch:SchedulerControl>
+    </DockPanel>
+</shell:DemoModuleView>

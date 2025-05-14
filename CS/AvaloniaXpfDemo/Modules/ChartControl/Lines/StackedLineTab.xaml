@@ -1,0 +1,198 @@
+<local:TabItemModule
+    x:Class="DevExpress.AvaloniaXpfDemo.ChartControlModules.StackedLineTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.ChartControlModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
+
+    <!--#region Resources-->
+    <local:TabItemModule.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/Common.xaml'}" />
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/ChartControl/Common/CustomMarkerModel.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:MarkerSizeToLabelIndentConverter x:Key="MarkerSizeToLabelIndentConverter" />
+            <dxmvvm:BooleanNegationConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </local:TabItemModule.Resources>
+    <!--#endregion-->
+
+    <!--#region Options-->
+    <local:TabItemModule.Options>
+        <StackPanel Style="{StaticResource optionsRootStackPanelStyle}">
+            <dxe:CheckEdit
+                Name="cheShowLabels"
+                Content="Show Labels"
+                IsChecked="True" />
+            <GroupBox
+                Header="Angle"
+                Margin="0,5,0,0"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[0].IsChecked}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="0"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="180"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="360"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeAngle"
+                        Value="45"
+                        Minimum="0"
+                        Maximum="360"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+            <dxe:CheckEdit
+                Name="cheShowMarkers"
+                Content="Show Markers"
+                Margin="0,8,0,0"
+                IsChecked="True" />
+            <GroupBox
+                Header="Marker Size"
+                Margin="0,5,0,0"
+                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[2].IsChecked}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="10"
+                            HorizontalAlignment="Left" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Text="25"
+                            HorizontalAlignment="Center" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Text="40"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+                    <dxe:TrackBarEdit
+                        Name="tbeMarkerSize"
+                        Value="20"
+                        Minimum="10"
+                        Maximum="40"
+                        EditValue="20"
+                        TickPlacement="None" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Marker" Margin="0,5,0,0">
+                <dxe:ListBoxEdit
+                    Name="lbeMarker"
+                    DisplayMember="ModelName"
+                    SelectedItem="{x:Reference crossMarkerModel}"
+                    IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}, Path=Children[2].IsChecked}">
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                    <dxe:ListBoxEdit.Items>
+                        <dxc:BorderlessSimpleMarker2DModel />
+                        <dxc:SimpleMarker2DModel />
+                        <dxc:CircleMarker2DModel />
+                        <dxc:CrossMarker2DModel x:Name="crossMarkerModel" />
+                        <dxc:DollarMarker2DModel />
+                        <dxc:PolygonMarker2DModel />
+                        <dxc:RingMarker2DModel />
+                        <dxc:SquareMarker2DModel />
+                        <dxc:StarMarker2DModel />
+                        <dxc:TriangleMarker2DModel />
+                        <dxc:InvertedTriangleMarker2DModel />
+                        <dxc:DiamondMarker2DModel />
+                        <dxc:PlusMarker2DModel />
+                        <dxc:PentagonMarker2DModel />
+                        <dxc:CustomMarker2DModel PointTemplate="{StaticResource customMarkerPointTemplate}" />
+                    </dxe:ListBoxEdit.Items>
+                </dxe:ListBoxEdit>
+            </GroupBox>
+        </StackPanel>
+    </local:TabItemModule.Options>
+    <!--#endregion-->
+
+    <DockPanel>
+        <dxc:ChartControl
+            Name="chart"
+            AnimationMode="OnLoad"
+            CrosshairEnabled="{Binding ElementName=cheShowLabels, Path=IsChecked, Converter={StaticResource InvertedBoolConverter}}"
+            DataSource="{Binding Data}">
+            <dxc:ChartControl.DataContext>
+                <local:DevAVSalesByLast10Years />
+            </dxc:ChartControl.DataContext>
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D SeriesDataMember="Region">
+                    <!--#region AxisY-->
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D>
+                            <dxc:AxisY2D.Title>
+                                <dxc:AxisTitle Content="Millions of Dollars" />
+                            </dxc:AxisY2D.Title>
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    <!--#endregion-->
+                    <dxc:XYDiagram2D.SeriesTemplate>
+                        <dxc:LineStackedSeries2D
+                            MarkerSize="{Binding ElementName=tbeMarkerSize, Path=Value}"
+                            MarkerVisible="{Binding ElementName=cheShowMarkers, Path=IsChecked}"
+                            MarkerModel="{Binding ElementName=lbeMarker, Path=SelectedItem}"
+                            AnimationAutoStartMode="PlayOnce"
+                            ArgumentDataMember="Year"
+                            ValueDataMember="Sales"
+                            CrosshairLabelPattern="{}{S}: ${V}M"
+                            LabelsVisibility="{Binding ElementName=cheShowLabels, Path=IsChecked}">
+                            <dxc:LineStackedSeries2D.SeriesAnimation>
+                                <dxc:Line2DBlowUpAnimation />
+                            </dxc:LineStackedSeries2D.SeriesAnimation>
+                            <dxc:LineStackedSeries2D.PointAnimation>
+                                <dxc:Marker2DFadeInAnimation />
+                            </dxc:LineStackedSeries2D.PointAnimation>
+                            <dxc:LineStackedSeries2D.Label>
+                                <dxc:SeriesLabel
+                                    ConnectorVisible="False"
+                                    ResolveOverlappingMode="Default"
+                                    Indent="{Binding ElementName=tbeMarkerSize, Path=Value, Converter={StaticResource MarkerSizeToLabelIndentConverter}}"
+                                    dxc:MarkerSeries2D.Angle="{Binding ElementName=tbeAngle, Path=Value}" />
+                            </dxc:LineStackedSeries2D.Label>
+                        </dxc:LineStackedSeries2D>
+                    </dxc:XYDiagram2D.SeriesTemplate>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+            <!--#region Legend-->
+            <dxc:ChartControl.Legend>
+                <dxc:Legend HorizontalPosition="Left" ReverseItems="True" />
+            </dxc:ChartControl.Legend>
+            <!--#endregion-->
+            <!--#region Titles-->
+            <dxc:ChartControl.Titles>
+                <dxc:Title Dock="Top" HorizontalAlignment="Center">DevAV Sales</dxc:Title>
+            </dxc:ChartControl.Titles>
+            <!--#endregion-->
+            <!--#region ToolTipController-->
+            <dxc:ChartControl.ToolTipController>
+                <dxc:ChartToolTipController AutoPopDelay="0" />
+            </dxc:ChartControl.ToolTipController>
+            <!--#endregion-->
+        </dxc:ChartControl>
+
+    </DockPanel>
+</local:TabItemModule>

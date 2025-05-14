@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+    <style>
+        .Red {
+            fill: #D11C1C;
+        }
+        .Yellow {
+            fill: #FFB115;
+        }
+        .Green {
+            fill: #039C23;
+        }
+        .Blue {
+            fill: #1177D7;
+        }
+        .Black {
+            fill: #727272;
+        }
+        .White {
+            fill: #FFFFFF;
+        }
+    </style>
+    <title>Artboard</title>
+    <polygon points="2 10 17 1 17 19 2 10" class="Blue"/>
+</svg>

@@ -1,0 +1,97 @@
+﻿<Grid
+    x:Class="DevExpress.AvaloniaXpfDemo.DataGridModules.GridDemoRibbon"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.DataGridModules"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
+
+    <dxr:RibbonControl>
+        <dxr:RibbonPage Caption="Demo">
+            <dxr:RibbonPageGroup
+                x:Name="printAndExportGroup"
+                Caption="Print and Export">
+                <dxb:BarButtonItem
+                    x:Name="printPreview"
+                    Content="Print Preview"
+                    Glyph="{dx:DXImage 'SvgImages/Print/Preview.svg'}"
+                    Command="{Binding ExportGrid.View.Commands.ShowRibbonPrintPreview}" />
+                <dxb:BarSubItem
+                    x:Name="dataAwareExport"
+                    Content="Data Aware Export"
+                    Glyph="{dx:DXImage 'SvgImages/XAF/Action_ModelDifferences_Export.svg'}"
+                    Hint="An advanced data export engine that supports a lot of MS Excel data analysis capabilites.">
+                    <dxb:BarButtonItem
+                        x:Name="dataAwareExportToXlsx"
+                        Content="Export to XLSX"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToXLSX.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleExportHelper.ExportToXlsx(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="dataAwareExportToXls"
+                        Content="Export to XLS"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToXLS.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleExportHelper.ExportToXls(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="dataAwareExportToCsv"
+                        Content="Export to CSV"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToCSV.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleExportHelper.ExportToCsv(@c.ExportGrid.View)'}" />
+                </dxb:BarSubItem>
+                <dxb:BarSubItem
+                    x:Name="WYSIWYGExport"
+                    Content="WYSIWYG Export"
+                    Glyph="{dx:DXImage 'SvgImages/Export/Export.svg'}"
+                    Hint="Allows you to export data in various formats and provides numerous customization options.">
+                    <dxb:BarButtonItem
+                        x:Name="exportToPDF"
+                        Content="Export to PDF"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToPDF.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToPdf(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="exportToHTML"
+                        Content="Export to HTML"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToHTML.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToHtm(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="exportToMHT"
+                        Content="Export to MHT"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToMHT.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToMht(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="exportToRTF"
+                        Content="Export to RTF"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToRTF.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToRtf(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="exportToXLSX"
+                        Content="Export to XLSX"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToXLSX.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToXlsx(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="exportToXLS"
+                        Content="Export to XLS"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToXLS.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToXls(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="exportToText"
+                        Content="Export to Text"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToRTF.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToTxt(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="exportToImage"
+                        Content="Export to Image"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToIMG.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToImage(@c.ExportGrid.View)'}" />
+                    <dxb:BarButtonItem
+                        x:Name="exportToDOCX"
+                        Content="Export to DOCX"
+                        Glyph="{dx:DXImage 'SvgImages/Export/ExportToDOCX.svg'}"
+                        ItemClick="{DXEvent Handler='$demo:DemoModuleWYSIWYGExportHelper.DoExportToDocx(@c.ExportGrid.View)'}" />
+                </dxb:BarSubItem>
+            </dxr:RibbonPageGroup>
+        </dxr:RibbonPage>
+    </dxr:RibbonControl>
+</Grid>

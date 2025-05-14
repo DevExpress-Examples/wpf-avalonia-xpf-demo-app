@@ -1,0 +1,1 @@
+sudo apt install ./../publish/linux/AvaloniaXpfDemo_1.0.0_amd64.deb

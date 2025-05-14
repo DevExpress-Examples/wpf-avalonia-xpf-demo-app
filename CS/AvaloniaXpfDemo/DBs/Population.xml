@@ -1,0 +1,267 @@
+<?xml version="1.0" standalone="yes"?>
+<PopulationAgeStructure>
+  <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="Population">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Age" type="xs:string"/>
+          <xs:element name="Gender" type="xs:string"/>
+          <xs:element name="Country" type="xs:string"/>
+          <xs:element name="Population" type="xs:long"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Male</Gender>
+    <Country>United States</Country>
+    <Population>31374555</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Male</Gender>
+    <Country>United States</Country>
+    <Population>107515774</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Male</Gender>
+    <Country>United States</Country>
+    <Population>25014147</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Female</Gender>
+    <Country>United States</Country>
+    <Population>30034371</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Female</Gender>
+    <Country>United States</Country>
+    <Population>107662836</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Female</Gender>
+    <Country>United States</Country>
+    <Population>31037419</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Male</Gender>
+    <Country>Brazil</Country>
+    <Population>22790634</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Male</Gender>
+    <Country>Brazil</Country>
+    <Population>73127598</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Male</Gender>
+    <Country>Brazil</Country>
+    <Population>8323344</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Female</Gender>
+    <Country>Brazil</Country>
+    <Population>21907018</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Female</Gender>
+    <Country>Brazil</Country>
+    <Population>74391362</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Female</Gender>
+    <Country>Brazil</Country>
+    <Population>11176018</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Male</Gender>
+    <Country>Russia</Country>
+    <Population>12551611</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Male</Gender>
+    <Country>Russia</Country>
+    <Population>45968660</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Male</Gender>
+    <Country>Russia</Country>
+    <Population>7033381</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Female</Gender>
+    <Country>Russia</Country>
+    <Population>11881297</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Female</Gender>
+    <Country>Russia</Country>
+    <Population>49315577</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Female</Gender>
+    <Country>Russia</Country>
+    <Population>14971679</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Male</Gender>
+    <Country>Japan</Country>
+    <Population>8047183</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Male</Gender>
+    <Country>Japan</Country>
+    <Population>36685804</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Male</Gender>
+    <Country>Japan</Country>
+    <Population>16034973</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Female</Gender>
+    <Country>Japan</Country>
+    <Population>7623767</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Female</Gender>
+    <Country>Japan</Country>
+    <Population>36523249</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Female</Gender>
+    <Country>Japan</Country>
+    <Population>20592496</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Male</Gender>
+    <Country>Mexico</Country>
+    <Population>17111199</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Male</Gender>
+    <Country>Mexico</Country>
+    <Population>41552531</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Male</Gender>
+    <Country>Mexico</Country>
+    <Population>4373807</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Female</Gender>
+    <Country>Mexico</Country>
+    <Population>16349767</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Female</Gender>
+    <Country>Mexico</Country>
+    <Population>43770680</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Female</Gender>
+    <Country>Mexico</Country>
+    <Population>5491581</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Male</Gender>
+    <Country>Germany</Country>
+    <Population>5302850</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Male</Gender>
+    <Country>Germany</Country>
+    <Population>25863626</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Male</Gender>
+    <Country>Germany</Country>
+    <Population>8148873</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Female</Gender>
+    <Country>Germany</Country>
+    <Population>5025863</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Female</Gender>
+    <Country>Germany</Country>
+    <Population>25540912</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Female</Gender>
+    <Country>Germany</Country>
+    <Population>10277538</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Male</Gender>
+    <Country>United Kingdom</Country>
+    <Population>5943435</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Male</Gender>
+    <Country>United Kingdom</Country>
+    <Population>21339778</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Male</Gender>
+    <Country>United Kingdom</Country>
+    <Population>5470116</Population>
+  </Population>
+  <Population>
+    <Age>0-14 years</Age>
+    <Gender>Female</Gender>
+    <Country>United Kingdom</Country>
+    <Population>5651780</Population>
+  </Population>
+  <Population>
+    <Age>15-64 years</Age>
+    <Gender>Female</Gender>
+    <Country>United Kingdom</Country>
+    <Population>20674697</Population>
+  </Population>
+  <Population>
+    <Age>65 years and older</Age>
+    <Gender>Female</Gender>
+    <Country>United Kingdom</Country>
+    <Population>6681311</Population>
+  </Population>
+</PopulationAgeStructure>

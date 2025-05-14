@@ -1,0 +1,12 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+  <style>
+    .Red {fill: #D11C1C;}
+    .Yellow {fill: #FFB115;}
+    .Green {fill: #039C23;}
+    .Blue {fill: #1177D7; }
+    .Black {fill: #727272;}
+    .White {fill: #FFFFFF;}
+  </style>
+  <title>Artboard 1</title>
+  <path class="Black" d="M12,2H4V18H16V6Zm2.59,4H12V3.41ZM15,17H5V3h6V7h4Z"/>
+</svg>

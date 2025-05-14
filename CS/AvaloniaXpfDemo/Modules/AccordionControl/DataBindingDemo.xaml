@@ -1,0 +1,215 @@
+﻿<shell:DemoModuleView
+    x:Class="DevExpress.AvaloniaXpfDemo.AccordionControlModules.DataBindingDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.AccordionControlModules"
+    xmlns:shell="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    xmlns:data="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoData.Employees"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    x:Name="root"
+    DataContext="{dxmvvm:ViewModelSource local:DataBindingViewModel}"
+    OptionsIsExpanded="False">
+
+    <shell:DemoModuleView.Resources>
+        <Style x:Key="accordionItemContainerStyle" TargetType="dxa:AccordionItem">
+            <Setter Property="Glyph" Value="{Binding SvgImage}" />
+            <Setter Property="GlyphSize" Value="16,16" />
+            <Style.Triggers>
+                <Trigger Property="ActualGlyphPosition" Value="Top">
+                    <Setter Property="ExpandButtonPosition" Value="None" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate DataType="{x:Type local:EmployeeDepartment}">
+            <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+        </DataTemplate>
+        <Style x:Key="groupBoxStyle" TargetType="dxlc:GroupBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="dxlc:GroupBox">
+                        <GroupBox Header="{TemplateBinding Header}" Content="{TemplateBinding Content}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="employeeDetailsTemplate" DataType="{x:Type data:Employee}">
+            <Grid VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="300" />
+                </Grid.ColumnDefinitions>
+                <Image
+                    Source="{Binding ImageData}"
+                    Margin="24,12,0,12"
+                    MinWidth="200"
+                    VerticalAlignment="Top" />
+                <dxlc:LayoutControl
+                    Grid.Column="1"
+                    ItemSpace="12"
+                    Margin="24,5,12,0"
+                    GroupBoxStyle="{StaticResource groupBoxStyle}"
+                    ScrollBars="None"
+                    Padding="0">
+                    <dxlc:LayoutGroup Orientation="Vertical" VerticalAlignment="Top">
+                        <dxlc:LayoutGroup
+                            View="GroupBox"
+                            Header="Job"
+                            Orientation="Vertical">
+                            <dxlc:LayoutItem Label="Group:">
+                                <TextBlock Text="{Binding GroupName}" TextWrapping="Wrap" />
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Title:">
+                                <TextBlock Text="{Binding JobTitle}" />
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Hire date:">
+                                <TextBlock Text="{Binding HireDate, StringFormat='MMMM d, yyyy'}" />
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                        <dxlc:LayoutGroup
+                            View="GroupBox"
+                            Header="Contact"
+                            Orientation="Vertical">
+                            <dxlc:LayoutItem Label="Phone:">
+                                <TextBlock Text="{Binding Phone}" />
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Email:">
+                                <TextBlock Text="{Binding EmailAddress}" />
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                        <dxlc:LayoutGroup
+                            View="GroupBox"
+                            Header="Address"
+                            Orientation="Vertical">
+                            <TextBlock Text="{Binding AddressLine1}" />
+                            <TextBlock Text="{DXBinding 'City + `, ` + (StateProvinceName == null ? `` : StateProvinceName + `, `) + (PostalCode == null ? `` : PostalCode + `, `) + CountryRegionName'}" />
+                        </dxlc:LayoutGroup>
+                        <dxlc:LayoutGroup
+                            View="GroupBox"
+                            Header="Personal"
+                            Orientation="Vertical">
+                            <dxlc:LayoutItem Label="Gender:">
+                                <dx:DXImage
+                                    Width="16"
+                                    Height="16"
+                                    Source="{Binding SvgImage}"
+                                    HorizontalAlignment="Left" />
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Birth date:">
+                                <TextBlock Text="{Binding BirthDate, StringFormat='MMMM d, yyyy'}" />
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutControl>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="emptyDetailsTemplate">
+            <Grid VerticalAlignment="Stretch">
+                <TextBlock
+                    Text="Select an employee to see details."
+                    FontSize="16"
+                    Opacity="0.62"
+                    VerticalAlignment="Center"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+            </Grid>
+        </DataTemplate>
+        <local:EmployeeDetailsTemplateSelector
+            x:Key="employeeDetailsTemplateSelector"
+            EmployeeDetailsTemplate="{StaticResource employeeDetailsTemplate}"
+            EmptyDetailsTemplate="{StaticResource emptyDetailsTemplate}" />
+    </shell:DemoModuleView.Resources>
+
+    <DockPanel>
+        <ScrollViewer
+            Name="PART_Options"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            DockPanel.Dock="Right"
+            dx:ScrollBarExtensions.ScrollBarMode="TouchOverlap"
+            Focusable="False">
+            <StackPanel Margin="12,0,12,12" MinWidth="210">
+                <StackPanel.Resources>
+                    <Style TargetType="GroupBox">
+                        <Setter Property="Margin" Value="0,5,0,0" />
+                    </Style>
+                </StackPanel.Resources>
+                <GroupBox Header="Expand Mode">
+                    <StackPanel>
+                        <dxe:ListBoxEdit
+                            EditValue="{Binding ElementName=accordion, Path=ExpandMode}"
+                            Background="{x:Null}"
+                            ShowBorder="False">
+                            <dxmvvm:Interaction.Behaviors>
+                                <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type dxa:ExpandMode}" />
+                            </dxmvvm:Interaction.Behaviors>
+                            <dxe:ListBoxEdit.StyleSettings>
+                                <dxe:RadioListBoxEditStyleSettings />
+                            </dxe:ListBoxEdit.StyleSettings>
+                        </dxe:ListBoxEdit>
+                        <dxe:CheckEdit
+                            Margin="0,8,0,0"
+                            Content="Expand Item On Header Click"
+                            EditValue="{Binding ElementName=accordion, Path=ExpandItemOnHeaderClick}" />
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Selection Unit">
+                    <dxe:ListBoxEdit
+                        EditValue="{Binding ElementName=accordion, Path=SelectionUnit}"
+                        Background="{x:Null}"
+                        ShowBorder="False">
+                        <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type dxa:SelectionUnit}" />
+                        </dxmvvm:Interaction.Behaviors>
+                        <dxe:ListBoxEdit.StyleSettings>
+                            <dxe:RadioListBoxEditStyleSettings />
+                        </dxe:ListBoxEdit.StyleSettings>
+                    </dxe:ListBoxEdit>
+                </GroupBox>
+                <GroupBox Header="Glyph Position">
+                    <dxe:ListBoxEdit
+                        EditValue="{Binding ElementName=accordion, Path=ItemGlyphPosition}"
+                        Background="{x:Null}"
+                        ShowBorder="False">
+                        <dxmvvm:Interaction.Behaviors>
+                            <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type dxa:GlyphPosition}" />
+                        </dxmvvm:Interaction.Behaviors>
+                        <dxe:ListBoxEdit.StyleSettings>
+                            <dxe:RadioListBoxEditStyleSettings />
+                        </dxe:ListBoxEdit.StyleSettings>
+                    </dxe:ListBoxEdit>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="325" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <dxa:AccordionControl
+                x:Name="accordion"
+                ExpandMode="SingleOrNone"
+                SelectedItem="{Binding SelectedItem}"
+                SelectionUnit="SubItem"
+                ItemsSource="{Binding Departments}"
+                ChildrenPath="Employees"
+                ShowSearchControl="True"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                VerticalAlignment="Top"
+                ItemContainerStyle="{StaticResource accordionItemContainerStyle}">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:FocusBehavior SourceName="root" EventName="ModuleAppear" />
+                </dxmvvm:Interaction.Behaviors>
+            </dxa:AccordionControl>
+            <ContentPresenter
+                Grid.Column="1"
+                Content="{Binding SelectedItem}"
+                ContentTemplateSelector="{StaticResource employeeDetailsTemplateSelector}" />
+        </Grid>
+    </DockPanel>
+</shell:DemoModuleView>

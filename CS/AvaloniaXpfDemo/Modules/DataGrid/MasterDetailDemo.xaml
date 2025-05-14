@@ -1,0 +1,385 @@
+﻿<local:GridDemoModule
+    x:Class="DevExpress.AvaloniaXpfDemo.DataGridModules.MasterDetailDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.DataGridModules"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:demo="clr-namespace:DevExpress.AvaloniaXpfDemo"
+    xmlns:data="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoData"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid">
+
+    <local:GridDemoModule.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="{demo:DemoResourceUri 'Modules/DataGrid/Common/SharedResources.xaml'}" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Key="detailDescriptorContentTemplate">
+                <dx:MeasurePixelSnapper Margin="5,5,10,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <dxe:ImageEdit
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            IsReadOnly="True"
+                            Source="{Binding Path=Photo}"
+                            Width="50"
+                            ShowMenu="False" />
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="24" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Text="First Name:" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Text="Last Name:" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Text="Address:" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Text="Position:" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Text="Hire Date:" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Text="{Binding FirstName}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Text="{Binding LastName}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="6"
+                                Text="{Binding Title}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="6"
+                                Text="{Binding HireDate, StringFormat=d}" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Text="{Binding Address}" />
+                        </Grid>
+                    </Grid>
+                </dx:MeasurePixelSnapper>
+            </DataTemplate>
+
+            <DataTemplate x:Key="employeeStatsTemplate">
+                <Border
+                    BorderThickness="1,0,1,1"
+                    Padding="5"
+                    BorderBrush="DarkGray"
+                    Height="195">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <dxe:ImageEdit
+                            Width="120"
+                            ShowMenu="False"
+                            Margin="5,5,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            IsReadOnly="True"
+                            Source="{Binding Path=Photo}" />
+                        <dxc:ChartControl
+                            Grid.Column="1"
+                            BorderThickness="0"
+                            CrosshairEnabled="False">
+                            <dxc:ChartControl.Diagram>
+                                <dxc:XYDiagram2D>
+                                    <dxc:XYDiagram2D.Series>
+                                        <dxc:LineSeries2D
+                                            DataSource="{Binding ChartSource}"
+                                            ShowInLegend="False"
+                                            ArgumentDataMember="ArgumentMember"
+                                            CrosshairEnabled="False"
+                                            ValueDataMember="ValueMember" />
+                                    </dxc:XYDiagram2D.Series>
+                                </dxc:XYDiagram2D>
+                            </dxc:ChartControl.Diagram>
+                        </dxc:ChartControl>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="cardViewTemplate">
+                <Grid Height="195">
+                    <dxg:GridControl
+                        ItemsSource="{Binding Employees}"
+                        MaxHeight="250"
+                        ShowBorder="False">
+                        <dxg:GridControl.Columns>
+                            <dxg:GridColumn FieldName="Photo" />
+                        </dxg:GridControl.Columns>
+                        <dxg:GridControl.View>
+                            <dxg:CardView
+                                CardAlignment="Center"
+                                CardHeaderBinding="{Binding Path=FullName}"
+                                ShowGroupPanel="False"
+                                CardLayout="Columns"
+                                ShowColumnHeaders="False"
+                                NavigationStyle="Row"
+                                SeparatorThickness="0"
+                                ShowCardExpandButton="False">
+                                <dxg:CardView.CardTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <dxe:ImageEdit
+                                                ShowBorder="False"
+                                                Stretch="UniformToFill"
+                                                ShowMenu="False"
+                                                MaxHeight="100"
+                                                MaxWidth="100"
+                                                IsReadOnly="True"
+                                                Source="{Binding Path=DataContext.Photo}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </dxg:CardView.CardTemplate>
+                            </dxg:CardView>
+                        </dxg:GridControl.View>
+                        <dxg:GridControl.Visibility>
+                            <Binding Path="Employees.Count">
+                                <Binding.Converter>
+                                    <local:CountToVisibilityConverter />
+                                </Binding.Converter>
+                            </Binding>
+                        </dxg:GridControl.Visibility>
+                    </dxg:GridControl>
+                    <TextBlock
+                        Text="This Employee doesn't have Subordinates"
+                        Margin="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20">
+                        <TextBlock.Visibility>
+                            <Binding Path="Employees.Count">
+                                <Binding.Converter>
+                                    <local:CountToVisibilityConverter Invert="True" />
+                                </Binding.Converter>
+                            </Binding>
+                        </TextBlock.Visibility>
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
+
+            <Style x:Key="colCountryStyle" TargetType="{x:Type dxg:ColumnBase}">
+                <Setter Property="EditSettings">
+                    <Setter.Value>
+                        <dxe:ComboBoxEditSettings
+                            ValueMember="ActualNWindName"
+                            DisplayMember="ActualName"
+                            Style="{StaticResource colCountryComboBoxStyle}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </local:GridDemoModule.Resources>
+
+    <dxg:GridControl
+        x:Name="grid"
+        ItemsSource="{x:Static data:NWindDataProvider.Employees}"
+        Loaded="{DXEvent '@Self.ExpandMasterRow(1)'}"
+        ShowBorder="False">
+        <dxg:GridControl.DetailDescriptor>
+            <dxg:TabViewDetailDescriptor ShowHeader="False" ContentTemplate="{StaticResource detailDescriptorContentTemplate}">
+                <dxg:TabViewDetailDescriptor.DetailDescriptors>
+                    <!--#region Orders-->
+                    <dxg:DataControlDetailDescriptor ItemsSourceBinding="{Binding Orders}" ShowHeader="false">
+                        <dxg:GridControl>
+                            <dxg:GridControl.DetailDescriptor>
+                                <dxg:DataControlDetailDescriptor ShowHeader="False" ItemsSourceBinding="{Binding OrderDetails}">
+                                    <dxg:GridControl>
+                                        <dxg:GridControl.Columns>
+                                            <dxg:GridColumn FieldName="ProductName" Width="*" />
+                                            <dxg:GridColumn FieldName="UnitPrice" Width="*">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings DisplayFormat="c" />
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+                                            <dxg:GridColumn FieldName="Quantity" Width="*" />
+                                            <dxg:GridColumn
+                                                FieldName="Total"
+                                                Width="*"
+                                                UnboundDataType="{x:Type sys:Decimal}"
+                                                UnboundExpression="[UnitPrice]*[Quantity]"
+                                                Header="Total">
+                                                <dxg:GridColumn.EditSettings>
+                                                    <dxe:TextEditSettings DisplayFormat="c" />
+                                                </dxg:GridColumn.EditSettings>
+                                            </dxg:GridColumn>
+                                        </dxg:GridControl.Columns>
+                                        <dxg:GridControl.View>
+                                            <dxg:TableView
+                                                VerticalScrollbarVisibility="Auto"
+                                                NavigationStyle="Row"
+                                                DetailHeaderContent="Invoices"
+                                                ShowFixedTotalSummary="True"
+                                                AllowHeaderNavigation="True" />
+                                        </dxg:GridControl.View>
+                                        <dxg:GridControl.TotalSummary>
+                                            <dxg:GridSummaryItem SummaryType="Count" Alignment="Left" />
+                                            <dxg:GridSummaryItem
+                                                FieldName="Total"
+                                                SummaryType="Sum"
+                                                Alignment="Right" />
+                                        </dxg:GridControl.TotalSummary>
+                                    </dxg:GridControl>
+                                </dxg:DataControlDetailDescriptor>
+                            </dxg:GridControl.DetailDescriptor>
+                            <dxg:GridControl.Columns>
+                                <dxg:GridColumn FieldName="OrderDate" Width="*" />
+                                <dxg:GridColumn FieldName="Freight" Width="*" />
+                                <dxg:GridColumn FieldName="ShipName" Width="*" />
+                                <dxg:GridColumn
+                                    FieldName="ShipCountry"
+                                    Width="*"
+                                    Style="{StaticResource colCountryStyle}" />
+                                <dxg:GridColumn FieldName="ShipCity" Width="*" />
+                                <dxg:GridColumn FieldName="ShipAddress" Width="*" />
+                            </dxg:GridControl.Columns>
+                            <dxg:GridControl.View>
+                                <dxg:TableView
+                                    VerticalScrollbarVisibility="Auto"
+                                    NavigationStyle="Row"
+                                    DetailHeaderContent="Orders"
+                                    ShowFixedTotalSummary="True"
+                                    AllowHeaderNavigation="True" />
+                            </dxg:GridControl.View>
+                            <dxg:GridControl.TotalSummary>
+                                <dxg:GridSummaryItem
+                                    FieldName="Freight"
+                                    SummaryType="Sum"
+                                    Alignment="Right" />
+                            </dxg:GridControl.TotalSummary>
+                        </dxg:GridControl>
+                    </dxg:DataControlDetailDescriptor>
+                    <!--#endregion-->
+
+                    <!--#region Customers-->
+                    <dxg:DataControlDetailDescriptor ItemsSourceBinding="{Binding Customers}" ShowHeader="false">
+                        <dxg:GridControl>
+                            <dxg:GridControl.Columns>
+                                <dxg:GridColumn FieldName="ContactName" Width="*" />
+                                <dxg:GridColumn
+                                    FieldName="Country"
+                                    Width="*"
+                                    Style="{StaticResource colCountryStyle}" />
+                                <dxg:GridColumn FieldName="City" Width="*" />
+                                <dxg:GridColumn FieldName="Address" Width="*" />
+                                <dxg:GridColumn FieldName="Phone" Width="*" />
+                            </dxg:GridControl.Columns>
+                            <dxg:GridControl.GroupSummary>
+                                <dxg:GridSummaryItem FieldName="Orders.Count" SummaryType="Sum" />
+                            </dxg:GridControl.GroupSummary>
+                            <dxg:GridControl.View>
+                                <dxg:TableView
+                                    VerticalScrollbarVisibility="Auto"
+                                    NavigationStyle="Row"
+                                    DetailHeaderContent="Customers"
+                                    ShowFixedTotalSummary="True"
+                                    AllowHeaderNavigation="True" />
+                            </dxg:GridControl.View>
+                            <dxg:GridControl.TotalSummary>
+                                <dxg:GridSummaryItem SummaryType="Count" Alignment="Left" />
+                            </dxg:GridControl.TotalSummary>
+                        </dxg:GridControl>
+                    </dxg:DataControlDetailDescriptor>
+                    <!--#endregion-->
+
+                    <dxg:ContentDetailDescriptor
+                        ShowHeader="False"
+                        HeaderContent="Stats"
+                        ContentTemplate="{StaticResource employeeStatsTemplate}" />
+                    <dxg:ContentDetailDescriptor
+                        ContentTemplate="{StaticResource cardViewTemplate}"
+                        ShowHeader="False"
+                        HeaderContent="Subordinates" />
+                </dxg:TabViewDetailDescriptor.DetailDescriptors>
+            </dxg:TabViewDetailDescriptor>
+        </dxg:GridControl.DetailDescriptor>
+        <dxg:GridControl.View>
+            <dxg:TableView
+                x:Name="view"
+                AllowPerPixelScrolling="True"
+                NavigationStyle="Cell"
+                DetailHeaderContent="Employees"
+                ShowFixedTotalSummary="True"
+                AllowHeaderNavigation="True"
+                AllowPrintColumnHeaderImage="True" />
+        </dxg:GridControl.View>
+        <dxg:GridControl.Columns>
+            <dxg:GridColumn
+                FieldName="FullName"
+                ReadOnly="True"
+                MinWidth="60"
+                Width="*"
+                Image="{local:DemoHeaderImage FullName}" />
+            <dxg:GridColumn
+                FieldName="Title"
+                Header="JobTitle"
+                Width="1.5*"
+                Image="{local:DemoHeaderImage JobTitle}" />
+            <dxg:GridColumn
+                FieldName="Country"
+                MinWidth="60"
+                Width="*"
+                Style="{StaticResource colCountryStyle}"
+                Image="{local:DemoHeaderImage Country}" />
+            <dxg:GridColumn
+                FieldName="BirthDate"
+                MinWidth="60"
+                Width="*"
+                Image="{local:DemoHeaderImage BirthDate}">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:DateEditSettings DisplayFormat="d" />
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+            <dxg:GridColumn
+                FieldName="Email"
+                Header="Contacts"
+                Width="2*"
+                Image="{local:DemoHeaderImage Contacts}">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:HyperlinkEditSettings AllowAutoNavigate="True" NavigationUrlFormat="mailto:{0}" />
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+        </dxg:GridControl.Columns>
+        <dxg:GridControl.TotalSummary>
+            <dxg:GridSummaryItem SummaryType="Count" Alignment="Right" />
+        </dxg:GridControl.TotalSummary>
+    </dxg:GridControl>
+</local:GridDemoModule>

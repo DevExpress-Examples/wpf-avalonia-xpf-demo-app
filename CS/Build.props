@@ -1,0 +1,33 @@
+<Project>
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <UseWindowsForms>True</UseWindowsForms>
+        <EnableWindowsTargeting>True</EnableWindowsTargeting>
+        <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <RootNamespace>DevExpress.AvaloniaXpfDemo</RootNamespace>
+        <AssemblyName>AvaloniaXpfDemo</AssemblyName>
+        <ApplicationIcon>demoicon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Resource Include="demoicon.ico" />
+        <None Remove="Images\**\*"/>
+        <Resource Include="Images\**\*"/>
+        <None Remove="DemoShell\Images\*"/>
+        <Resource Include="DemoShell\Images\*"/>
+        <Resource Include="DBs\MapControl\*"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="DBs\*.db">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <EmbeddedResource Include="DBs\*.xml" />
+    </ItemGroup>
+
+</Project>

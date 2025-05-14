@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+<style>
+.Red {fill: #D11C1C;}
+.Yellow {fill: #FFB115;}
+.Green {fill: #039C23;}
+.Blue {fill: #1177D7; }
+.Black {fill: #727272;}
+.White {fill: #FFFFFF;}
+</style>
+<title>ButNow_20x20</title>
+<path d="M10,1a9,9,0,1,0,9,9A9,9,0,0,0,10,1ZM9,7,11.41,3.8a1,1,0,0,1,1.41-.19A1,1,0,0,1,13,5L10.59,8.2a1,1,0,0,1-1.41.19A1,1,0,0,1,9,7Zm7,2H15l-1,5H6L5,9H4V7H8V8a2,2,0,0,0,4,0V7h4Z" style="fill:Red"/>
+</svg>

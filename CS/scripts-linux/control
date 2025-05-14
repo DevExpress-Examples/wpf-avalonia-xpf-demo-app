@@ -1,0 +1,11 @@
+Package: AvaloniaXpfDemo
+Version: 1.0.0
+Section: devel
+Priority: optional
+Architecture: amd64
+Installed-Size: 465604
+Depends: libx11-6, libice6, libsm6, libfontconfig1, ca-certificates, tzdata, libc6, libgcc1 | libgcc-s1, libgssapi-krb5-2, libstdc++6, zlib1g, libssl1.0.0 | libssl1.0.2 | libssl1.1 | libssl3, libicu | libicu74 | libicu72 | libicu71 | libicu70 | libicu69 | libicu68 | libicu67 | libicu66 | libicu65 | libicu63 | libicu60 | libicu57 | libicu55 | libicu52
+Maintainer: DevExpress
+Homepage: https://devexpress.com/
+Description: DevExpress Avalonia Xpf Demo
+Copyright: 2000-2025 Developer Express Inc.

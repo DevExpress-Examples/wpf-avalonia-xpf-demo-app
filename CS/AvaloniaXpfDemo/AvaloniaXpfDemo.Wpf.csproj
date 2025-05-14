@@ -1,0 +1,18 @@
+﻿<Project>
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+        <BaseIntermediateOutputPath>../obj/Wpf</BaseIntermediateOutputPath>
+        <IntermediateOutputPath>../obj/Wpf</IntermediateOutputPath>
+        <BaseOutputPath>../bin/Xpf</BaseOutputPath>
+        <OutputPath>../bin/Wpf</OutputPath>
+        <DefineConstants>$(DefineConstants);</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup>
+      <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    </PropertyGroup>
+
+    <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
+    <Import Project="../Build.props" />
+    <Import Project="../Build.References.props" />
+    <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
+</Project>

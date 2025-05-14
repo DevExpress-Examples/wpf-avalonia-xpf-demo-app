@@ -1,0 +1,60 @@
+﻿<DockPanel
+    x:Class="DevExpress.AvaloniaXpfDemo.DemoShell.DemoShellModulePresenter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoShell"
+    xmlns:dxat="http://schemas.devexpress.com/winfx/2008/xaml/accordion/themekeys"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core">
+
+    <dx:ThemedBorder
+        x:Name="descriptionContainer"
+        DockPanel.Dock="Bottom"
+        BorderThickness="{LWThemeValue '0,1,0,0', Win11=0}">
+        <dx:DocumentPresenter
+            x:Name="descriptionPresenter"
+            Foreground="{DynamicResource {dxat:LWKey AccordionItem.TextForeground}}"
+            FontSize="12"
+            FontFamily="Segoe UI,Tahoma"
+            Background="Transparent"
+            IsTabStop="False"
+            Focusable="False"
+            Margin="22,14,22,20">
+            <dx:DocumentPresenter.Resources>
+                <Style TargetType="Paragraph">
+                    <Setter Property="LineHeight" Value="14" />
+                    <Setter Property="Margin" Value="0,2"/>
+                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+                </Style>
+            </dx:DocumentPresenter.Resources>
+        </dx:DocumentPresenter>
+    </dx:ThemedBorder>
+
+    <dx:ThemedBorder
+        x:Name="border"
+        CornerRadius="{LWThemeValue 0, Win11=7}"
+        Margin="{LWThemeValue 0, Win11='6,0,6,6'}">
+        <Grid>
+            <Grid.Clip>
+                <MultiBinding Converter="{local:ClipGeometryConverter}">
+                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                    <Binding Path="CornerRadius" ElementName="border" />
+                    <Binding Path="(dx:LightweightThemeManager.CurrentTheme)" RelativeSource="{RelativeSource Self}" />
+                </MultiBinding>
+            </Grid.Clip>
+
+            <DockPanel>
+                <local:DemoShellModuleOptions x:Name="optionsPresenter" DockPanel.Dock="Right" />
+                <Decorator x:Name="contentPresenter" />
+            </DockPanel>
+            <TextBlock
+                x:Name="errorPresenter"
+                Foreground="Purple"
+                Background="White"
+                TextWrapping="Wrap"
+                Padding="12"
+                Visibility="Collapsed" />
+        </Grid>
+    </dx:ThemedBorder>
+
+</DockPanel>

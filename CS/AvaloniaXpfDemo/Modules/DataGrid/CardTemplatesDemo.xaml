@@ -1,0 +1,385 @@
+﻿<local:GridDemoModule
+    x:Class="DevExpress.AvaloniaXpfDemo.DataGridModules.CardTemplatesDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.DataGridModules"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+    xmlns:data="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoData"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <local:GridDemoModule.Resources>
+        <DataTemplate x:Key="editableCardTemplate">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <dxe:ImageEdit
+                        Stretch="UniformToFill"
+                        Height="70"
+                        Width="64"
+                        VerticalAlignment="Top"
+                        Source="{Binding Path=DataContext.ImageData}"
+                        ShowMenu="False"
+                        IsReadOnly="True" />
+                    <Grid Margin="12,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="150" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            FontWeight="Bold"
+                            Text="Title: "
+                            VerticalAlignment="Center" />
+                        <dxg:CardCellContentPresenter
+                            FieldName="JobTitle"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            NavigationIndex="0" />
+                        <TextBlock
+                            Grid.Row="1"
+                            FontWeight="Bold"
+                            Text="First Name: "
+                            VerticalAlignment="Center" />
+                        <dxg:CardCellContentPresenter
+                            FieldName="FirstName"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            NavigationIndex="1" />
+                        <TextBlock
+                            Grid.Row="2"
+                            FontWeight="Bold"
+                            Text="Last Name: "
+                            VerticalAlignment="Center" />
+                        <dxg:CardCellContentPresenter
+                            FieldName="LastName"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            NavigationIndex="2" />
+                        <TextBlock
+                            Grid.Row="3"
+                            FontWeight="Bold"
+                            Text="Birth Date: "
+                            VerticalAlignment="Center" />
+                        <dxg:CardCellContentPresenter
+                            FieldName="BirthDate"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            NavigationIndex="3" />
+                    </Grid>
+                </StackPanel>
+                <GroupBox Header="Contact Info" Margin="0,12,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            FontWeight="Bold"
+                            Text="Address: "
+                            VerticalAlignment="Center" />
+                        <dxg:CardCellContentPresenter
+                            FieldName="AddressLine1"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            NavigationIndex="5" />
+                        <TextBlock
+                            Grid.Row="1"
+                            FontWeight="Bold"
+                            Text="City: "
+                            VerticalAlignment="Center" />
+                        <dxg:CardCellContentPresenter
+                            FieldName="City"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            NavigationIndex="6" />
+                        <TextBlock
+                            Grid.Row="2"
+                            FontWeight="Bold"
+                            Text="Postal Code: "
+                            VerticalAlignment="Center" />
+                        <dxg:CardCellContentPresenter
+                            FieldName="PostalCode"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            NavigationIndex="7" />
+                        <TextBlock
+                            Grid.Row="3"
+                            FontWeight="Bold"
+                            Text="Country: "
+                            VerticalAlignment="Center" />
+                        <dxg:CardCellContentPresenter
+                            FieldName="CountryRegionName"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            NavigationIndex="8" />
+                        <TextBlock
+                            Grid.Row="4"
+                            FontWeight="Bold"
+                            Text=" Phone: "
+                            VerticalAlignment="Center" />
+                        <dxg:CardCellContentPresenter
+                            FieldName="Phone"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            NavigationIndex="9" />
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="readonlyCardTemplate">
+            <StackPanel Orientation="Vertical">
+                <Grid Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <dxe:ImageEdit
+                        Grid.Column="0"
+                        Stretch="UniformToFill"
+                        Height="70"
+                        Width="64"
+                        Source="{Binding Path=Row.ImageData}"
+                        ShowMenu="False"
+                        IsReadOnly="True" />
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical"
+                        VerticalAlignment="Top"
+                        Margin="12,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <TextBlock FontWeight="Bold" Text="Title: " />
+                            <TextBlock Text="{Binding Path=Row.JobTitle}" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <TextBlock FontWeight="Bold" Text="First Name: " />
+                            <TextBlock Text="{Binding Path=Row.FirstName}" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" Text="Last Name: " />
+                            <TextBlock Text="{Binding Path=Row.LastName}" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <dx:DXTabControl
+                    SelectedIndex="{Binding Path=RowState.(local:CardTemplatesDemo.SelectedTabIndex), Mode=TwoWay}"
+                    Style="{DynamicResource demoTabControl}"
+                    Margin="0,12,0,0">
+                    <dx:DXTabItem Header="Info">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBlock FontWeight="Bold" Text="Hire Date: " />
+                                <TextBlock Text="{Binding Row.HireDate, StringFormat=D}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBlock FontWeight="Bold" Text="Experience: " />
+                                <TextBlock Text="{DXBinding Expr='$sys:DateTime.Now.Year - Row.HireDate.Year'}" />
+                                <TextBlock Text=" years" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBlock FontWeight="Bold" Text="E-mail: " />
+                                <TextBlock Text="{DXBinding Expr='Row.LastName.ToLower() + `@devexpress.com`'}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold" Text="Phone: " />
+                                <TextBlock Text="{Binding Path=Row.Phone}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </dx:DXTabItem>
+                    <dx:DXTabItem Header="Address">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBlock FontWeight="Bold" Text="Address: " />
+                                <TextBlock Text="{Binding Path=Row.AddressLine1}" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBlock FontWeight="Bold" Text="City: " />
+                                <TextBlock Text="{Binding Path=Row.City}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBlock FontWeight="Bold" Text="Postal Code: " />
+                                <TextBlock Text="{Binding Path=Row.PostalCode}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold" Text="Country: " />
+                                <TextBlock Text="{Binding Path=Row.CountryRegionName}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </dx:DXTabItem>
+                </dx:DXTabControl>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="printCardTemplate">
+            <StackPanel
+                dxp:ExportSettings.TargetType="Panel"
+                dxp:ExportSettings.BorderColor="#FF989898"
+                dxp:ExportSettings.BorderThickness="1">
+                <dxe:TextEdit
+                    EditValue="{DXBinding Expr='Row.FirstName + ` ` + Row.LastName', Mode=OneWay}"
+                    IsPrintingMode="True"
+                    AllowUpdateTextBlockWhenPrinting="False"
+                    FontSize="16"
+                    Margin="17,14,8,7"
+                    dxp:TextExportSettings.TextTrimming="None" />
+                <Grid Margin="17,9,17,17">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel
+                            dxp:ExportSettings.TargetType="Panel"
+                            dxp:ExportSettings.BorderThickness="1"
+                            dxp:ExportSettings.BorderColor="#FFCCCCCC"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+                            <dxe:ImageEdit
+                                Width="102"
+                                Height="127"
+                                IsPrintingMode="True"
+                                EditValue="{Binding Path=Row.ImageData}"
+                                Margin="-10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical"
+                        Margin="9,0,0,0">
+                        <dxe:TextEdit
+                            EditValue="JOB TITLE"
+                            IsPrintingMode="True"
+                            Foreground="#FF666666"
+                            AllowUpdateTextBlockWhenPrinting="False" />
+                        <dxe:TextEdit
+                            EditValue="{Binding Path=Row.JobTitle}"
+                            IsPrintingMode="True"
+                            Margin="0,0,0,10"
+                            dxp:TextExportSettings.TextTrimming="None"
+                            VerticalContentAlignment="Top"
+                            TextTrimming="None"
+                            PrintTextWrapping="Wrap" />
+                        <dxe:TextEdit
+                            EditValue="E-MAIL"
+                            IsPrintingMode="True"
+                            Foreground="#FF666666"
+                            AllowUpdateTextBlockWhenPrinting="False" />
+                        <dxe:TextEdit
+                            EditValue="{DXBinding Expr='Row.LastName.ToLower() + `@devexpress.com`', Mode=OneWay}"
+                            IsPrintingMode="True"
+                            Margin="0,0,0,10"
+                            dxp:TextExportSettings.TextTrimming="None"
+                            VerticalContentAlignment="Top"
+                            TextTrimming="None"
+                            PrintTextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="cardHeaderTemplate">
+            <StackPanel Orientation="Horizontal">
+                <dx:DXImage
+                    Source="{Binding Path=Data.GroupName, Converter={local:GroupNameToImageConverter}}"
+                    Width="16"
+                    Height="16" />
+                <TextBlock
+                    Margin="4,0,0,0"
+                    Text="{Binding Path=Data.GroupName}"
+                    VerticalAlignment="Center" />
+            </StackPanel>
+        </DataTemplate>
+    </local:GridDemoModule.Resources>
+    <DockPanel>
+        <ScrollViewer
+            Name="PART_Options"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            DockPanel.Dock="Right"
+            dx:ScrollBarExtensions.ScrollBarMode="TouchOverlap"
+            Focusable="False">
+            <StackPanel Margin="12,0,12,12" MinWidth="210">
+                <GroupBox Header="Card Template" Margin="0,5,0,12">
+                    <dxe:ListBoxEdit
+                        Name="templateSelectorListBox"
+                        Margin="0,0,30,0"
+                        ShowBorder="False"
+                        DisplayMember="DisplayName"
+                        SelectedIndex="0"
+                        Background="{x:Null}">
+                        <dxe:ListBoxEdit.StyleSettings>
+                            <dxe:RadioListBoxEditStyleSettings />
+                        </dxe:ListBoxEdit.StyleSettings>
+                        <dxe:ListBoxEdit.Items>
+                            <local:ValueSelectorItem DisplayName="Editable" Content="{StaticResource editableCardTemplate}">
+                                <local:ValueSelectorItem.Tag>
+                                    <dxg:GridViewNavigationStyle>Cell</dxg:GridViewNavigationStyle>
+                                </local:ValueSelectorItem.Tag>
+                            </local:ValueSelectorItem>
+                            <local:ValueSelectorItem DisplayName="Read-only" Content="{StaticResource readonlyCardTemplate}">
+                                <local:ValueSelectorItem.Tag>
+                                    <dxg:GridViewNavigationStyle>Row</dxg:GridViewNavigationStyle>
+                                </local:ValueSelectorItem.Tag>
+                            </local:ValueSelectorItem>
+                        </dxe:ListBoxEdit.Items>
+                    </dxe:ListBoxEdit>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <dxg:GridControl
+            Name="grid"
+            ItemsSource="{x:Static data:EmployeesWithPhotoData.DataSource}"
+            ShowBorder="False">
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="FirstName" />
+                <dxg:GridColumn FieldName="LastName" />
+                <dxg:GridColumn FieldName="ImageData" AllowColumnFiltering="False" />
+                <dxg:GridColumn FieldName="BirthDate" EditSettings="{dxe:DateSettings DisplayFormat=d}" />
+                <dxg:GridColumn FieldName="JobTitle" />
+                <dxg:GridColumn FieldName="AddressLine1" />
+                <dxg:GridColumn FieldName="City" />
+                <dxg:GridColumn FieldName="PostalCode" />
+                <dxg:GridColumn FieldName="CountryRegionName" Header="Country">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:ComboBoxEditSettings
+                            ItemsSource="{x:Static data:CountriesData.DataSource}"
+                            ValueMember="ActualName"
+                            DisplayMember="ActualName" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Phone" />
+            </dxg:GridControl.Columns>
+            <dxg:GridControl.View>
+                <dxg:CardView
+                    Name="view"
+                    EditorButtonShowMode="ShowAlways"
+                    ShowGroupedColumns="True"
+                    CardHeaderTemplate="{StaticResource cardHeaderTemplate}"
+                    CardTemplate="{Binding Path=SelectedItem.Content, ElementName=templateSelectorListBox}"
+                    NavigationStyle="{Binding Path=SelectedItem.Tag, ElementName=templateSelectorListBox}"
+                    PrintMaximumCardColumns="2"
+                    PrintAutoCardWidth="True"
+                    PrintCardViewItemTemplate="{StaticResource printCardTemplate}" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+    </DockPanel>
+</local:GridDemoModule>

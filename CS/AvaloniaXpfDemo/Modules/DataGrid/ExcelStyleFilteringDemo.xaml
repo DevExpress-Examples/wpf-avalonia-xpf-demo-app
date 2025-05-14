@@ -1,0 +1,182 @@
+﻿<local:GridDemoModule
+    x:Class="DevExpress.AvaloniaXpfDemo.DataGridModules.ExcelStyleFilteringDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DevExpress.AvaloniaXpfDemo.DataGridModules"
+    xmlns:data="clr-namespace:DevExpress.AvaloniaXpfDemo.DemoData"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid">
+
+    <DockPanel>
+        <dxg:GridControl
+            x:Name="grid"
+            ShowBorder="False"
+            FilterString="([ModelPrice] &gt;= 25000 And [ModelPrice] &lt;= 80000) And (IsOutlookIntervalToday([SalesDate]) Or IsOutlookIntervalYesterday([SalesDate]))">
+            <dxg:GridControl.Bands>
+                <dxg:GridControlBand Header="Order Info">
+                    <dxg:GridColumn
+                        FieldName="OrderID"
+                        Header="ID"
+                        ReadOnly="True"
+                        Width="56">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings
+                                MaskType="Numeric"
+                                MaskUseAsDisplayFormat="True"
+                                Mask="00000"
+                                MaskCulture="en-US" />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn
+                        FieldName="ModelPrice"
+                        Header="Model Price"
+                        Width="168">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings
+                                MaskType="Numeric"
+                                MaskUseAsDisplayFormat="True"
+                                Mask="c"
+                                MaskCulture="en-US" />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Discount" Width="84">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings
+                                MaskType="Numeric"
+                                MaskUseAsDisplayFormat="True"
+                                Mask="p"
+                                MaskCulture="en-US" />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="SalesDate" Width="84" />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="Model">
+                    <dxg:GridColumn
+                        FieldName="ModelTrademarkName"
+                        Header="Trademark"
+                        Width="112">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:ComboBoxEditSettings ItemsSource="{x:Static data:OrderDataGenerator.VehicleOrderTrademarks}" IsTextEditable="False" />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn
+                        FieldName="ModelName"
+                        FilterPopupGroupFields="ModelTrademarkName;ModelName"
+                        Header="Name"
+                        Width="112" />
+                    <dxg:GridColumn
+                        FieldName="ModelModification"
+                        Header="Modification"
+                        Width="180" />
+                </dxg:GridControlBand>
+                <dxg:GridControlBand Header="Perfomance" Image="{local:DemoHeaderImage PerformanceAttributes}">
+                    <dxg:GridColumn
+                        FieldName="ModelMPGCity"
+                        Header="MPG City"
+                        Width="89">
+                        <dxg:GridColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock TextTrimming="CharacterEllipsis">
+                                    <Run>MPG</Run>
+                                    <Run FontWeight="Bold">City</Run>
+                                </TextBlock>
+                            </DataTemplate>
+                        </dxg:GridColumn.HeaderTemplate>
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:SpinEditSettings />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="ModelMPGHighway" Width="89">
+                        <dxg:GridColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock TextTrimming="CharacterEllipsis">
+                                    <Run>MPG</Run>
+                                    <Run FontWeight="Bold">Highway</Run>
+                                </TextBlock>
+                            </DataTemplate>
+                        </dxg:GridColumn.HeaderTemplate>
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:SpinEditSettings />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn
+                        FieldName="ModelCylinders"
+                        Header="Cylinders"
+                        Width="60">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:SpinEditSettings />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                </dxg:GridControlBand>
+            </dxg:GridControl.Bands>
+            <dxg:GridControl.View>
+                <dxg:TableView
+                    AutoWidth="True"
+                    AllowBandMultiRow="False"
+                    AllowChangeColumnParent="True"
+                    ShowGroupPanel="False"
+                    ShowEmptyText="True"
+                    AllowHeaderNavigation="True">
+                    <dxg:TableView.FormatConditions>
+                        <dxg:DataBarFormatCondition FieldName="ModelPrice" PredefinedFormatName="GreenSolidDataBar" />
+                        <dxg:IconSetFormatCondition FieldName="Discount">
+                            <dxg:IconSetFormatCondition.Format>
+                                <dx:IconSetFormat ElementThresholdType="Number">
+                                    <dx:IconSetElement
+                                        Icon="{dx:IconSet Name=Stars3_1}"
+                                        Threshold="0.15"
+                                        ThresholdComparisonType="GreaterOrEqual" />
+                                    <dx:IconSetElement
+                                        Icon="{dx:IconSet Name=Stars3_2}"
+                                        Threshold="0.05"
+                                        ThresholdComparisonType="GreaterOrEqual" />
+                                    <dx:IconSetElement
+                                        Icon="{dx:IconSet Name=Stars3_3}"
+                                        Threshold="0"
+                                        ThresholdComparisonType="Greater" />
+                                </dx:IconSetFormat>
+                            </dxg:IconSetFormatCondition.Format>
+                        </dxg:IconSetFormatCondition>
+                        <dxg:IconSetFormatCondition FieldName="ModelMPGCity">
+                            <dxg:IconSetFormatCondition.Format>
+                                <dx:IconSetFormat ElementThresholdType="Number">
+                                    <dx:IconSetElement
+                                        Icon="{dx:IconSet Name=Arrows3_1}"
+                                        Threshold="25"
+                                        ThresholdComparisonType="GreaterOrEqual" />
+                                    <dx:IconSetElement
+                                        Icon="{dx:IconSet Name=Arrows3_2}"
+                                        Threshold="15"
+                                        ThresholdComparisonType="Greater" />
+                                    <dx:IconSetElement
+                                        Icon="{dx:IconSet Name=Arrows3_3}"
+                                        Threshold="0"
+                                        ThresholdComparisonType="GreaterOrEqual" />
+                                </dx:IconSetFormat>
+                            </dxg:IconSetFormatCondition.Format>
+                        </dxg:IconSetFormatCondition>
+                        <dxg:IconSetFormatCondition FieldName="ModelMPGHighway">
+                            <dxg:IconSetFormatCondition.Format>
+                                <dx:IconSetFormat ElementThresholdType="Number">
+                                    <dx:IconSetElement
+                                        Icon="{dx:IconSet Name=Arrows3_1}"
+                                        Threshold="30"
+                                        ThresholdComparisonType="GreaterOrEqual" />
+                                    <dx:IconSetElement
+                                        Icon="{dx:IconSet Name=Arrows3_2}"
+                                        Threshold="20"
+                                        ThresholdComparisonType="Greater" />
+                                    <dx:IconSetElement
+                                        Icon="{dx:IconSet Name=Arrows3_3}"
+                                        Threshold="0"
+                                        ThresholdComparisonType="GreaterOrEqual" />
+                                </dx:IconSetFormat>
+                            </dxg:IconSetFormatCondition.Format>
+                        </dxg:IconSetFormatCondition>
+                    </dxg:TableView.FormatConditions>
+                </dxg:TableView>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+    </DockPanel>
+</local:GridDemoModule>
