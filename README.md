@@ -7,7 +7,7 @@
 
 # DevExpress Avalonia XPF Demo
 
-With [Avalonia XPF](https://docs.avaloniaui.net/xpf/welcome), your DevExpress-powered WPF projects can run on macOS and Linux. This demo uses Avalonia to handle DevExpress WPF API calls. To determine suitability, run the executables listed in the *Releases* section of this readme.
+With [Avalonia XPF](https://docs.avaloniaui.net/xpf/welcome), your DevExpress-powered WPF projects can run on macOS and Linux. This demo uses Avalonia to handle DevExpress WPF API calls. To determine suitability, run the executables listed in the [Releases](https://github.com/DevExpress-Examples/wpf-avalonia-xpf-demo-app/releases/tag/25.1.2) section of this readme.
 
 ![MacOS](Images/MacOS.png)
 ![Ubuntu](Images/Ubuntu.png)
@@ -19,11 +19,11 @@ With [Avalonia XPF](https://docs.avaloniaui.net/xpf/welcome), your DevExpress-po
 
 ## How to Run
 
-Download pre-built installation packages for macOS and Ubuntu/Debian Linux by navigating to the Releases section.
+Download pre-built installation packages for macOS and Ubuntu/Debian Linux by navigating to the [Releases](https://github.com/DevExpress-Examples/wpf-avalonia-xpf-demo-app/releases/tag/25.1.2) section.
 
 **macOS**
 
-To install this demo on macOS, download *AvaloniaXpfDemo-x64.zip* or *AvaloniaXpfDemo-arm64.zip*, unpack it, and move the installation file to the Applications folder.
+To install this demo on macOS, download [AvaloniaXpfDemo-x64.zip](https://github.com/DevExpress-Examples/wpf-avalonia-xpf-demo-app/releases/download/25.1.2/AvaloniaXpfDemo-x64.zip) or [AvaloniaXpfDemo-arm64.zip](https://github.com/DevExpress-Examples/wpf-avalonia-xpf-demo-app/releases/download/25.1.2/AvaloniaXpfDemo-arm64.zip), unpack it, and move the installation file to the Applications folder.
 
 **Ubuntu/Debian Linux**
 
@@ -35,7 +35,7 @@ The following command installs all required packages on Ubuntu/Debian Linux:
 
 Refer to the following Avalonia XPF topic for additional information: [Linux Dependencies](https://docs.avaloniaui.net/xpf/platforms/linux#other-dependencies).
 
-To install the AvaloniaXpfDemo app, download the *AvaloniaXpfDemo_1.0.0_amd64.deb* package and run the following command:
+To install the AvaloniaXpfDemo app, download the [AvaloniaXpfDemo_1.0.0_amd64.deb](https://github.com/DevExpress-Examples/wpf-avalonia-xpf-demo-app/releases/download/25.1.2/AvaloniaXpfDemo_1.0.0_amd64.deb) package and run the following command:
 
 `sudo apt install ./path/to/AvaloniaXpfDemo_1.0.0_amd64.deb`
 
