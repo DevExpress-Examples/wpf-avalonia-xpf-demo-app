@@ -13,6 +13,7 @@
         <RootNamespace>DevExpress.AvaloniaXpfDemo</RootNamespace>
         <AssemblyName>AvaloniaXpfDemo</AssemblyName>
         <ApplicationIcon>demoicon.ico</ApplicationIcon>
+ 	<NoWarn>DX1000;DX1001;</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

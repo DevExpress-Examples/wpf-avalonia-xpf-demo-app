@@ -1,5 +1,6 @@
 ﻿using DevExpress.AvaloniaXpfDemo.DemoShell;
 using DevExpress.Data.Utils;
+using DevExpress.Utils.About;
 using DevExpress.Xpf;
 using DevExpress.Xpf.Docking;
 
@@ -30,18 +31,8 @@ namespace DevExpress.AvaloniaXpfDemo.DockingModules {
                 HideFloatGroups(container);
             }
         }
-        protected void ShowAbout() {
-            string platformName = "WPF";
-            AboutToolInfo ati = new AboutToolInfo();
-            ati.LicenseState = LicenseState.Licensed;
-            ati.ProductEULAUri = "http://www.devexpress.com/";
-            ati.ProductName = "DXDocking for " + platformName;
-            ati.Version = AssemblyInfo.MarketingVersion;
-
-            ToolAbout tAbout = new ToolAbout(ati);
-            AboutWindow aWindow = new AboutWindow();
-            aWindow.Content = tAbout;
-            aWindow.ShowDialog();
+        void ShowAbout() {
+            About.ShowAbout(ProductKind.DXperienceWPF);
         }
         void HideFloatGroups(DockLayoutManager dockLayoutManager) {
             if(dockLayoutManager.IsDisposing) return;
