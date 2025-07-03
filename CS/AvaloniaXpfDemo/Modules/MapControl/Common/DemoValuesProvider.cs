@@ -4,11 +4,6 @@ using DevExpress.Xpf.Map;
 
 namespace DevExpress.AvaloniaXpfDemo.MapControlModules;
 
-public static class BingKeyProvider {
-    const string key = DevExpress.Map.Native.DXBingKeyVerifier.BingKeyWpfMapDemo;
-
-    public static string BingKey { get { return key; } }
-}
 public static class AzureKeyProvider {
     const string key = "4N1lTIecnJuZPVsproIYPBTM4HHiSMQPdvsBbk7YCJoEZiPzYGv6JQQJ99AKACYeBjFllM6LAAAgAZMPq8QZ";
 
@@ -16,52 +11,37 @@ public static class AzureKeyProvider {
 }
 public enum TemperatureScale { Fahrenheit, Celsius };
 
-public class DemoValuesProvider {
-    public string DevexpressBingKey { get { return BingKeyProvider.BingKey; } }
-    public string DevExpressAzureKey { get { return AzureKeyProvider.AzureKey; } }
-    public IEnumerable<BingMapKind> BingMapKinds {
-        get {
-            return new BingMapKind[] { BingMapKind.Area, BingMapKind.Road, BingMapKind.Hybrid,
-            BingMapKind.RoadLight, BingMapKind.RoadGray, BingMapKind.RoadDark };
-        }
-    }
+    public class DemoValuesProvider {
+        public string DevExpressAzureKey { get { return AzureKeyProvider.AzureKey; } }
+        public IEnumerable<OpenStreetMapKind> OSMBaseLayers { get { return new OpenStreetMapKind[] { OpenStreetMapKind.Basic, OpenStreetMapKind.CycleMap, OpenStreetMapKind.Hot, OpenStreetMapKind.Transport }; } }
+        public IEnumerable<object> OSMOverlayLayers { get { return new object[] { "None", OpenStreetMapKind.SeaMarks, OpenStreetMapKind.HikingRoutes, OpenStreetMapKind.CyclingRoutes, OpenStreetMapKind.PublicTransport }; } }
+        public IEnumerable<string> ShapeMapTypes { get { return new string[] { "GDP", "Population", "Political" }; } }
+        public IEnumerable<string> ShapefileMapTypes { get { return new string[] { "World", "Africa", "South America", "North America", "Australia", "Eurasia" }; } }
 
-    public IEnumerable<OpenStreetMapKind> OSMBaseLayers { get { return new OpenStreetMapKind[] { OpenStreetMapKind.Basic, OpenStreetMapKind.CycleMap, OpenStreetMapKind.Hot, OpenStreetMapKind.Transport }; } }
-    public IEnumerable<object> OSMOverlayLayers { get { return new object[] { "None", OpenStreetMapKind.SeaMarks, OpenStreetMapKind.HikingRoutes, OpenStreetMapKind.CyclingRoutes, OpenStreetMapKind.PublicTransport }; } }
-    public IEnumerable<string> ShapeMapTypes { get { return new string[] { "GDP", "Population", "Political" }; } }
-    public IEnumerable<string> ShapefileMapTypes { get { return new string[] { "World", "Africa", "South America", "North America", "Australia", "Eurasia" }; } }
-
-    public IEnumerable<TemperatureScale> TemperatureUnit { get { return new TemperatureScale[] { TemperatureScale.Celsius, TemperatureScale.Fahrenheit }; } }
-    public IEnumerable<MarkerType> BubbleMarkerTypes {
-        get {
-            return new MarkerType[] { MarkerType.Circle, MarkerType.Cross, MarkerType.Diamond, MarkerType.Hexagon,
+        public IEnumerable<TemperatureScale> TemperatureUnit { get { return new TemperatureScale[] { TemperatureScale.Celsius, TemperatureScale.Fahrenheit }; } }
+        public IEnumerable<MarkerType> BubbleMarkerTypes {
+            get {
+                return new MarkerType[] { MarkerType.Circle, MarkerType.Cross, MarkerType.Diamond, MarkerType.Hexagon,
                                                                 MarkerType.InvertedTriangle, MarkerType.Triangle, MarkerType.Pentagon, MarkerType.Plus,
                                                                 MarkerType.Square, MarkerType.Star5, MarkerType.Star6, MarkerType.Star8 };
+            }
         }
-    }
-    public IEnumerable<BingRouteOptimization> RouteOptimizations { get { return new BingRouteOptimization[] { BingRouteOptimization.MinimizeTimeWithTraffic, BingRouteOptimization.MinimizeTime, BingRouteOptimization.MinimizeDistance }; } }
-    public IEnumerable<BingTrafficIncidentType> TrafficIncidentTypes {
-        get {
-            return new BingTrafficIncidentType[] { BingTrafficIncidentType.Accident, BingTrafficIncidentType.Congestion,
-            BingTrafficIncidentType.DisabledVehicle, BingTrafficIncidentType.MassTransit, BingTrafficIncidentType.Miscellaneous, BingTrafficIncidentType.OtherNews, BingTrafficIncidentType.PlannedEvent,
-            BingTrafficIncidentType.RoadHazard, BingTrafficIncidentType.Construction, BingTrafficIncidentType.Alert, BingTrafficIncidentType.Weather };
+        public IEnumerable<AzureRouteAvoidType> AzureRouteAvoidTypes => Enum.GetValues(typeof(AzureRouteAvoidType)).OfType<AzureRouteAvoidType>().Skip(1);
+        public IEnumerable<AzureRouteSectionType> AzureRouteSectionTypes => Enum.GetValues(typeof(AzureRouteSectionType)).OfType<AzureRouteSectionType>().Skip(1);
+
+        static List<Projection> projections = null;
+        public List<Projection> Projections {
+            get {
+                if(projections == null)
+                    projections = PopulateProjectionData();
+                return projections;
+            }
         }
-    }
+        public Projection DefaultProjection { get { return Projections[12]; } }
 
-
-    static List<Projection> projections = null;
-    public List<Projection> Projections {
-        get {
-            if(projections == null)
-                projections = PopulateProjectionData();
-            return projections;
-        }
-    }
-    public Projection DefaultProjection { get { return Projections[12]; } }
-
-    static List<Projection> PopulateProjectionData() {
-        Projection LAEAParent = new Projection() { Name = "Lambert Azimuthal Equal Area", PrjInstance = null };
-        return new List<Projection>()  {
+        static List<Projection> PopulateProjectionData() {
+            Projection LAEAParent = new Projection() { Name = "Lambert Azimuthal Equal Area", PrjInstance = null };
+            return new List<Projection>()  {
             new Projection() { Name = "Spherical Mercator", PrjInstance = new SphericalMercatorProjection() },
             new Projection() { Name = "Equal Area", PrjInstance = new EqualAreaProjection()},
             new Projection() { Name = "Equirectangular", PrjInstance = new EquirectangularProjection()},
@@ -78,8 +58,8 @@ public class DemoValuesProvider {
             new Projection() { Name = "Sinusoidal", PrjInstance = new SinusoidalProjection() },
             new Projection() { Name = "EPSG:4326", PrjInstance = new EPSG4326Projection()},
             };
+        }
     }
-}
 public class Projection {
     public string Name { get; set; }
     public ProjectionBase PrjInstance { get; set; }

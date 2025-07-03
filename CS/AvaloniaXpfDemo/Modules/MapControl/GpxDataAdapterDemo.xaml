@@ -28,22 +28,16 @@
     <DockPanel>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="4*" />
-                <RowDefinition Height="3*" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <dxm:MapControl
-                x:Name="map"
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                MinZoomLevel="12">
+            <dxm:MapControl x:Name="map" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" MinZoomLevel="12">
 
                 <dxm:MapControl.ZoomTrackbarOptions>
                     <dxm:ZoomTrackbarOptions Visible="False" />
@@ -61,189 +55,116 @@
                 <dxm:MapControl.Measurements>
                     <dxm:Measurements x:Name="measurement">
                         <dxm:Measurements.ToolbarOptions>
-                            <dxm:MeasurementToolbarOptions Margin="8,36,0,0" ShowAreaButton="False" />
+                            <dxm:MeasurementToolbarOptions Margin="8,36,0,0" ShowAreaButton="False"/>
                         </dxm:Measurements.ToolbarOptions>
                     </dxm:Measurements>
                 </dxm:MapControl.Measurements>
 
                 <dxm:ImageLayer>
-                    <dxm:AzureMapDataProvider AzureKey="{Binding DevExpressAzureKey, Source={StaticResource DemoValuesProvider}}" Tileset="BaseRoad" />
+                    <dxm:AzureMapDataProvider Tileset="BaseRoad" AzureKey="{Binding DevExpressAzureKey, Source={StaticResource DemoValuesProvider}}" />
                 </dxm:ImageLayer>
-                <dxm:VectorLayer
-                    DataLoaded="{DXEvent '@e(measurement).RemoveRulers();@e(map).ZoomToFitLayerItems()'}"
-                    EnableHighlighting="False"
-                    EnableSelection="False"
-                    ShapeFill="{StaticResource shapeBrush}"
-                    ShapeStroke="{StaticResource shapeBrush}">
-                    <dxm:GpxFileDataAdapter
-                        x:Name="GpxAdapter"
-                        FileUri="{Binding CurrentTrackUri}"
-                        ShapesLoaded="{DXEvent 'OnShapesLoaded(@sender, @args)'}" />
+                <dxm:VectorLayer EnableHighlighting="False" EnableSelection="False" DataLoaded="{DXEvent '@e(measurement).RemoveRulers();@e(map).ZoomToFitLayerItems()'}"
+                                 ShapeFill="{StaticResource shapeBrush}" ShapeStroke="{StaticResource shapeBrush}">
+                    <dxm:GpxFileDataAdapter x:Name="GpxAdapter"  FileUri="{Binding CurrentTrackUri}" ShapesLoaded="{DXEvent 'OnShapesLoaded(@sender, @args)'}"/>
                     <dxm:VectorLayer.ShapeStrokeStyle>
-                        <dxm:StrokeStyle Thickness="5" />
+                        <dxm:StrokeStyle Thickness="5"/>
                     </dxm:VectorLayer.ShapeStrokeStyle>
                 </dxm:VectorLayer>
-                <dxm:VectorLayer
-                    Data="{Binding Storage}"
-                    EnableHighlighting="False"
-                    EnableSelection="False"
-                    ShapeFill="{StaticResource shapeBrush}"
-                    ShapeStroke="White">
+                <dxm:VectorLayer Data="{Binding Storage}" EnableHighlighting="False" EnableSelection="False" 
+                                 ShapeFill="{StaticResource shapeBrush}" ShapeStroke="White">
                     <dxm:VectorLayer.ShapeStrokeStyle>
-                        <dxm:StrokeStyle Thickness="2" />
+                        <dxm:StrokeStyle Thickness="2"/>
                     </dxm:VectorLayer.ShapeStrokeStyle>
                 </dxm:VectorLayer>
             </dxm:MapControl>
-            <dxg:LookUpEdit
-                Grid.Row="0"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                MinWidth="480"
-                Margin="8"
-                HorizontalAlignment="Left"
-                EditValue="{Binding CurrentActivity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                IsPopupAutoWidth="False"
-                ItemsSource="{Binding Activities}"
-                PopupMaxHeight="150">
+            <dxg:LookUpEdit Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Activities}" Margin="8" HorizontalAlignment="Left" MinWidth="480"
+                            EditValue="{Binding CurrentActivity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PopupMaxHeight="150" IsPopupAutoWidth="False">
                 <dxg:LookUpEdit.EditTemplate>
                     <ControlTemplate>
-                        <TextBlock Margin="4,0,0,2" Text="{DXBinding '$string.Format(`{0:D} - {1}`, EditValue[1], EditValue[2])'}" />
+                        <TextBlock Text="{DXBinding '$string.Format(`{0:D} - {1}`, EditValue[1], EditValue[2])'}" Margin="4,0,0,2"/>
                     </ControlTemplate>
                 </dxg:LookUpEdit.EditTemplate>
                 <dxg:LookUpEdit.StyleSettings>
-                    <dxg:LookUpEditStyleSettings />
+                    <dxg:LookUpEditStyleSettings/>
                 </dxg:LookUpEdit.StyleSettings>
             </dxg:LookUpEdit>
-            <local:GpxStatisticPanel
-                x:Name="statisticPanel"
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                Grid.Column="2"
-                Margin="8"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                DataContext="{Binding Info}" />
-            <local:CopyrightControl
-                Grid.Row="1"
-                Grid.ColumnSpan="3"
-                ProviderName="Azure" />
-            <dxc:ChartControl
-                Grid.Row="2"
-                Grid.ColumnSpan="3"
-                Margin="0"
-                Padding="0"
-                AutoLayout="False"
-                BorderBrush="{x:Null}"
-                DataSource="{Binding ElementName=GpxAdapter}">
+            <local:GpxStatisticPanel x:Name="statisticPanel" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" 
+                                     HorizontalAlignment="Right" Margin="8" VerticalAlignment="Top" DataContext="{Binding Info}" />
+            <local:CopyrightControl ProviderName="Azure" Grid.Row="1" Grid.ColumnSpan="3"/>
+            <dxc:ChartControl Grid.Row="2" Grid.ColumnSpan="3"  DataSource="{Binding ElementName=GpxAdapter}" BorderBrush="{x:Null}" AutoLayout="False" Margin="0" Padding="0">
                 <dxmvvm:Interaction.Behaviors>
-                    <local:MapCrosshairBehavior IsMovingPointVisible="{Binding IsMovingPointVisible, Mode=OneWayToSource}" MovingPointLocation="{Binding MovingPointLocation, Mode=OneWayToSource}" />
+                    <local:MapCrosshairBehavior IsMovingPointVisible="{Binding IsMovingPointVisible, Mode=OneWayToSource}"
+                                                MovingPointLocation="{Binding MovingPointLocation, Mode=OneWayToSource}"/>
                 </dxmvvm:Interaction.Behaviors>
                 <dxc:ChartControl.Legends>
-                    <dxc:Legend
-                        Margin="0,15,15,0"
-                        Padding="2"
-                        HorizontalPosition="Right"
-                        MarkerMode="CheckBox"
-                        Orientation="Horizontal"
-                        ReverseItems="True"
-                        VerticalPosition="TopOutside" />
+                    <dxc:Legend HorizontalPosition="Right" VerticalPosition="TopOutside" Orientation="Horizontal" ReverseItems="True" MarkerMode="CheckBox" Margin="0,15,15,0" 
+                                Padding="2"/>
                 </dxc:ChartControl.Legends>
                 <dxc:ChartControl.CrosshairOptions>
-                    <dxc:CrosshairOptions GroupHeaderPattern="Distance : {A:F2} m" ShowOnlyInFocusedPane="False" />
+                    <dxc:CrosshairOptions ShowOnlyInFocusedPane="False" GroupHeaderPattern="Distance : {A:F2} m"/>
                 </dxc:ChartControl.CrosshairOptions>
-                <dxc:XYDiagram2D
-                    EnableAxisXNavigation="True"
-                    EnableAxisYNavigation="False"
-                    PaneOrientation="Vertical">
+                <dxc:XYDiagram2D PaneOrientation="Vertical" EnableAxisXNavigation="True" EnableAxisYNavigation="False">
                     <dxc:XYDiagram2D.AxisY>
                         <dxc:AxisY2D GridLinesVisible="False" Interlaced="False">
                             <dxc:AxisY2D.Title>
-                                <dxc:AxisTitle
-                                    Content="Elevation, m"
-                                    FontSize="12"
-                                    Visible="True" />
+                                <dxc:AxisTitle Content="Elevation, m" Visible="True" FontSize="12"/>
                             </dxc:AxisY2D.Title>
                             <dxc:AxisY2D.WholeRange>
-                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False" />
+                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False"/>
                             </dxc:AxisY2D.WholeRange>
                         </dxc:AxisY2D>
                     </dxc:XYDiagram2D.AxisY>
                     <dxc:XYDiagram2D.AxisX>
                         <dxc:AxisX2D Visible="True">
                             <dxc:AxisX2D.Title>
-                                <dxc:AxisTitle Content="Distance, m" FontSize="12" />
+                                <dxc:AxisTitle Content="Distance, m" FontSize="12"/>
                             </dxc:AxisX2D.Title>
                             <dxc:AxisX2D.VisibilityInPanes>
                                 <dxc:VisibilityInPane Pane="{Binding ElementName=pane}" />
                             </dxc:AxisX2D.VisibilityInPanes>
                             <dxc:AxisX2D.WholeRange>
-                                <dxc:Range AutoSideMargins="False" SideMarginsValue="0" />
+                                <dxc:Range AutoSideMargins="False" SideMarginsValue="0"/>
                             </dxc:AxisX2D.WholeRange>
                         </dxc:AxisX2D>
                     </dxc:XYDiagram2D.AxisX>
                     <dxc:XYDiagram2D.DefaultPane>
-                        <dxc:Pane x:Name="pane" DomainBorderBrush="White" />
+                        <dxc:Pane x:Name="pane" DomainBorderBrush="White"/>
                     </dxc:XYDiagram2D.DefaultPane>
                     <dxc:XYDiagram2D.SecondaryAxesY>
-                        <dxc:SecondaryAxisY2D
-                            x:Name="axisy0"
-                            Alignment="Near"
-                            Visible="False">
+                        <dxc:SecondaryAxisY2D x:Name="axisy0" Alignment="Near" Visible="False">
                             <dxc:SecondaryAxisY2D.Title>
-                                <dxc:AxisTitle
-                                    Content="Heart Rate, BMP"
-                                    FontSize="12"
-                                    Visible="True" />
+                                <dxc:AxisTitle Content="Heart Rate, BMP" Visible="True" FontSize="12"/>
                             </dxc:SecondaryAxisY2D.Title>
                             <dxc:SecondaryAxisY2D.WholeRange>
-                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False" />
+                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False"/>
                             </dxc:SecondaryAxisY2D.WholeRange>
                         </dxc:SecondaryAxisY2D>
                         <dxc:SecondaryAxisY2D x:Name="axisy1" Reverse="True">
                             <dxc:AxisY2D.Label>
-                                <dxc:AxisLabel TextPattern="{}{V:mm\:ss}" />
+                                <dxc:AxisLabel TextPattern="{}{V:mm\:ss}"/>
                             </dxc:AxisY2D.Label>
                             <dxc:SecondaryAxisY2D.WholeRange>
-                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False" />
+                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False"/>
                             </dxc:SecondaryAxisY2D.WholeRange>
                             <dxc:SecondaryAxisY2D.Title>
-                                <dxc:AxisTitle
-                                    Content="Pace, min/km"
-                                    FontSize="12"
-                                    Visible="True" />
+                                <dxc:AxisTitle Content="Pace, min/km" Visible="True" FontSize="12"/>
                             </dxc:SecondaryAxisY2D.Title>
                         </dxc:SecondaryAxisY2D>
                     </dxc:XYDiagram2D.SecondaryAxesY>
 
-                    <dxc:SplineAreaSeries2D
-                        ArgumentDataMember="gpxdata:distance"
-                        Brush="#FFBFEB9B"
-                        CrosshairLabelPattern="{}{S} : {V:F2} m"
-                        DisplayName="Elevation"
-                        ValueDataMember="ele"
-                        Visible="True">
+                    <dxc:SplineAreaSeries2D DisplayName="Elevation" ArgumentDataMember="gpxdata:distance" ValueDataMember="ele" 
+                                            CrosshairLabelPattern="{}{S} : {V:F2} m" Brush="#FFBFEB9B" Visible="True">
                         <dxc:AreaSeries2D.Border>
-                            <dxc:SeriesBorder Brush="#43a047" />
+                            <dxc:SeriesBorder Brush="#43a047"/>
                         </dxc:AreaSeries2D.Border>
                     </dxc:SplineAreaSeries2D>
-                    <dxc:LineSeries2D
-                        dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=axisy0}"
-                        dxc:XYDiagram2D.SeriesPane="{Binding ElementName=pane}"
-                        ArgumentDataMember="gpxdata:distance"
-                        Brush="#FFD42C32"
-                        CrosshairLabelPattern="{}{S} : {V:F2} BMP"
-                        DisplayName="Heart Rate"
-                        ValueDataMember="gpxtpx:hr"
-                        Visible="{Binding Info.AverageHeartRate, Converter={dxmvvm:NumericToBooleanConverter}}" />
-                    <dxc:LineSeries2D
-                        dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=axisy1}"
-                        dxc:XYDiagram2D.SeriesPane="{Binding ElementName=pane}"
-                        ArgumentDataMember="gpxdata:distance"
-                        Brush="#FF2B72ED"
-                        CrosshairLabelPattern="{}{S} : {V:mm\:ss}/km"
-                        DisplayName="Pace"
-                        ValueDataMember="Pace"
-                        ValueScaleType="TimeSpan" />
+                    <dxc:LineSeries2D DisplayName="Heart Rate" dxc:XYDiagram2D.SeriesPane="{Binding ElementName=pane}" ValueDataMember="gpxtpx:hr" 
+                                        ArgumentDataMember="gpxdata:distance" dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=axisy0}" 
+                                        CrosshairLabelPattern="{}{S} : {V:F2} BMP" Brush="#FFD42C32"
+                                        Visible="{Binding Info.AverageHeartRate, Converter={dxmvvm:NumericToBooleanConverter}}"/>
+                    <dxc:LineSeries2D DisplayName="Pace" dxc:XYDiagram2D.SeriesPane="{Binding ElementName=pane}" 
+                                        dxc:XYDiagram2D.SeriesAxisY="{Binding ElementName=axisy1}" ArgumentDataMember="gpxdata:distance" 
+                                        ValueDataMember="Pace" CrosshairLabelPattern="{}{S} : {V:mm\:ss}/km" Brush="#FF2B72ED" ValueScaleType="TimeSpan" />
                 </dxc:XYDiagram2D>
             </dxc:ChartControl>
         </Grid>
